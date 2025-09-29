@@ -1,0 +1,158 @@
+{
+ "_liked_by": "[\"Administrator\"]",
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "DA.#####.",
+ "creation": "2025-09-26 15:53:00.498292",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "devoteee_profile",
+  "darshan_date",
+  "darshan_time",
+  "section_break_lsyb",
+  "darshan_companion",
+  "section_break_frkb",
+  "darshan_type",
+  "darshan_with_protocol",
+  "section_break_fbpu",
+  "protocol_rank",
+  "government_authority_letter",
+  "section_break_ligb",
+  "declaration",
+  "i_agree",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "devoteee_profile",
+   "fieldtype": "Link",
+   "label": "Devoteee Profile",
+   "options": "Devoteee Profile"
+  },
+  {
+   "fieldname": "darshan_date",
+   "fieldtype": "Date",
+   "label": "Darshan Date"
+  },
+  {
+   "fieldname": "darshan_time",
+   "fieldtype": "Time",
+   "label": "Darshan Time"
+  },
+  {
+   "fieldname": "section_break_lsyb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "darshan_with_protocol",
+   "fieldtype": "Check",
+   "label": "Darshan With Protocol"
+  },
+  {
+   "fieldname": "darshan_companion",
+   "fieldtype": "Table",
+   "label": "Darshan Companion",
+   "options": "Darshan Companion"
+  },
+  {
+   "depends_on": "eval: doc.darshan_with_protocol==1;",
+   "fieldname": "section_break_fbpu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "protocol_rank",
+   "fieldtype": "Select",
+   "label": "Protocol Rank",
+   "options": "President\nVice-President\nPrime Minister\nGovernor (of State)\nFormer President\nChief Justice of India / Speaker\nUnion Cabinet Minister\nChief Minister (of State)\nFormer Prime Minister\nAmbassador / High Commissioner\nSupreme Court Judge\nHigh Court Judge\nBharat Ratna (Padma Vibhushan etc.)\nSenior Bureaucrat (Cabinet Secretary / Secretary)\nArmed Forces \u2014 Chief / Admiral / Air Chief\nOther (Specify)"
+  },
+  {
+   "fieldname": "declaration",
+   "fieldtype": "HTML",
+   "label": "Declaration",
+   "options": "<div style=\"padding:8px; font-size:14px; line-height:1.5; border:1px solid #ddd; border-radius:6px; background:#fafafa;\">\n  <strong>Declaration:</strong><br><br>\n  I hereby declare that I am attending the Darshan at Shri Mahakaal Mandir as a VIP.  \n  I confirm that the information provided is true to the best of my knowledge.  \n  I also understand that if any false information or misuse of privilege is found,  \n  appropriate legal or administrative action may be taken as per applicable laws and temple regulations.\n</div>\n"
+  },
+  {
+   "default": "0",
+   "fieldname": "i_agree",
+   "fieldtype": "Check",
+   "label": "I Agree"
+  },
+  {
+   "fieldname": "government_authority_letter",
+   "fieldtype": "Attach",
+   "label": "Government Authority Letter"
+  },
+  {
+   "fieldname": "section_break_frkb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval: doc.darshan_with_protocol==1;",
+   "fieldname": "section_break_ligb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Darshan Appointment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "darshan_type",
+   "fieldtype": "Select",
+   "label": "Darshan Type",
+   "options": "Shigra Darshan\nBhasm Arti\nVip Darshan\nLocalide Darshan"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-09-29 12:39:19.421407",
+ "modified_by": "Administrator",
+ "module": "darshan-booking",
+ "name": "Darshan Appointment",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Devoteee Role",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Draft"
+  }
+ ]
+}
