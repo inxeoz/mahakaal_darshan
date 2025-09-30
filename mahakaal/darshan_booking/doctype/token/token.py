@@ -117,3 +117,55 @@ def get_profile_details(token:str):
             Devoteee_profile = None
             
         return Devoteee_profile
+
+def verify_token_get_profile(token:str):
+    
+    phone = verify_token_get_phone(token)
+    
+    print(f"token token -----------------{token}")
+    
+    if phone is None:
+        return None
+    else:
+        
+        doc_name = frappe.db.get_value("Devoteee Profile", {"phone": phone})
+        
+        if doc_name:
+            Devoteee_profile = frappe.get_doc("Devoteee Profile", doc_name)
+        else:
+            Devoteee_profile = None
+            
+        return Devoteee_profile
+
+@frappe.whitelist()
+def create_appointment(token:str, details):
+    
+    devoteee_profile = verify_token_get_profile(token)
+    
+    print(f"is kyc don {devoteee_profile.is_ekyc_complete}")
+    print(f"dic @@@@@@@@@@@@@@@@@@@@@ {details}")
+    
+    return None
+    
+    
+
+    # if devoteee_profile and devoteee_profile.:
+    #     profile = frappe.get_doc("Devoteee Profile", existing_name)
+    #     profile.update(info)
+    #     profile.save()
+    # else:
+    #     profile = frappe.get_doc({
+    #         "doctype": "Devoteee Profile",
+    #         **info
+    #     })
+    #     profile.insert()
+
+    # frappe.db.commit()
+    # return profile.name
+
+        
+
+        
+        
+        
+    

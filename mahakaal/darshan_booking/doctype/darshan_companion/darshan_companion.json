@@ -6,28 +6,28 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "name1",
-  "phone",
-  "gender"
+  "companion_name",
+  "companion_phone",
+  "companion_gender"
  ],
  "fields": [
   {
    "allow_in_quick_entry": 1,
-   "fieldname": "name1",
+   "fieldname": "companion_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "name"
   },
   {
    "allow_in_quick_entry": 1,
-   "fieldname": "phone",
+   "fieldname": "companion_phone",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "phone"
   },
   {
    "allow_in_quick_entry": 1,
-   "fieldname": "gender",
+   "fieldname": "companion_gender",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "gender",
@@ -38,7 +38,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-09-26 17:37:39.167441",
+ "modified": "2025-09-30 23:32:13.620603",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Companion",

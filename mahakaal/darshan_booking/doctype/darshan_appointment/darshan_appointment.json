@@ -70,8 +70,10 @@
   {
    "fieldname": "declaration",
    "fieldtype": "HTML",
+   "is_virtual": 1,
    "label": "Declaration",
-   "options": "<div style=\"padding:8px; font-size:14px; line-height:1.5; border:1px solid #ddd; border-radius:6px; background:#fafafa;\">\n  <strong>Declaration:</strong><br><br>\n  I hereby declare that I am attending the Darshan at Shri Mahakaal Mandir as a VIP.  \n  I confirm that the information provided is true to the best of my knowledge.  \n  I also understand that if any false information or misuse of privilege is found,  \n  appropriate legal or administrative action may be taken as per applicable laws and temple regulations.\n</div>\n"
+   "options": "<div style=\"padding:8px; font-size:14px; line-height:1.5; border:1px solid #ddd; border-radius:6px; background:#fafafa;\">\n  <strong>Declaration:</strong><br><br>\n  I hereby declare that I am attending the Darshan at Shri Mahakaal Mandir as a VIP.  \n  I confirm that the information provided is true to the best of my knowledge.  \n  I also understand that if any false information or misuse of privilege is found,  \n  appropriate legal or administrative action may be taken as per applicable laws and temple regulations.\n</div>\n",
+   "read_only": 1
   },
   {
    "default": "0",
@@ -114,7 +116,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-29 12:39:19.421407",
+ "modified": "2025-09-30 23:36:34.223458",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",
