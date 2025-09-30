@@ -138,14 +138,30 @@ def verify_token_get_profile(token:str):
         return Devoteee_profile
 
 @frappe.whitelist()
-def create_appointment(token:str, details):
+def create_appointment(token:str, details:dict, save_as_draft : bool):
     
     devoteee_profile = verify_token_get_profile(token)
     
-    print(f"is kyc don {devoteee_profile.is_ekyc_complete}")
-    print(f"dic @@@@@@@@@@@@@@@@@@@@@ {details}")
+    print(f"is kyc don {devoteee_profile.name}")
+    print(f"dic @@@@@@@@@@@@@@@@@@@@@ {details['darshan_time']}")
+    print(f"save_as_draft @@@@@@@@@@@@@@@@@@@@@ {save_as_draft}")
     
-    return None
+    
+    if devoteee_profile is not None:
+        
+        darshan_appointment = frappe.get_doc({
+        "doctype": "Darshan Appointment",
+        'devoteee_profile' : devoteee_profile.name,
+        **details
+        })
+        darshan_appointment.insert()
+        frappe.db.commit()
+        
+        return "Done"
+        
+    else:
+        return None
+    
     
     
 
