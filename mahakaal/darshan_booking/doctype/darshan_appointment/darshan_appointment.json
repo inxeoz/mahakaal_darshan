@@ -1,5 +1,4 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "DA.#####.",
@@ -65,7 +64,7 @@
    "fieldname": "protocol_rank",
    "fieldtype": "Select",
    "label": "Protocol Rank",
-   "options": "President\nVice-President\nPrime Minister\nGovernor (of State)\nFormer President\nChief Justice of India / Speaker\nUnion Cabinet Minister\nChief Minister (of State)\nFormer Prime Minister\nAmbassador / High Commissioner\nSupreme Court Judge\nHigh Court Judge\nBharat Ratna (Padma Vibhushan etc.)\nSenior Bureaucrat (Cabinet Secretary / Secretary)\nArmed Forces \u2014 Chief / Admiral / Air Chief\nOther (Specify)"
+   "options": "state-guest-class-1\nstate-guest-class-2\nmp-govt-official"
   },
   {
    "fieldname": "declaration",
@@ -116,7 +115,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-30 23:36:34.223458",
+ "modified": "2025-10-01 00:34:34.180312",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",
