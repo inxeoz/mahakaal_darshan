@@ -103,7 +103,7 @@ def get_profile_details(token:str):
     
     phone = verify_token_get_phone(token)
     
-    print(f"token token -----------------{phone}")
+    print(f"token token -----------------{token}")
     
     if phone is None:
         return None
