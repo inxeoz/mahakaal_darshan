@@ -3,6 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
+from frappe.model.workflow import apply_workflow
 
 
 class token(Document):
@@ -137,31 +138,30 @@ def verify_token_get_profile(token:str):
             
         return Devoteee_profile
 
+
 @frappe.whitelist()
-def create_appointment(token:str, details:dict, save_as_draft : bool):
-    
+def create_appointment(token: str, details: dict, save_as_draft:bool):
     devoteee_profile = verify_token_get_profile(token)
-    
-    print(f"is kyc don {devoteee_profile.name}")
-    print(f"dic @@@@@@@@@@@@@@@@@@@@@ {details['darshan_time']}")
-    print(f"save_as_draft @@@@@@@@@@@@@@@@@@@@@ {save_as_draft}")
-    
-    
-    if devoteee_profile is not None:
-        
-        darshan_appointment = frappe.get_doc({
-        "doctype": "Darshan Appointment",
-        'devoteee_profile' : devoteee_profile.name,
-        **details
-        })
-        darshan_appointment.insert()
-        frappe.db.commit()
-        
-        return "Done"
-        
-    else:
+    if not devoteee_profile:
         return None
     
+    doc = frappe.get_doc({
+        "doctype": "Darshan Appointment",
+        "devoteee_profile": devoteee_profile.name,
+        **details
+    })
+
+    doc.insert()
+    frappe.db.commit()
+    
+        # If not saving as draft, move Draft → Pending via workflow
+    if not save_as_draft:
+        apply_workflow(doc, "Submit")  # must match your workflow Action name
+        frappe.db.commit()
+        doc.reload()
+
+    return {"name": doc.name, "workflow_state": doc.workflow_state}
+
     
     
 
