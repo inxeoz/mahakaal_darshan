@@ -84,7 +84,7 @@
    "label": "Is eKyc Complete"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "is_devoteee_companion",
    "fieldtype": "Check",
    "label": "Is devoteee companion"
@@ -93,7 +93,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-29 14:12:45.996318",
+ "modified": "2025-09-30 17:11:13.253789",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Devoteee Profile",
