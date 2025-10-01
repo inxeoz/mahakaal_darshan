@@ -11,6 +11,8 @@
   "darshan_time",
   "section_break_lsyb",
   "darshan_companion",
+  "section_break_aysr",
+  "attender",
   "section_break_frkb",
   "darshan_type",
   "darshan_with_protocol",
@@ -109,13 +111,22 @@
    "fieldtype": "Select",
    "label": "Darshan Type",
    "options": "Shigra Darshan\nBhasm Arti\nVip Darshan\nLocalide Darshan"
+  },
+  {
+   "fieldname": "section_break_aysr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attender",
+   "fieldtype": "Data",
+   "label": "Attender"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-01 00:34:34.180312",
+ "modified": "2025-10-01 10:25:22.751969",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",

@@ -164,24 +164,18 @@ def create_appointment(token: str, details: dict, save_as_draft:bool):
 
     
     
+@frappe.whitelist()  
+def get_appointment_list(token: str):
+    devoteee_profile = verify_token_get_profile(token)
+    if not devoteee_profile:
+        return None
 
-    # if devoteee_profile and devoteee_profile.:
-    #     profile = frappe.get_doc("Devoteee Profile", existing_name)
-    #     profile.update(info)
-    #     profile.save()
-    # else:
-    #     profile = frappe.get_doc({
-    #         "doctype": "Devoteee Profile",
-    #         **info
-    #     })
-    #     profile.insert()
-
-    # frappe.db.commit()
-    # return profile.name
-
-        
-
-        
-        
-        
-    
+    # For multiple fields, supply fields as a list; for all fields, use '*'
+    appointments = frappe.get_list(
+        'Darshan Appointment',
+        filters={'devoteee_profile': devoteee_profile.name},
+        fields=[
+            'name', 'darshan_date', 'darshan_time', 'darshan_type', 'attender'
+        ]
+    )
+    return appointments
