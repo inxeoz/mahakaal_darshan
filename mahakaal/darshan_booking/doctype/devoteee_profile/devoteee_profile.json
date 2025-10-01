@@ -1,5 +1,4 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "DVT.####.",
@@ -10,7 +9,7 @@
   "primary_info_section",
   "devoteee_name",
   "gender",
-  "age",
+  "dob",
   "phone",
   "section_break_fzbr",
   "is_ekyc_complete",
@@ -55,11 +54,6 @@
    "options": "male\nfemale"
   },
   {
-   "fieldname": "age",
-   "fieldtype": "Int",
-   "label": "age"
-  },
-  {
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "email"
@@ -88,12 +82,18 @@
    "fieldname": "is_devoteee_companion",
    "fieldtype": "Check",
    "label": "Is devoteee companion"
+  },
+  {
+   "fieldname": "dob",
+   "fieldtype": "Date",
+   "label": "dob",
+   "non_negative": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-30 17:11:13.253789",
+ "modified": "2025-10-01 12:07:38.695748",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Devoteee Profile",

@@ -61,34 +61,31 @@ def verify_otp_and_get_token(otp:str, phone:int):
     return None
 
 
-
-def create_or_update_devoteee_profile(info: dict):
+@frappe.whitelist()
+def create_or_update_devoteee_profile(token: str, info: dict):
     """
     Create or update a 'Devoteee Profile' record based on phone.
     Expects at least: {"phone": ...}
     """
-    
-    
-    phone = info.get("phone")
-    if not phone:
-        frappe.throw("Phone number is required")
+    devoteee_profile = verify_token_get_profile(token)
+    allowed_fields_to_update = ["devoteee_name", "gender", "dob", "email", "aadhar", "address"]
 
-    existing_name = frappe.db.get_value("Devoteee Profile", {"phone": phone}, "name")
+    if devoteee_profile:
+        profile = frappe.get_doc("Devoteee Profile", devoteee_profile.name)
+    else:
+        profile = frappe.get_doc({"doctype": "Devoteee Profile"})
 
-    if existing_name:
-        profile = frappe.get_doc("Devoteee Profile", existing_name)
-        profile.update(info)
+    for field in allowed_fields_to_update:
+        if field in info:
+            profile.set(field, info[field])
+
+    if devoteee_profile:
         profile.save()
     else:
-        profile = frappe.get_doc({
-            "doctype": "Devoteee Profile",
-            **info
-        })
         profile.insert()
 
     frappe.db.commit()
     return profile.name
-
 
 def verify_token_get_phone(token:str):
     
