@@ -79,11 +79,23 @@ def create_or_update_devoteee_profile(token: str, info: dict):
         if field in info:
             profile.set(field, info[field])
 
+
+    # print(f"aadhaar ------------------------------->{profile.aadhaar}")
+    
+
     if devoteee_profile:
         profile.save()
     else:
         profile.insert()
 
+    aadhar = frappe.db.get_value("Devoteee Profile", profile.name, "aadhar")
+
+    if len(aadhar) > 0 :
+        profile.set('is_ekyc_complete', 1)
+        profile.save()
+
+
+    print(f"aaaaaaaaaaaaaaaaaaaa {aadhar}")
     frappe.db.commit()
     return profile.name
 
