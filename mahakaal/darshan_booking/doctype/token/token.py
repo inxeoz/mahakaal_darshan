@@ -135,6 +135,16 @@ def verify_token_get_profile(token:str):
             
         return Devoteee_profile
 
+def verify_token_get_token_doc(token:str):
+    
+    token_doc = frappe.db.get_value('token', {'token' : token}, '*')
+    
+    if token_doc:
+        
+        print(f"token doc ^^^^^^^^^^^^^^^^^^^^^^^^^^^ {token_doc}")
+        return token_doc
+    else:
+        return None
 
 @frappe.whitelist()
 def create_appointment(token: str, details: dict, save_as_draft:bool):
@@ -178,18 +188,13 @@ def get_appointment_list(token: str):
     return appointments
 
 
-
-def is_user_admin(token:str):
-    
-    phone = verify_token_get_phone(token)
-    return phone.user_type == "admin" 
-        
-        
-    
     
 @frappe.whitelist()
 def get_list_of_appointments_admin(token: str,  limit_start=0, limit_page_length=1):
     
+    token_doc = verify_token_get_token_doc(token)
+    if token_doc and token_doc.get("user_type") != "admin":
+        return {"Error": "user is not admin"}
     
     darshan_types = ["Shigra Darshan", "Bhasm Arti", "Vip Darshan", "Localide Darshan"]
     darshan_appointments_states = ["Pending", "Approved", "Rejected", "Cancelled"]
