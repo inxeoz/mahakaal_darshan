@@ -175,7 +175,7 @@ def get_appointment_list(token: str):
         'Darshan Appointment',
         filters={'devoteee_profile': devoteee_profile.name},
         fields=[
-            'name', 'darshan_date', 'darshan_time', 'darshan_type', 'attender'
+            'name', 'darshan_date', 'darshan_time', 'darshan_type', 'attender', 'workflow_state'
         ]
     )
     return appointments
