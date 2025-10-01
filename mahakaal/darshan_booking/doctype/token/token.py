@@ -110,23 +110,7 @@ def verify_token_get_phone(token:str):
 
 @frappe.whitelist()
 def get_profile_details(token:str):
-    
-    phone = verify_token_get_phone(token)
-    
-    print(f"token token -----------------{token}")
-    
-    if phone is None:
-        return None
-    else:
-        
-        doc_name = frappe.db.get_value("Devoteee Profile", {"phone": phone})
-        
-        if doc_name:
-            Devoteee_profile = frappe.get_doc("Devoteee Profile", doc_name)
-        else:
-            Devoteee_profile = None
-            
-        return Devoteee_profile
+    return verify_token_get_profile(token)
 
 def verify_token_get_profile(token:str):
     
@@ -183,21 +167,50 @@ def create_appointment(token: str, details: dict, save_as_draft:bool):
 
     
     
-@frappe.whitelist()  
+@frappe.whitelist()
 def get_appointment_list(token: str):
     devoteee_profile = verify_token_get_profile(token)
     if not devoteee_profile:
-        return None
+        return []
 
-    # For multiple fields, supply fields as a list; for all fields, use '*'
-    appointments = frappe.get_list(
+    appointments_meta = frappe.get_list(
         'Darshan Appointment',
         filters={'devoteee_profile': devoteee_profile.name},
-        fields=[
-            'name', 'darshan_date', 'darshan_time', 'darshan_type', 'attender', 'workflow_state'
-        ]
+        fields=['name'],
+        order_by='darshan_date desc'
     )
-    return appointments
+
+    results = []
+    for meta in appointments_meta:
+        try:
+            doc = frappe.get_doc('Darshan Appointment', meta['name'])
+            doc_dict = doc.as_dict()
+
+            # ✅ Only share selected parent fields
+            allowed_parent_fields = [
+                'name', 'darshan_date', 'darshan_time',
+                'darshan_type', 'attender', 'workflow_state'
+            ]
+            filtered = {k: doc_dict[k] for k in allowed_parent_fields if k in doc_dict}
+
+            # ✅ Only share selected child fields
+            filtered['darshan_companion'] = [
+                {
+                    'name': row.get('companion_name'),
+                    'phone': row.get('phone'),
+                    'gender': row.get('gender')
+                }
+                for row in doc_dict.get('darshan_companion', [])
+            ]
+
+            results.append(filtered)
+
+        except Exception as e:
+            frappe.log_error(frappe.get_traceback(), title=f"get_appointment_list error for {meta.get('name')}")
+            continue
+
+    return results
+
 
 
     
