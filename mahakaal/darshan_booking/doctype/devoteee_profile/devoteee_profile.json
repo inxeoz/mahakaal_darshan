@@ -51,7 +51,7 @@
    "fieldname": "gender",
    "fieldtype": "Select",
    "label": "gender",
-   "options": "male\nfemale"
+   "options": "male\nfemale\nnon-binary\nprefer-not-to-say"
   },
   {
    "fieldname": "email",
@@ -93,7 +93,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-01 12:07:38.695748",
+ "modified": "2025-10-01 12:45:29.363790",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Devoteee Profile",

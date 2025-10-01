@@ -176,3 +176,49 @@ def get_appointment_list(token: str):
         ]
     )
     return appointments
+
+
+
+def is_user_admin(token:str):
+    
+    phone = verify_token_get_phone(token)
+    return phone.user_type == "admin" 
+        
+        
+    
+    
+@frappe.whitelist()
+def get_list_of_appointments_admin(token: str,  limit_start=0, limit_page_length=1):
+    
+    
+    darshan_types = ["Shigra Darshan", "Bhasm Arti", "Vip Darshan", "Localide Darshan"]
+    darshan_appointments_states = ["Pending", "Approved", "Rejected", "Cancelled"]
+    
+    
+    darshan_appointments_details = {}
+    
+
+    for darshan_type in darshan_types:
+
+        darshan_appointments_details[darshan_type] = {}
+        for workflow_state in darshan_appointments_states:
+                darshan_appointments_details[darshan_type][workflow_state] = frappe.db.count('Darshan Appointment', {'workflow_state': workflow_state, 'darshan_type' : darshan_type})
+
+
+        # For multiple fields, supply fields as a list; for all fields, use '*'
+        darshan_type_appointments = frappe.get_list(
+            'Darshan Appointment',
+            limit_start=limit_start,
+            limit_page_length=limit_page_length,
+            filters = {'darshan_type': darshan_type},
+            fields=[
+                'name', 'darshan_date', 'darshan_time', 'darshan_type', 'attender', 'workflow_state'
+            ]
+        )
+
+        darshan_appointments_details[darshan_type]['Appointment List'] = darshan_type_appointments
+
+
+    
+    return  darshan_appointments_details
+
