@@ -99,14 +99,6 @@ def create_or_update_devoteee_profile(token: str, info: dict):
     frappe.db.commit()
     return profile.name
 
-def verify_token_get_phone(token:str):
-    
-    phone = frappe.db.get_value('token', {'token' : token}, ['name'])
-    
-    if phone:
-        return phone
-    else:
-        return None
 
 @frappe.whitelist()
 def get_profile_details(token:str):
@@ -114,15 +106,15 @@ def get_profile_details(token:str):
 
 def verify_token_get_profile(token:str):
     
-    phone = verify_token_get_phone(token)
+    token_doc = verify_token_get_token_doc(token)
     
     print(f"token token -----------------{token}")
     
-    if phone is None:
+    if token_doc is None:
         return None
     else:
         
-        doc_name = frappe.db.get_value("Devoteee Profile", {"phone": phone})
+        doc_name = frappe.db.get_value("Devoteee Profile", {"phone": token_doc.phone})
         
         if doc_name:
             Devoteee_profile = frappe.get_doc("Devoteee Profile", doc_name)
@@ -252,3 +244,18 @@ def get_list_of_appointments_admin(token: str,  limit_start=0, limit_page_length
     
     return  darshan_appointments_details
 
+
+@frappe.whitelist()
+def get_appointment_admin_or_user(token:str, appointment_id:str) :
+
+    token_doc = verify_token_get_token_doc(token)
+    if token_doc and token_doc.get("user_type") != "admin":
+        
+        devoteee_profile = verify_token_get_profile(token)
+    
+        appointment = frappe.get_doc('Darshan Appointment',  {'name' : appointment_id, 'devoteee_profile' : devoteee_profile.name}  )
+        return appointment
+    
+    appointment = frappe.get_doc('Darshan Appointment', appointment_id)
+
+    return appointment
