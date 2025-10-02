@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class DarshanAdmin(Document):
+class DarshanAdminProfile(Document):
 	pass

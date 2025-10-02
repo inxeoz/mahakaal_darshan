@@ -2,36 +2,42 @@
  "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
- "autoname": "ATD.######.",
- "creation": "2025-10-01 10:35:35.131410",
+ "autoname": "field:phone",
+ "creation": "2025-10-02 20:49:06.981466",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "phone",
-  "attender_name"
+  "token",
+  "otp"
  ],
  "fields": [
-  {
-   "fieldname": "attender_name",
-   "fieldtype": "Data",
-   "label": "Attender name"
-  },
   {
    "fieldname": "phone",
    "fieldtype": "Int",
    "label": "phone",
-   "non_negative": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "token",
+   "fieldtype": "Data",
+   "label": "token",
+   "unique": 1
+  },
+  {
+   "fieldname": "otp",
+   "fieldtype": "Data",
+   "label": "otp"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-02 17:23:16.299653",
+ "modified": "2025-10-02 21:40:49.054097",
  "modified_by": "Administrator",
  "module": "darshan-booking",
- "name": "Darshan Attender",
- "naming_rule": "By \"Naming Series\" field",
+ "name": "Session Attender",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

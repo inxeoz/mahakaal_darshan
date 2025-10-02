@@ -15,7 +15,7 @@
  "label": "MyworkFlow",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-09-30 23:51:00.083627",
+ "modified": "2025-10-02 21:36:54.913057",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "MyworkFlow",
@@ -54,16 +54,8 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Token",
-   "link_to": "token",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "Devoteee Profile",
-   "link_to": "Devoteee Profile",
+   "link_to": "Darshan Devoteee Profile",
    "stats_filter": "[]",
    "type": "DocType"
   }

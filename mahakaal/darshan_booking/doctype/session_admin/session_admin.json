@@ -1,31 +1,43 @@
 {
+ "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
- "autoname": "DAD.#####.",
- "creation": "2025-10-02 17:21:52.731337",
+ "autoname": "field:phone",
+ "creation": "2025-10-02 20:48:40.645021",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "phone"
+  "phone",
+  "token",
+  "otp"
  ],
  "fields": [
   {
    "fieldname": "phone",
    "fieldtype": "Int",
-   "in_list_view": 1,
    "label": "phone",
-   "non_negative": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "token",
+   "fieldtype": "Data",
+   "label": "token",
+   "unique": 1
+  },
+  {
+   "fieldname": "otp",
+   "fieldtype": "Data",
+   "label": "otp"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-02 17:22:37.755658",
+ "modified": "2025-10-02 21:40:56.324393",
  "modified_by": "Administrator",
  "module": "darshan-booking",
- "name": "Darshan Admin",
- "naming_rule": "By \"Naming Series\" field",
+ "name": "Session Admin",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

@@ -3,21 +3,19 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "field:phone",
- "creation": "2025-09-29 14:27:45.756559",
+ "creation": "2025-10-02 21:38:33.016586",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "phone",
   "token",
-  "otp",
-  "user_type"
+  "otp"
  ],
  "fields": [
   {
    "fieldname": "phone",
    "fieldtype": "Int",
    "label": "phone",
-   "non_negative": 1,
    "unique": 1
   },
   {
@@ -30,21 +28,15 @@
    "fieldname": "otp",
    "fieldtype": "Data",
    "label": "otp"
-  },
-  {
-   "fieldname": "user_type",
-   "fieldtype": "Select",
-   "label": "user type",
-   "options": "devoteee\nadmin\nattender"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-01 13:00:17.460055",
+ "modified": "2025-10-02 21:40:41.172763",
  "modified_by": "Administrator",
  "module": "darshan-booking",
- "name": "token",
+ "name": "Session Devoteee",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
