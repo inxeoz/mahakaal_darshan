@@ -99,3 +99,33 @@ def update_profile(token: str, info: dict):
     frappe.db.commit()
 
     return {'res': 'update success'}
+
+
+
+@frappe.whitelist()
+def create_appointment(token: str, details: dict, save_as_draft:bool):
+    
+        # Verify the token and get the associated user document
+    token_doc = _verify_token(token, session_type=SESSION_TYPE)
+    if not token_doc:
+        return {'err' : 'invalid session token'}
+
+    # Check if profile exists by phone number; if not, create a new profile
+    profile_id = frappe.db.exists(PROFILE_TYPE, {'phone': token_doc.phone})
+        
+    doc = frappe.get_doc({
+        "doctype": "Darshan Appointment",
+        "devoteee_profile": profile_id,
+        **details
+    })
+
+    doc.insert()
+    frappe.db.commit()
+    
+        # If not saving as draft, move Draft → Pending via workflow
+    if not save_as_draft:
+        apply_workflow(doc, "Submit")  # must match your workflow Action name
+        frappe.db.commit()
+        doc.reload()
+
+    return { 'res' : {"name": doc.name, "workflow_state": doc.workflow_state} }

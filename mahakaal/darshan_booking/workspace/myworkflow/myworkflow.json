@@ -1,7 +1,7 @@
 {
  "app": "frappe",
  "charts": [],
- "content": "[{\"id\":\"tBYwIAFs5m\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MyworkFlow</span>\",\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"IjAkvi8pe2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Devoteee Profile\",\"col\":3}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}},{\"id\":\"Hy4mcB8bXE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Token\",\"col\":3}},{\"id\":\"s7XpGRj38m\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workflow\",\"col\":3}}]",
+ "content": "[{\"id\":\"tBYwIAFs5m\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MyworkFlow</span>\",\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"IjAkvi8pe2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Devoteee Profile\",\"col\":3}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}},{\"id\":\"s7XpGRj38m\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workflow\",\"col\":3}}]",
  "creation": "2025-09-26 16:41:19.235403",
  "custom_blocks": [],
  "docstatus": 0,
@@ -15,7 +15,7 @@
  "label": "MyworkFlow",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-10-02 21:36:54.913057",
+ "modified": "2025-10-02 23:26:44.905194",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "MyworkFlow",
