@@ -67,7 +67,7 @@ def _generate_otp_and_send(phone:int, session_type:str):
     
     frappe.db.commit()
     
-    return otp  # or some status
+    return  'otp sent'
     
 def _verify_otp_and_get_token(phone:int, otp:str, session_type:str):
     
@@ -87,7 +87,7 @@ def _verify_otp_and_get_token(phone:int, otp:str, session_type:str):
 
 def _verify_token(token:str, session_type:str):
     
-    token_doc = _is_session_token_exist(token:str, session_type:str)
+    token_doc = _is_session_token_exist(token=token, session_type=session_type)
     
     profile_id = _is_profile_exist(phone=token_doc.phone, session_type=session_type)
     
