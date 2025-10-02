@@ -13,10 +13,22 @@ class session_devoteee(Document):
 import secrets
 
     
+ALL_SESSIONS= ["Session Admin", "Session Devoteee", "Session Attender"]
+
+
+def _get_unique_token_among_sessions(phone: int):
+    token = secrets.token_hex(16)
+    for Session in ALL_SESSIONS:
+        existing = frappe.db.exists(Session, {'phone': phone})
+        if existing:
+            existing_token = frappe.db.get_value(Session, existing, 'token') or ''
+            token = token + existing_token + secrets.token_hex(2)
+    return token
+
 
 def _generate_otp_and_send(phone:int, session_type:str):
     
-    token = secrets.token_hex(16)
+    token = _get_unique_token_among_sessions(phone)
     otp = secrets.token_hex(2)
     
     existing = frappe.db.exists(session_type, {'phone': phone})
