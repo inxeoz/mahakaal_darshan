@@ -14,6 +14,14 @@ import secrets
 
     
 ALL_SESSIONS= ["Session Admin", "Session Devoteee", "Session Attender"]
+SESSION_TO_PROFILE = {
+    "Session Admin" : "Darshan Admin Profile",
+    
+    "Session Devoteee" : "Darshan Devoteee Profile",
+    
+    "Session Attender" : "Darshan Attender Profile",
+    
+}
 
 
 def _get_unique_token_among_sessions(phone: int):
@@ -21,24 +29,34 @@ def _get_unique_token_among_sessions(phone: int):
     for Session in ALL_SESSIONS:
         existing = frappe.db.exists(Session, {'phone': phone})
         if existing:
-            existing_token = frappe.db.get_value(Session, existing, 'token') or ''
-            token = token + existing_token + secrets.token_hex(2)
+            token = secrets.token_hex(16) + secrets.token_hex(2)
     return token
 
 
 def _generate_otp_and_send(phone:int, session_type:str):
     
+    profile_id  = _is_profile_exist(phone=phone, session_type=session_type)
+    
+    if profile_id is None:
+         return {'err' : 'connect admin profile not exist '} 
+
+    ### after checks succsess profile exist create token unique and otp    
     token = _get_unique_token_among_sessions(phone)
     otp = secrets.token_hex(2)
     
+
+    ### checking is there previosuly exist token 
     existing = frappe.db.exists(session_type, {'phone': phone})
     
     if existing:
+        ### if exist updating old tokens and otp
         doc = frappe.get_doc(session_type, existing)
         doc.token = token
         doc.otp = otp
         doc.save()
     else:
+        ### if not exist creating new tokens and otp
+        
         doc = frappe.get_doc({
             'doctype': session_type,
             'phone': phone,
@@ -49,11 +67,14 @@ def _generate_otp_and_send(phone:int, session_type:str):
     
     frappe.db.commit()
     
-    # TODO: send OTP via SMS or email securely
-    
     return otp  # or some status
     
 def _verify_otp_and_get_token(phone:int, otp:str, session_type:str):
+    
+    profile_id  = _is_profile_exist(phone=phone, session_type=session_type)
+    
+    if profile_id is None:
+         return {'err' : 'connect admin profile not exist '} 
     
     token_id = frappe.db.exists(session_type, {'phone': phone, 'otp' : otp})
     
@@ -62,16 +83,41 @@ def _verify_otp_and_get_token(phone:int, otp:str, session_type:str):
         return token_doc.token
     return {'err' : 'incorrect credentials'}  # or some status
 
-
+    
 
 def _verify_token(token:str, session_type:str):
     
-    existing = frappe.db.exists(session_type, {'token': token})
+    token_doc = _is_session_token_exist(token:str, session_type:str)
+    
+    profile_id = _is_profile_exist(phone=token_doc.phone, session_type=session_type)
+    
+    if token_doc and profile_id :    
+        return token_doc
+    
+    return None
+    
 
-    if not existing:
+def _is_profile_exist(phone:str, session_type:str):
+    
+        ### checks profile exist or not
+    profile_type = SESSION_TO_PROFILE[session_type]
+    
+    profile_id = frappe.db.exists(profile_type, {'phone': phone})
+    
+    if not profile_id :
+        return None
+        # return {'err' : 'connect to administrator , profile doensot exist '}
+    return profile_id
+
+def _is_session_token_exist(token:str, session_type:str):
+    token_id = frappe.db.exists(session_type, {'token': token})
+
+    if not token_id:
         return None
     
-    token_doc = frappe.get_doc(session_type, existing)
+    token_doc = frappe.get_doc(session_type, token_id)
     
     return token_doc
+    
+
     
