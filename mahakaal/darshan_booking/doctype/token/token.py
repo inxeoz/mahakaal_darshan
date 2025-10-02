@@ -100,10 +100,8 @@ def create_or_update_devoteee_profile(token: str, info: dict):
     return profile.name
 
 
-@frappe.whitelist()
-def get_profile_details(token:str):
-    return verify_token_get_profile(token)
 
+@frappe.whitelist()
 def verify_token_get_profile(token:str):
     
     token_doc = verify_token_get_token_doc(token)
