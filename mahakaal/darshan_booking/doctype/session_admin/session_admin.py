@@ -54,3 +54,7 @@ def get_appointment(token:str,appointment_id:str ) :
 
 
     
+@frappe.whitelist()
+def get_profile(token:str):
+    
+    return _get_profile(token=token, session_type=SESSION_TYPE)

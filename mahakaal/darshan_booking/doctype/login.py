@@ -54,6 +54,7 @@ def _generate_otp_and_send(phone:int, session_type:str):
         doc = frappe.get_doc(session_type, existing)
         doc.token = token
         doc.otp = otp
+        doc.profile_id = profile_id
         doc.save()
     else:
         ### if not exist creating new tokens and otp
@@ -62,7 +63,8 @@ def _generate_otp_and_send(phone:int, session_type:str):
             'doctype': session_type,
             'phone': phone,
             'token': token,
-            'otp': otp
+            'otp': otp,
+            'profile_id' : profile_id
         })
         doc.insert()
     
@@ -72,9 +74,8 @@ def _generate_otp_and_send(phone:int, session_type:str):
     
 def _verify_otp_and_get_token(phone:int, otp:str, session_type:str):
     
-    profile_id  = _is_profile_exist(phone=phone, session_type=session_type)
-    
-    if profile_id is None:
+    if  not _is_profile_exist(phone=phone, session_type=session_type):
+        
          return {'err' : 'connect ' + session_type + ' profile not exist '} 
     
     token_id = frappe.db.exists(session_type, {'phone': phone, 'otp' : otp})
@@ -82,21 +83,11 @@ def _verify_otp_and_get_token(phone:int, otp:str, session_type:str):
     if token_id :
         token_doc = frappe.get_doc(session_type, token_id)
         return token_doc.token
+    
     return {'err' : 'incorrect credentials'}  # or some status
 
     
-
-def _verify_token(token:str, session_type:str):
-    
-    token_doc = _is_session_token_exist(token=token, session_type=session_type)
-    
-    profile_id = _is_profile_exist(phone=token_doc.phone, session_type=session_type)
-    
-    if token_doc and profile_id :    
-        return token_doc
-    
-    return None
-    
+    #_verify_token
 
 def _is_profile_exist(phone:str, session_type:str):
     
@@ -129,15 +120,9 @@ def _get_profile(token:str, session_type:str):
     
     token_doc = _is_session_token_exist(token=token, session_type=session_type)
     
-    profile_id = _is_profile_exist(phone=token_doc.phone, session_type=session_type)
-    
     if not token_doc  :    
         return {'err' : 'token not exist in session'}
-    
-    if not profile_id  :    
-        return {'err' : session_type + ' not exist'}
 
-        
-    Devoteee_profile = frappe.get_doc(SESSION_TO_PROFILE[session_type], {"name":profile_id} )
+    Devoteee_profile = frappe.get_doc(SESSION_TO_PROFILE[session_type], {"name": token_doc.profile_id} )
                 
     return Devoteee_profile
