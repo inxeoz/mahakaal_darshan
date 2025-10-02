@@ -197,9 +197,12 @@ def get_appointment_list(token: str):
 @frappe.whitelist()
 def get_list_of_appointments_admin(token: str,  limit_start=0, limit_page_length=1):
     
-    _, token_doc = verify_token_get_profile_token_doc(token)
-    if token_doc and token_doc.get("user_type") != "admin":
-        return {"Error": "user is not admin"}
+    devoteee_profile, token_doc = verify_token_get_profile_token_doc(token)
+    
+    if token_doc is None:
+        return None
+    # if token_doc and token_doc.get("user_type") != "admin":
+    #     return {"Error": "user is not admin"}
     
     darshan_types = ["Shigra Darshan", "Bhasm Arti", "Vip Darshan", "Localide Darshan"]
     darshan_appointments_states = ["Pending", "Approved", "Rejected", "Cancelled"]
@@ -212,19 +215,35 @@ def get_list_of_appointments_admin(token: str,  limit_start=0, limit_page_length
 
         darshan_appointments_details[darshan_type] = {}
         for workflow_state in darshan_appointments_states:
-                darshan_appointments_details[darshan_type][workflow_state] = frappe.db.count('Darshan Appointment', {'workflow_state': workflow_state, 'darshan_type' : darshan_type})
+            
+                filters = {'workflow_state': workflow_state, 'darshan_type' : darshan_type}
+
+            
+                if token_doc.get("user_type") != "admin":
+                    
+                    filters['devoteee_profile'] = devoteee_profile.name
+                
+                darshan_appointments_details[darshan_type][workflow_state] = frappe.db.count('Darshan Appointment', filters)
 
 
         # For multiple fields, supply fields as a list; for all fields, use '*'
+        
+        filters = {'darshan_type': darshan_type}
+        if token_doc.get("user_type") != "admin":
+            
+            filters['devoteee_profile'] = devoteee_profile.name
+            
         darshan_type_appointments = frappe.get_list(
             'Darshan Appointment',
             limit_start=limit_start,
             limit_page_length=limit_page_length,
-            filters = {'darshan_type': darshan_type},
+            filters = filters,
             fields=[
                 'name', 'darshan_date', 'darshan_time', 'darshan_type', 'attender', 'workflow_state'
             ]
         )
+
+        print(f"darshan_type_appointments {darshan_type_appointments}")
 
         darshan_appointments_details[darshan_type]['Appointment List'] = darshan_type_appointments
 
