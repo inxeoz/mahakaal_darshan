@@ -9,28 +9,31 @@ class DarshanAppointment(Document):
     pass
 
 
+ALLOWED_SESSION_TYPES = ["Session Devoteee" , "Session Admin" ]
+
+def get_devoteee_profile_id(phone:int, session_type:str ) :
+
+    is_devotee = session_type == "Session Devoteee" 
+    
+    if not is_devotee or phone is None:
+        return None
+    
+    devoteee_profile_id = frappe.db.exists("Darshan Devoteee Profile", {'phone': phone})
+    
+    if  not devoteee_profile_id:
+        return None
+    return devoteee_profile_id
+
+
+
 def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_page_length=10):
     
-    allowed_session_types = ["Session Devoteee" , "Session Admin" ]
-    
-    if not (session_type in allowed_session_types ) :
+    if not (session_type in ALLOWED_SESSION_TYPES ) :
         return {'err' : 'invalid session token'}
     
     
-    is_devotee = session_type == "Session Devoteee"
-    
-    if is_devotee:
+    devoteee_profile_id = get_devoteee_profile_id(phone=phone, session_type=session_type)
         
-                # Check if profile exists by phone number; if not, create a new profile
-        profile_id = frappe.db.exists("Darshan Devoteee Profile", {'phone': phone})
-        
-        if  not profile_id :
-            return {'err' : 'Session Type Devotee but no Devoteee profile ?? '}
-        
-        
-
-
-
     darshan_types = ["Shigra Darshan", "Bhasm Arti", "Vip Darshan", "Localide Darshan"]
     darshan_appointments_states = ["Pending", "Approved", "Rejected", "Cancelled"]
     
@@ -46,8 +49,8 @@ def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_pa
                 filters = {'workflow_state': workflow_state, 'darshan_type' : darshan_type}
 
             
-                if is_devotee:
-                    filters['devoteee_profile'] = profile_id
+                if  devoteee_profile_id is not None :
+                    filters['devoteee_profile'] = devoteee_profile_id
                 
                 darshan_appointments_details[darshan_type][workflow_state] = frappe.db.count('Darshan Appointment', filters)
 
@@ -55,8 +58,8 @@ def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_pa
         # For multiple fields, supply fields as a list; for all fields, use '*'
         
         filters = {'darshan_type': darshan_type}
-        if is_devotee:
-            filters['devoteee_profile'] = profile_id
+        if devoteee_profile_id is not None :
+            filters['devoteee_profile'] = devoteee_profile_id
             
         darshan_type_appointments = frappe.get_list(
             'Darshan Appointment',
@@ -73,3 +76,23 @@ def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_pa
 
     
     return  {'res': darshan_appointments_details }
+
+
+
+
+
+def _get_appointment( phone:int, appointment_id:str, session_type:str) :
+    
+    if not (session_type in ALLOWED_SESSION_TYPES )  :
+        return {'err' : 'invalid session token'}
+    
+    devoteee_profile_id = get_devoteee_profile_id(phone=phone, session_type=session_type)
+
+    if devoteee_profile_id:
+        
+        appointment = frappe.get_doc('Darshan Appointment',  {'name' : appointment_id, 'devoteee_profile' : devoteee_profile_id}  )
+        return appointment
+    
+    appointment = frappe.get_doc('Darshan Appointment', appointment_id)
+
+    return appointment
