@@ -7,7 +7,7 @@ from frappe.model.document import Document
 from frappe.model.workflow import apply_workflow
 
 # correct (relative import)
-from ..login import _verify_otp_and_get_token, _generate_otp_and_send, _verify_token
+from ..login import _verify_otp_and_get_token, _generate_otp_and_send, _is_session_token_exist
 from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment
 
 
@@ -36,7 +36,7 @@ def verify_otp_and_get_token(phone:int, otp:str):
 @frappe.whitelist()
 def get_appointment_list(token:str, limit_start=0, limit_page_length=10) :
 
-    token_doc = _verify_token(token, session_type=SESSION_TYPE)
+    token_doc = _is_session_token_exist(token, session_type=SESSION_TYPE)
     if not token_doc:
         return {'err' : 'invalid session token'}
     
@@ -46,7 +46,7 @@ def get_appointment_list(token:str, limit_start=0, limit_page_length=10) :
 @frappe.whitelist()
 def get_appointment(token:str,appointment_id:str ) :
 
-    token_doc = _verify_token(token, session_type=SESSION_TYPE)
+    token_doc = _is_session_token_exist(token, session_type=SESSION_TYPE)
     if not token_doc:
         return {'err' : 'invalid session token'}
     
