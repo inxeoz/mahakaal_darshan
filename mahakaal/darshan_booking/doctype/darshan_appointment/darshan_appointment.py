@@ -11,28 +11,27 @@ class DarshanAppointment(Document):
 
 ALLOWED_SESSION_TYPES = ["Session Devoteee" , "Session Admin" ]
 
-def get_devoteee_profile_id(phone:int, session_type:str ) :
+def get_devoteee_profile_id(phone:int ) :
 
-    is_devotee = session_type == "Session Devoteee" 
-    
-    if not is_devotee or phone is None:
-        return None
-    
     devoteee_profile_id = frappe.db.exists("Darshan Devoteee Profile", {'phone': phone})
-    
-    if  not devoteee_profile_id:
-        return None
     return devoteee_profile_id
 
 
 
 def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_page_length=10):
     
-    if not (session_type in ALLOWED_SESSION_TYPES ) :
-        return {'err' : 'invalid session token'}
+
     
+    if session_type == ALLOWED_SESSION_TYPES[0]:
+        devoteee_profile_id = get_devoteee_profile_id(phone=phone)
+        
+    elif session_type == ALLOWED_SESSION_TYPES[1]:
+        devoteee_profile_id =None
+        
+    else:
+        return {'err' : 'invalid session type'}
+
     
-    devoteee_profile_id = get_devoteee_profile_id(phone=phone, session_type=session_type)
         
     darshan_types = ["Shigra Darshan", "Bhasm Arti", "Vip Darshan", "Localide Darshan"]
     darshan_appointments_states = ["Pending", "Approved", "Rejected", "Cancelled"]
@@ -83,10 +82,14 @@ def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_pa
 
 def _get_appointment( phone:int, appointment_id:str, session_type:str) :
     
-    if not (session_type in ALLOWED_SESSION_TYPES )  :
-        return {'err' : 'invalid session token'}
-    
-    devoteee_profile_id = get_devoteee_profile_id(phone=phone, session_type=session_type)
+    if session_type == ALLOWED_SESSION_TYPES[0]:
+        devoteee_profile_id = get_devoteee_profile_id(phone=phone)
+        
+    elif session_type == ALLOWED_SESSION_TYPES[1]:
+        devoteee_profile_id =None
+        
+    else:
+        return {'err' : 'invalid session type'}
 
     if devoteee_profile_id:
         
