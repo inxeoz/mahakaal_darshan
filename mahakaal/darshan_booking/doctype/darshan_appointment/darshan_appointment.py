@@ -74,7 +74,7 @@ def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_pa
 
 
     
-    return  {'res': darshan_appointments_details }
+    return   darshan_appointments_details
 
 
 

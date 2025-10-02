@@ -34,7 +34,7 @@ def create_user(phone:int):
         frappe.db.commit()
         
     
-    return {'res' : 'user exist'}
+    return {'message' : 'user exist'}
 
 @frappe.whitelist()
 def request_otp(phone:int):
@@ -44,7 +44,7 @@ def request_otp(phone:int):
         create_user(phone)
 
     generate_otp_and_send(phone)
-    return {'res' : 'otp sent'}
+    return {'message' : 'otp sent'}
     
 
 def generate_otp_and_send(phone:int):
@@ -99,7 +99,7 @@ def update_profile(token: str, info: dict):
     # Commit changes in the database
     frappe.db.commit()
 
-    return {'res': 'update success'}
+    return {'message': 'update success'}
 
 
 
@@ -129,7 +129,7 @@ def create_appointment(token: str, details: dict, save_as_draft:bool):
         frappe.db.commit()
         doc.reload()
 
-    return { 'res' : {"name": doc.name, "workflow_state": doc.workflow_state} }
+    return { 'message' : {"name": doc.name, "workflow_state": doc.workflow_state} }
 
 
 

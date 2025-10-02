@@ -30,7 +30,7 @@ def request_otp(phone:int):
         return {'err' : 'connect to Administrator'}
     
     generate_otp_and_send(phone)
-    return {'res' : 'otp sent'}
+    return {'message' : 'otp sent'}
     
 
 def generate_otp_and_send(phone:int):
