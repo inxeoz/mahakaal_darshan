@@ -147,55 +147,9 @@ def create_appointment(token: str, details: dict, save_as_draft:bool):
 
     
     
-@frappe.whitelist()
-def get_appointment_list(token: str):
-    devoteee_profile = verify_token_get_profile(token)
-    if not devoteee_profile:
-        return []
-
-    appointments_meta = frappe.get_list(
-        'Darshan Appointment',
-        filters={'devoteee_profile': devoteee_profile.name},
-        fields=['name'],
-        order_by='darshan_date desc'
-    )
-
-    results = []
-    for meta in appointments_meta:
-        try:
-            doc = frappe.get_doc('Darshan Appointment', meta['name'])
-            doc_dict = doc.as_dict()
-
-            # ✅ Only share selected parent fields
-            allowed_parent_fields = [
-                'name', 'darshan_date', 'darshan_time',
-                'darshan_type', 'attender', 'workflow_state'
-            ]
-            filtered = {k: doc_dict[k] for k in allowed_parent_fields if k in doc_dict}
-
-            # ✅ Only share selected child fields
-            filtered['darshan_companion'] = [
-                {
-                    'name': row.get('companion_name'),
-                    'phone': row.get('phone'),
-                    'gender': row.get('gender')
-                }
-                for row in doc_dict.get('darshan_companion', [])
-            ]
-
-            results.append(filtered)
-
-        except Exception as e:
-            frappe.log_error(frappe.get_traceback(), title=f"get_appointment_list error for {meta.get('name')}")
-            continue
-
-    return results
-
-
-
     
 @frappe.whitelist()
-def get_list_of_appointments_admin(token: str,  limit_start=0, limit_page_length=1):
+def get_appointment_list(token: str,  limit_start=0, limit_page_length=10):
     
     devoteee_profile, token_doc = verify_token_get_profile_token_doc(token)
     
@@ -203,7 +157,7 @@ def get_list_of_appointments_admin(token: str,  limit_start=0, limit_page_length
         return None
     # if token_doc and token_doc.get("user_type") != "admin":
     #     return {"Error": "user is not admin"}
-    
+    print(f"user types {token_doc.get("user_type")}")
     darshan_types = ["Shigra Darshan", "Bhasm Arti", "Vip Darshan", "Localide Darshan"]
     darshan_appointments_states = ["Pending", "Approved", "Rejected", "Cancelled"]
     
