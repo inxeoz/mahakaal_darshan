@@ -12,7 +12,7 @@ def test_server_action(doc):
     frappe.msgprint(_("this is from Server Action code"))
 
 
-class DevoteeeProfile(Document):
+class DarshanDevoteee(Document):
 	pass
 
 

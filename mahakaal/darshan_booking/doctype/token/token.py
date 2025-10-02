@@ -64,16 +64,16 @@ def verify_otp_and_get_token(otp:str, phone:int):
 @frappe.whitelist()
 def create_or_update_devoteee_profile(token: str, info: dict):
     """
-    Create or update a 'Devoteee Profile' record based on phone.
+    Create or update a 'Darshan Devoteee' record based on phone.
     Expects at least: {"phone": ...}
     """
     devoteee_profile = verify_token_get_profile(token)
     allowed_fields_to_update = ["devoteee_name", "gender", "dob", "email", "aadhar", "address"]
 
     if devoteee_profile:
-        profile = frappe.get_doc("Devoteee Profile", devoteee_profile.name)
+        profile = frappe.get_doc("Darshan Devoteee", devoteee_profile.name)
     else:
-        profile = frappe.get_doc({"doctype": "Devoteee Profile"})
+        profile = frappe.get_doc({"doctype": "Darshan Devoteee"})
 
     for field in allowed_fields_to_update:
         if field in info:
@@ -88,7 +88,7 @@ def create_or_update_devoteee_profile(token: str, info: dict):
     else:
         profile.insert()
 
-    aadhar = frappe.db.get_value("Devoteee Profile", profile.name, "aadhar")
+    aadhar = frappe.db.get_value("Darshan Devoteee", profile.name, "aadhar")
 
     if len(aadhar) > 0 :
         profile.set('is_ekyc_complete', 1)
@@ -117,7 +117,7 @@ def verify_token_get_profile_token_doc(token:str):
         return None
     else:
         
-        Devoteee_profile = frappe.get_doc("Devoteee Profile", {"phone": token_doc.phone})
+        Devoteee_profile = frappe.get_doc("Darshan Devoteee", {"phone": token_doc.phone})
                  
         return Devoteee_profile, token_doc
 
@@ -207,7 +207,7 @@ def get_appointment_list(token: str,  limit_start=0, limit_page_length=10):
 
 
 @frappe.whitelist()
-def get_appointment_admin_or_user(token:str, appointment_id:str) :
+def get_appointment(token:str, appointment_id:str) :
 
     devoteee_profile, token_doc = verify_token_get_profile_token_doc(token)
     if token_doc and token_doc.get("user_type") != "admin":

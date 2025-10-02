@@ -13,9 +13,9 @@ IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
 
 
-class IntegrationTestDevoteeeProfile(IntegrationTestCase):
+class IntegrationTestDarshanDevoteee(IntegrationTestCase):
 	"""
-	Integration tests for DevoteeeProfile.
+	Integration tests for DarshanDevoteee.
 	Use this class for testing interactions between multiple components.
 	"""
 
