@@ -38,7 +38,8 @@ def _generate_otp_and_send(phone:int, session_type:str):
     profile_id  = _is_profile_exist(phone=phone, session_type=session_type)
     
     if profile_id is None:
-         return {'err' : 'connect admin profile not exist '} 
+         return {'err' : 'connect ' + session_type + ' profile not exist '} 
+     
 
     ### after checks succsess profile exist create token unique and otp    
     token = _get_unique_token_among_sessions(phone)
@@ -74,7 +75,7 @@ def _verify_otp_and_get_token(phone:int, otp:str, session_type:str):
     profile_id  = _is_profile_exist(phone=phone, session_type=session_type)
     
     if profile_id is None:
-         return {'err' : 'connect admin profile not exist '} 
+         return {'err' : 'connect ' + session_type + ' profile not exist '} 
     
     token_id = frappe.db.exists(session_type, {'phone': phone, 'otp' : otp})
     
@@ -104,7 +105,10 @@ def _is_profile_exist(phone:str, session_type:str):
     
     profile_id = frappe.db.exists(profile_type, {'phone': phone})
     
+    print(f"profile id {profile_id}")
+    
     if not profile_id :
+        
         return None
         # return {'err' : 'connect to administrator , profile doensot exist '}
     return profile_id
@@ -121,3 +125,19 @@ def _is_session_token_exist(token:str, session_type:str):
     
 
     
+def _get_profile(token:str, session_type:str):
+    
+    token_doc = _is_session_token_exist(token=token, session_type=session_type)
+    
+    profile_id = _is_profile_exist(phone=token_doc.phone, session_type=session_type)
+    
+    if not token_doc  :    
+        return {'err' : 'token not exist in session'}
+    
+    if not profile_id  :    
+        return {'err' : session_type + ' not exist'}
+
+        
+    Devoteee_profile = frappe.get_doc(SESSION_TO_PROFILE[session_type], {"name":profile_id} )
+                
+    return Devoteee_profile
