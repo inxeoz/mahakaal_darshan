@@ -41,7 +41,6 @@ def _generate_otp_and_send(phone:int, session_type:str):
     
     return otp  # or some status
     
-@frappe.whitelist()
 def _verify_otp_and_get_token(phone:int, otp:str, session_type:str):
     
     token_id = frappe.db.exists(session_type, {'phone': phone, 'otp' : otp})
@@ -50,3 +49,17 @@ def _verify_otp_and_get_token(phone:int, otp:str, session_type:str):
         token_doc = frappe.get_doc(session_type, token_id)
         return token_doc.token
     return {'err' : 'incorrect credentials'}  # or some status
+
+
+
+def _verify_token(token:str, session_type:str):
+    
+    existing = frappe.db.exists(session_type, {'token': token})
+
+    if not existing:
+        return None
+    
+    token_doc = frappe.get_doc(session_type, existing)
+    
+    return token_doc
+    

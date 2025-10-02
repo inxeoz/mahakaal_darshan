@@ -35,6 +35,8 @@ def generate_otp_and_send(phone:int):
     return _generate_otp_and_send(phone, session_type=SESSION_TYPE)
     
 @frappe.whitelist()
-def verify_otp_and_token(phone:int, otp:str):
+def verify_otp_and_get_token(phone:int, otp:str):
     
     return _verify_otp_and_get_token(phone=phone, otp=otp, session_type=SESSION_TYPE)
+
+
