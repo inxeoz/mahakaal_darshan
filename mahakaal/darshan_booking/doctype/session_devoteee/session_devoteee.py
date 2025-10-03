@@ -104,7 +104,7 @@ def update_profile(token: str, info: dict):
 
 
 @frappe.whitelist()
-def create_appointment(token: str, details: dict, save_as_draft:bool):
+def create_appointment(token: str, details: dict):
     
         # Verify the token and get the associated user document
     token_doc = _is_session_token_exist(token, session_type=SESSION_TYPE)
@@ -122,9 +122,8 @@ def create_appointment(token: str, details: dict, save_as_draft:bool):
 
     doc.insert()
     frappe.db.commit()
-    
-        # If not saving as draft, move Draft → Pending via workflow
-    if not save_as_draft:
+
+    if not details.save_as_draft:
         apply_workflow(doc, "Submit")  # must match your workflow Action name
         frappe.db.commit()
         doc.reload()
