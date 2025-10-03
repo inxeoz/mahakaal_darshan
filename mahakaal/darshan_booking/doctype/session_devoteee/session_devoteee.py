@@ -123,7 +123,7 @@ def create_appointment(token: str, details: dict):
     doc.insert()
     frappe.db.commit()
 
-    if not details.save_as_draft:
+    if not details['save_as_draft']:
         apply_workflow(doc, "Submit")  # must match your workflow Action name
         frappe.db.commit()
         doc.reload()
