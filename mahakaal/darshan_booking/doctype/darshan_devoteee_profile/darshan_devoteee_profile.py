@@ -23,19 +23,16 @@ class DarshanDevoteeeProfile(Document):
 
 
 
-
-
-SESSION_TYPE="Session Devoteee"
 PROFILE_TYPE="Darshan Devoteee Profile"
 
 
 @frappe.whitelist()
 def create_devoteee_user(phone:int, name:str):
     
-    profile_id = _is_profile_exist(phone, profile_type=PROFILE_TYPE)
+    profile_id = _is_profile_exist(phone=phone, profile_type=PROFILE_TYPE)
     
     if profile_id :
-        return 'user exist'
+        return {'err' : 'user exist' }
         
     profile = frappe.get_doc({
         'doctype': PROFILE_TYPE,
@@ -46,7 +43,7 @@ def create_devoteee_user(phone:int, name:str):
     profile.insert()
     frappe.db.commit()
     
-    return _login_request(phone, profile_type=profile_type)
+    return _login_request(phone=phone, profile_type=PROFILE_TYPE)
     
 
 @frappe.whitelist()
