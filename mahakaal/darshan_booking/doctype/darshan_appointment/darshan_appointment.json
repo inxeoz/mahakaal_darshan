@@ -29,6 +29,7 @@
   {
    "fieldname": "devoteee_profile",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Devoteee Profile",
    "options": "Darshan Devoteee Profile"
   },
@@ -127,7 +128,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-02 20:52:30.359418",
+ "modified": "2025-10-03 12:04:36.700318",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",
@@ -143,6 +144,7 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "select": 1,
    "share": 1,
    "write": 1
   },

@@ -58,3 +58,20 @@ def get_appointment(token:str,appointment_id:str ) :
 def get_profile(token:str):
     
     return _get_profile(token=token, session_type=SESSION_TYPE)
+
+
+@frappe.whitelist()
+def apply_workflow_on_appointment(token:str, appointment_id:str, action: str):
+    
+    token_doc = _is_session_token_exist(token, session_type=SESSION_TYPE)
+    
+    if not token_doc:
+        return {'err' : 'invalid session token'}
+    
+    
+    appointment_doc = frappe.get_doc('Darshan Appointment', appointment_id)
+    
+    if appointment_doc :    
+        apply_workflow(appointment_doc, action)  # must match your workflow Action name
+        
+    return  {'appointment_id': appointment_id, 'workflow_state': appointment_doc.workflow_state}
