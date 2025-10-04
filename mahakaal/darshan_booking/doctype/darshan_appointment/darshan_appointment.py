@@ -9,29 +9,9 @@ class DarshanAppointment(Document):
     pass
 
 
-ALLOWED_SESSION_TYPES = ["Session Devoteee" , "Session Admin" ]
-
-def get_devoteee_profile_id(phone:int ) :
-
-    devoteee_profile_id = frappe.db.exists("Darshan Devoteee Profile", {'phone': phone})
-    return devoteee_profile_id
-
-
-
-def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_page_length=10):
+def _get_appointment_list(devoteee_profile_id: str, limit_start=0, limit_page_length=10):
     
 
-    
-    if session_type == ALLOWED_SESSION_TYPES[0]:
-        devoteee_profile_id = get_devoteee_profile_id(phone=phone)
-        
-    elif session_type == ALLOWED_SESSION_TYPES[1]:
-        devoteee_profile_id =None
-        
-    else:
-        return {'err' : 'invalid session type'}
-
-    
         
     darshan_types = ["Shigra Darshan", "Bhasm Arti", "Vip Darshan", "Localide Darshan"]
     darshan_appointments_states = ["Pending", "Approved", "Rejected", "Cancelled"]
@@ -48,7 +28,7 @@ def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_pa
                 filters = {'workflow_state': workflow_state, 'darshan_type' : darshan_type}
 
             
-                if  devoteee_profile_id is not None :
+                if  devoteee_profile_id :
                     filters['devoteee_profile'] = devoteee_profile_id
                 
                 darshan_appointments_details[darshan_type][workflow_state] = frappe.db.count('Darshan Appointment', filters)
@@ -57,7 +37,7 @@ def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_pa
         # For multiple fields, supply fields as a list; for all fields, use '*'
         
         filters = {'darshan_type': darshan_type}
-        if devoteee_profile_id is not None :
+        if  devoteee_profile_id:
             filters['devoteee_profile'] = devoteee_profile_id
             
         darshan_type_appointments = frappe.get_list(
@@ -80,17 +60,8 @@ def _get_appointment_list(phone: int,  session_type:str, limit_start=0, limit_pa
 
 
 
-def _get_appointment( phone:int, appointment_id:str, session_type:str) :
+def _get_appointment( devoteee_profile_id:str, appointment_id:str) :
     
-    if session_type == ALLOWED_SESSION_TYPES[0]:
-        devoteee_profile_id = get_devoteee_profile_id(phone=phone)
-        
-    elif session_type == ALLOWED_SESSION_TYPES[1]:
-        devoteee_profile_id =None
-        
-    else:
-        return {'err' : 'invalid session type'}
-
     if devoteee_profile_id:
         
         appointment = frappe.get_doc('Darshan Appointment',  {'name' : appointment_id, 'devoteee_profile' : devoteee_profile_id}  )
