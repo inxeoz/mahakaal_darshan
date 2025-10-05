@@ -27,29 +27,64 @@ PROFILE_TYPE="Darshan Devoteee Profile"
 
 
 @frappe.whitelist()
+def get_current_user_email():
+    # get current logged-in user (email/ID)
+    current_user = frappe.session.user
+
+    # fetch the User document
+    user_doc = frappe.get_doc("User", current_user)
+
+    # return their email field
+    return {
+        "wh" : current_user,
+        "user": current_user,      # usually same as email, e.g. "john@example.com"
+        "email": user_doc.email,
+        "full_name": user_doc.full_name,
+        "mobile_no": user_doc.mobile_no
+    }
+
+
+
+@frappe.whitelist()
 def create_devoteee_user(phone:int, name:str):
+
+    current_user_id = frappe.session.user
     
-    profile_id = _is_profile_exist(phone=phone, profile_type=PROFILE_TYPE)
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    if devoteee_profile_id:
+        
+        return {'err' : 'can;t create user exist'}
     
-    if profile_id :
-        return {'err' : 'user exist' }
+    # fetch the User document
+
         
     profile = frappe.get_doc({
         'doctype': PROFILE_TYPE,
         'phone': phone,
-        'devoteee_name' : name
+        'devoteee_name' : name,
+        'frappe_profile' : current_user_id
     })
     
     profile.insert()
     frappe.db.commit()
     
-    return _login_request(phone=phone, profile_type=PROFILE_TYPE)
+    return profile
     
 
-@frappe.whitelist()
-def update_profile(profile_id: str, info: dict):
 
-    profile = frappe.get_doc(PROFILE_TYPE, profile_id)
+@frappe.whitelist()
+def update_profile(info: dict):
+    
+    current_user_id = frappe.session.user
+    
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    if not devoteee_profile_id:
+        
+        return {'err' : 'can;t update user not exist'}
+
+    devoteee_profile_doc = frappe.get_doc(PROFILE_TYPE, devoteee_profile_id)
 
     # Fields allowed to update
     allowed_fields = ["devoteee_name", "gender", "dob", "email", "aadhar", "address"]
@@ -57,14 +92,14 @@ def update_profile(profile_id: str, info: dict):
     # Update allowed fields from info dict
     for field in allowed_fields:
         if field in info:
-            profile.set(field, info[field])
+            devoteee_profile_doc.set(field, info[field])
 
     # Set is_ekyc_complete flag only once, avoid unnecessary repeated saves
-    if profile.aadhar and len(profile.aadhar) > 0:
-        profile.is_ekyc_complete = 1
+    if devoteee_profile_doc.aadhar and len(profile.aadhar) > 0:
+        devoteee_profile_doc.is_ekyc_complete = 1
 
     # Save the profile document
-    profile.save()
+    devoteee_profile_doc.save()
 
     # Commit changes in the database
     frappe.db.commit()
@@ -74,40 +109,74 @@ def update_profile(profile_id: str, info: dict):
 
 
 @frappe.whitelist()
-def create_appointment(profile_id: str, details: dict):
+def create_appointment(info: dict):
+
+
+    current_user_id = frappe.session.user
     
-    doc = frappe.get_doc({
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    if not devoteee_profile_id:
+        
+        return {'err' : 'can;t create appointment user not exist'}
+    
+    darshan_appointment_doc = frappe.get_doc({
         "doctype": "Darshan Appointment",
-        "devoteee_profile": profile_id,
-        **details
+        "devoteee_profile": devoteee_profile_id,
+        **info
     })
 
-    doc.insert()
+    darshan_appointment_doc.insert()
     frappe.db.commit()
 
-    if not details['save_as_draft']:
-        apply_workflow(doc, "Submit")  # must match your workflow Action name
+    if not info['save_as_draft']:
+        apply_workflow(darshan_appointment_doc, "Submit")  # must match your workflow Action name
         frappe.db.commit()
-        doc.reload()
+        darshan_appointment_doc.reload()
 
-    return  {"name": doc.name, "workflow_state": doc.workflow_state}
-
-
-
-@frappe.whitelist()
-def get_appointment_list(profile_id:str, limit_start=0, limit_page_length=10) :
-    
-    return _get_appointment_list(devoteee_profile_id=profile_id,  limit_start=limit_start, limit_page_length=limit_page_length )
+    return  darshan_appointment_doc
 
 
 
 @frappe.whitelist()
-def get_appointment(profile_id:str,appointment_id:str ) :
+def get_appointment_list( limit_start=0, limit_page_length=10) :
     
-    return _get_appointment(devoteee_profile_id=profile_id , appointment_id=appointment_id)
+    current_user_id = frappe.session.user
+    
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    if not devoteee_profile_id:
+        
+        return {'err' : 'can;t get appointment list user not exist'}
+    
+    return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  limit_start=limit_start, limit_page_length=limit_page_length )
+
 
 
 @frappe.whitelist()
-def get_profile(profile_id:str):
+def get_appointment(appointment_id:str ) :
+
+        
+    current_user_id = frappe.session.user
     
-    return {'profile': frappe.get_doc(PROFILE_TYPE, profile_id) }
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    if not devoteee_profile_id:
+        
+        return {'err' : 'can;t get appointment user not exist'}
+    
+    return _get_appointment(devoteee_profile_id=devoteee_profile_id , appointment_id=appointment_id)
+
+
+@frappe.whitelist()
+def get_profile():
+    
+    current_user_id = frappe.session.user
+    
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    if not devoteee_profile_id:
+        
+        return {'err' : 'can;t get user not exist'}
+
+    return {'profile': frappe.get_doc(PROFILE_TYPE, devoteee_profile_id) }
