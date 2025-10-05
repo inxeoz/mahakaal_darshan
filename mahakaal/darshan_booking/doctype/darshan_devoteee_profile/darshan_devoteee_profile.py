@@ -7,7 +7,7 @@ from frappe.model.document import Document
 from frappe.model.workflow import apply_workflow
 
 
-from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment
+from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment, _create_appointment
 
 from ..active_session.active_session import _is_profile_exist, _login_request
 
@@ -106,35 +106,20 @@ def update_profile(info: dict):
 
     return 'update success'
 
-
-
 @frappe.whitelist()
 def create_appointment(info: dict):
-
-
+    
+            
     current_user_id = frappe.session.user
     
     devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
 
     if not devoteee_profile_id:
         
-        return {'err' : 'can;t create appointment user not exist'}
+        return {'err' : 'can;t get appointment user not exist'}
     
-    darshan_appointment_doc = frappe.get_doc({
-        "doctype": "Darshan Appointment",
-        "devoteee_profile": devoteee_profile_id,
-        **info
-    })
+    return  _create_appointment(devoteee_profile_id=devoteee_profile_id,info=info , ignore_permissions=True)
 
-    darshan_appointment_doc.insert()
-    frappe.db.commit()
-
-    if not info['save_as_draft']:
-        apply_workflow(darshan_appointment_doc, "Submit")  # must match your workflow Action name
-        frappe.db.commit()
-        darshan_appointment_doc.reload()
-
-    return  darshan_appointment_doc
 
 
 

@@ -9,6 +9,19 @@ class DarshanAppointment(Document):
     pass
 
 
+def _create_appointment(devoteee_profile_id:str, info: dict, ignore_permissions:bool):
+
+    darshan_appointment_doc = frappe.get_doc({
+        "doctype": "Darshan Appointment",
+        "devoteee_profile": devoteee_profile_id,
+        **info
+    })
+
+    darshan_appointment_doc.insert(ignore_permissions=ignore_permissions)
+    frappe.db.commit()
+
+    return  darshan_appointment_doc
+
 def _get_appointment_list(devoteee_profile_id: str, ignore_permissions:bool, limit_start=0, limit_page_length=10, ):
     
 
