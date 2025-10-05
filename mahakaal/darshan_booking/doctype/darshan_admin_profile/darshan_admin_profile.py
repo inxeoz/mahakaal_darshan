@@ -21,26 +21,19 @@ PROFILE_TYPE="Darshan Admin Profile"
 @frappe.whitelist()
 def get_appointment_list(limit_start=0, limit_page_length=10) :
     
-    return _get_appointment_list( devoteee_profile_id=None, limit_start=limit_start, limit_page_length=limit_page_length )
+    return _get_appointment_list( devoteee_profile_id=None, limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=False )
 
 
 
 @frappe.whitelist()
 def get_appointment(appointment_id:str ) :
-    
+
     return _get_appointment(devoteee_profile_id=None , appointment_id=appointment_id)
 
 
 @frappe.whitelist()
 def get_self_profile():
 
-    current_user_id = frappe.session.user
-    admin_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
-
-    if not admin_profile_id:
-        
-        return {'err' : 'can;t create appointment user not exist'}
-    
     return frappe.get_doc(profile_id=admin_profile_id, profile_type=PROFILE_TYPE)
 
 

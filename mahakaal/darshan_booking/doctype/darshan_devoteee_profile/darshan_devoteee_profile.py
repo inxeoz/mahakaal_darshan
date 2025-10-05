@@ -149,7 +149,7 @@ def get_appointment_list( limit_start=0, limit_page_length=10) :
         
         return {'err' : 'can;t get appointment list user not exist'}
     
-    return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  limit_start=limit_start, limit_page_length=limit_page_length )
+    return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=True )
 
 
 

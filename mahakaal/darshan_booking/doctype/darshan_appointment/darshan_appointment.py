@@ -9,7 +9,7 @@ class DarshanAppointment(Document):
     pass
 
 
-def _get_appointment_list(devoteee_profile_id: str, limit_start=0, limit_page_length=10):
+def _get_appointment_list(devoteee_profile_id: str, ignore_permissions:bool, limit_start=0, limit_page_length=10, ):
     
 
         
@@ -48,7 +48,7 @@ def _get_appointment_list(devoteee_profile_id: str, limit_start=0, limit_page_le
             fields=[
                 'name', 'darshan_date', 'darshan_time', 'darshan_type', 'attender', 'workflow_state'
             ],
-            ignore_permissions=True   # <--- bypass permission checks
+            ignore_permissions=ignore_permissions   # <--- bypass permission checks
             
         )
 
