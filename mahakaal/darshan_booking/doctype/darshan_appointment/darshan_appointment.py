@@ -47,7 +47,9 @@ def _get_appointment_list(devoteee_profile_id: str, limit_start=0, limit_page_le
             filters = filters,
             fields=[
                 'name', 'darshan_date', 'darshan_time', 'darshan_type', 'attender', 'workflow_state'
-            ]
+            ],
+            ignore_permissions=True   # <--- bypass permission checks
+            
         )
 
         darshan_appointments_details[darshan_type]['Appointment List'] = darshan_type_appointments

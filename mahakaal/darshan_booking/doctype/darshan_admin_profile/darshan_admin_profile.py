@@ -32,9 +32,16 @@ def get_appointment(appointment_id:str ) :
 
 
 @frappe.whitelist()
-def get_profile(profile_id:str):
+def get_self_profile():
+
+    current_user_id = frappe.session.user
+    admin_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    if not admin_profile_id:
+        
+        return {'err' : 'can;t create appointment user not exist'}
     
-    return frappe.get_doc(profile_id=profile_id, profile_type=PROFILE_TYPE)
+    return frappe.get_doc(profile_id=admin_profile_id, profile_type=PROFILE_TYPE)
 
 
 
