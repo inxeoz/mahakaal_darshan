@@ -110,4 +110,4 @@ def get_appointment(profile_id:str,appointment_id:str ) :
 @frappe.whitelist()
 def get_profile(profile_id:str):
     
-    return frappe.get_doc(PROFILE_TYPE, profile_id)
+    return {'profile': frappe.get_doc(PROFILE_TYPE, profile_id) }
