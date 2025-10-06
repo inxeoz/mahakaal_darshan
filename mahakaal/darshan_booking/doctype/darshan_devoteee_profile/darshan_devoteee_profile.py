@@ -9,9 +9,8 @@ from frappe.model.workflow import apply_workflow
 
 from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment, _create_appointment
 
-from ..active_session.active_session import _is_profile_exist, _login_request
 
-from ..session_login.session_login import _phone_to_nomail, _create_user
+from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request
 
 
 @frappe.whitelist()   # makes the function callable from frontend
@@ -52,39 +51,10 @@ import traceback
 
 @frappe.whitelist(allow_guest=True)
 def login_request(phone: int):
-
-    PROFILE_TYPE = "Darshan Devoteee Profile"
-
-
-    nomail = _phone_to_nomail(phone)
-
-
-    profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile': nomail})
-
-    if not profile_id:
-        return {'err': 'user not exist'}
-
-
- 
-    user_doc = frappe.get_doc('User', nomail)
     
-    # Generate temporary password
-    temp_pwd = secrets.token_hex(8)
-    user_doc.new_password = temp_pwd
-            # ignore permissions to allow guest-call reset if appropriate; remove if not desired
-    user_doc.save(ignore_permissions=True)
-
-
-    session_login = frappe.get_doc({
-        'doctype': 'Session Login',
-        'user': nomail,
-        'pwd': temp_pwd,
-    })
-    session_login.insert(ignore_permissions=True)
-
-    frappe.db.commit()
-
-    return {'res': 'login using temp password that is sent to your number'}
+    PROFILE_TYPE = "Darshan Devoteee Profile"
+    
+    return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
 
 
