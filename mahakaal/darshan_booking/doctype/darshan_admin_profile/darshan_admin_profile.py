@@ -18,6 +18,14 @@ class DarshanAdminProfile(Document):
 
 PROFILE_TYPE="Darshan Admin Profile"
 
+@frappe.whitelist(allow_guest=True)
+def login_request(phone: int):
+    
+    PROFILE_TYPE = "Darshan Admin Profile"
+    
+    return _login_request(phone=phone, profile_type=PROFILE_TYPE)
+
+
 @frappe.whitelist()
 def get_appointment_list(limit_start=0, limit_page_length=10) :
     

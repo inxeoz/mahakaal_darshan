@@ -65,13 +65,13 @@ def create_devoteee_user(phone:int):
     profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile': nomail})
     
     if profile_id:
-        return 'User exist'
+        return {'err' : 'User exist' }
 
     user_id = frappe.db.exists('User', {'email': nomail})
 
         
     if user_id:
-        return 'user exist'
+        return {'err' : 'user exist' }
     
     user_doc = _create_user(phone, role_name='Devoteee Role')
         
