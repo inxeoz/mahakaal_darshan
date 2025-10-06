@@ -73,16 +73,16 @@ def create_devoteee_user(phone:int):
     if user_id:
         return 'user exist'
     
-    user_doc = _create_user(phone)
+    user_doc = _create_user(phone, role_name='Devoteee Role')
         
     
     profile = frappe.get_doc({
         'doctype': PROFILE_TYPE,
         'phone': phone,
-        'frappe_profile' : user_doc.email
+        'frappe_profile' : nomail
     })
     
-    profile.insert()
+    profile.insert(ignore_permissions=True)
     frappe.db.commit()
     
     return profile

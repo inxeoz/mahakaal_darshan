@@ -20,7 +20,7 @@ class SessionLogin(Document):
 def _phone_to_nomail(phone: int) :
     return f"{phone}@nomail.com"
 
-def _create_user(phone:str) :
+def _create_user(phone:str, role_name: str = None) :
     
     nomail = _phone_to_nomail(phone)
     
@@ -41,6 +41,13 @@ def _create_user(phone:str) :
         "phone" : phone
         
     })
+
+
+    if role_name:
+        user_doc.append("roles", {
+                "doctype": "Has Role",
+                "role": role_name
+            })
 
     user_doc.insert(ignore_permissions = True)
 
