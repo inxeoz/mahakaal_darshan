@@ -44,6 +44,51 @@ def get_current_user_email():
     }
 
 
+import frappe
+import secrets
+import traceback
+
+@frappe.whitelist(allow_guest=True)
+def login_request(phone: int):
+
+    PROFILE_TYPE = "Darshan Devoteee Profile"
+
+    # basic validation
+    if not phone:
+        return {'err': 'phone required'}
+
+    profile_id = frappe.db.exists(PROFILE_TYPE, {'phone': phone})
+    if not profile_id:
+        return {'err': 'user not exist'}
+
+    # Generate temporary password
+    temp_pwd = secrets.token_hex(8)
+
+    # Get profile doc
+    profile_doc = frappe.get_doc(PROFILE_TYPE, profile_id)
+    # defensive attribute check
+    user_id = getattr(profile_doc, 'frappe_profile', None)
+    if not user_id:
+        return {'err' : 'userid not exist'}
+ 
+    user_doc = frappe.get_doc('User', user_id)
+
+    user_doc.new_password = temp_pwd
+            # ignore permissions to allow guest-call reset if appropriate; remove if not desired
+    user_doc.save(ignore_permissions=True)
+
+
+    session_login = frappe.get_doc({
+        'doctype': 'Session Login',
+        'user': user_id,
+        'pwd': temp_pwd,
+    })
+    session_login.insert(ignore_permissions=True)
+
+    frappe.db.commit()
+
+    return {'res': 'login using temp password that is sent to your number'}
+
 
 @frappe.whitelist()
 def create_devoteee_user(phone:int, name:str):
