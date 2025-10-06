@@ -27,22 +27,6 @@ class DarshanDevoteeeProfile(Document):
 PROFILE_TYPE="Darshan Devoteee Profile"
 
 
-@frappe.whitelist()
-def get_current_user_email():
-    # get current logged-in user (email/ID)
-    current_user = frappe.session.user
-
-    # fetch the User document
-    user_doc = frappe.get_doc("User", current_user)
-
-    # return their email field
-    return {
-        "wh" : current_user,
-        "user": current_user,      # usually same as email, e.g. "john@example.com"
-        "email": user_doc.email,
-        "full_name": user_doc.full_name,
-        "mobile_no": user_doc.mobile_no
-    }
 
 
 import frappe
@@ -61,21 +45,18 @@ def login_request(phone: int):
 def create_devoteee_user(phone:int):
     
     nomail = _phone_to_nomail(phone)
+
+    user_id = frappe.db.exists('User', {'email': nomail})
+
+    if not user_id:
+        user_doc = _create_user(phone, role_name='Devoteee Role')
+    
     
     profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile': nomail})
     
     if profile_id:
         return {'err' : 'User exist' }
 
-    user_id = frappe.db.exists('User', {'email': nomail})
-
-        
-    if user_id:
-        return {'err' : 'user exist' }
-    
-    user_doc = _create_user(phone, role_name='Devoteee Role')
-        
-    
     profile = frappe.get_doc({
         'doctype': PROFILE_TYPE,
         'phone': phone,
@@ -85,7 +66,7 @@ def create_devoteee_user(phone:int):
     profile.insert(ignore_permissions=True)
     frappe.db.commit()
     
-    return profile
+    return {'res' : 'user created successfully'}
     
 
 

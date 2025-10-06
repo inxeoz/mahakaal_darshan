@@ -1,7 +1,7 @@
 {
  "app": "frappe",
  "charts": [],
- "content": "[{\"id\":\"tBYwIAFs5m\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MyworkFlow</span>\",\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"nertjBVCfx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Admin Profile\",\"col\":3}},{\"id\":\"KwkddXLUR5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Devoteee Profile\",\"col\":3}},{\"id\":\"b6SHYW_AhF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Active Session\",\"col\":3}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}},{\"id\":\"s7XpGRj38m\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workflow\",\"col\":3}}]",
+ "content": "[{\"id\":\"tBYwIAFs5m\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MyworkFlow</span>\",\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"nertjBVCfx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Admin Profile\",\"col\":3}},{\"id\":\"KwkddXLUR5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Devoteee Profile\",\"col\":3}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}},{\"id\":\"KH5_-EyW6P\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Session Login\",\"col\":3}},{\"id\":\"s7XpGRj38m\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workflow\",\"col\":3}}]",
  "creation": "2025-09-26 16:41:19.235403",
  "custom_blocks": [],
  "docstatus": 0,
@@ -15,7 +15,7 @@
  "label": "MyworkFlow",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-10-05 00:11:43.953416",
+ "modified": "2025-10-06 15:41:01.681302",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "MyworkFlow",
@@ -46,6 +46,14 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Session Login",
+   "link_to": "Session Login",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Darshan Appointment",
    "link_to": "Darshan Appointment",
    "stats_filter": "[]",
@@ -56,14 +64,6 @@
    "doc_view": "List",
    "label": "Darshan Devoteee Profile",
    "link_to": "Darshan Devoteee Profile",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Active Session",
-   "link_to": "Active Session",
    "stats_filter": "[]",
    "type": "DocType"
   },

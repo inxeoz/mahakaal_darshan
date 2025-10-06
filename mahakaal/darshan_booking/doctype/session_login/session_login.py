@@ -16,6 +16,24 @@ class SessionLogin(Document):
 	pass
 
 
+@frappe.whitelist()
+def get_current_session_info():
+    # get current logged-in user (email/ID)
+    current_user = frappe.session.user
+
+    # fetch the User document
+    user_doc = frappe.get_doc("User", current_user)
+
+    # return their email field
+    return {
+        "wh" : current_user,
+        "user": current_user,      # usually same as email, e.g. "john@example.com"
+        "email": user_doc.email,
+        "full_name": user_doc.full_name,
+        "mobile_no": user_doc.mobile_no
+    }
+
+
 
 def _phone_to_nomail(phone: int) :
     return f"{phone}@nomail.com"
