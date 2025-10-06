@@ -1,7 +1,7 @@
 {
  "app": "frappe",
  "charts": [],
- "content": "[{\"id\":\"tBYwIAFs5m\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MyworkFlow</span>\",\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"nertjBVCfx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Admin Profile\",\"col\":3}},{\"id\":\"KwkddXLUR5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Devoteee Profile\",\"col\":3}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}},{\"id\":\"KH5_-EyW6P\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Session Login\",\"col\":3}},{\"id\":\"s7XpGRj38m\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workflow\",\"col\":3}}]",
+ "content": "[{\"id\":\"tBYwIAFs5m\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MyworkFlow</span>\",\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"nertjBVCfx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Admin Profile\",\"col\":3}},{\"id\":\"KwkddXLUR5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Devoteee Profile\",\"col\":3}},{\"id\":\"Ho_qgmyhtE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Attender Profile\",\"col\":3}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}},{\"id\":\"s7XpGRj38m\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workflow\",\"col\":3}},{\"id\":\"1KPA256Ts_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Session Login\",\"col\":3}}]",
  "creation": "2025-09-26 16:41:19.235403",
  "custom_blocks": [],
  "docstatus": 0,
@@ -15,7 +15,7 @@
  "label": "MyworkFlow",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-10-06 15:41:01.681302",
+ "modified": "2025-10-06 17:12:32.184663",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "MyworkFlow",
@@ -32,6 +32,14 @@
    "doc_view": "List",
    "label": "Doctype",
    "link_to": "DocType",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Darshan Attender Profile",
+   "link_to": "Darshan Attender Profile",
    "stats_filter": "[]",
    "type": "DocType"
   },
