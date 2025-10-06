@@ -11,6 +11,8 @@ from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _g
 
 from ..active_session.active_session import _is_profile_exist, _login_request
 
+from ..session_login.session_login import _phone_to_nomail, _create_user
+
 
 @frappe.whitelist()   # makes the function callable from frontend
 def test_server_action(doc):
@@ -53,26 +55,21 @@ def login_request(phone: int):
 
     PROFILE_TYPE = "Darshan Devoteee Profile"
 
-    # basic validation
-    if not phone:
-        return {'err': 'phone required'}
 
-    profile_id = frappe.db.exists(PROFILE_TYPE, {'phone': phone})
+    nomail = _phone_to_nomail(phone)
+
+
+    profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile': nomail})
+
     if not profile_id:
         return {'err': 'user not exist'}
 
+
+ 
+    user_doc = frappe.get_doc('User', nomail)
+    
     # Generate temporary password
     temp_pwd = secrets.token_hex(8)
-
-    # Get profile doc
-    profile_doc = frappe.get_doc(PROFILE_TYPE, profile_id)
-    # defensive attribute check
-    user_id = getattr(profile_doc, 'frappe_profile', None)
-    if not user_id:
-        return {'err' : 'userid not exist'}
- 
-    user_doc = frappe.get_doc('User', user_id)
-
     user_doc.new_password = temp_pwd
             # ignore permissions to allow guest-call reset if appropriate; remove if not desired
     user_doc.save(ignore_permissions=True)
@@ -80,7 +77,7 @@ def login_request(phone: int):
 
     session_login = frappe.get_doc({
         'doctype': 'Session Login',
-        'user': user_id,
+        'user': nomail,
         'pwd': temp_pwd,
     })
     session_login.insert(ignore_permissions=True)
@@ -90,25 +87,26 @@ def login_request(phone: int):
     return {'res': 'login using temp password that is sent to your number'}
 
 
-@frappe.whitelist()
-def create_devoteee_user(phone:int, name:str):
 
-    current_user_id = frappe.session.user
+def create_devoteee_user(phone:int):
     
-    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
-
-    if devoteee_profile_id:
-        
-        return {'err' : 'can;t create user exist'}
+    nomail = _phone_to_nomail(phone)
     
-    # fetch the User document
+    profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile': nomail})
+    
+    if profile_id:
+        return 'User exist'
 
+    user_id = frappe.db.exists('User', {'email': nomail})
+    
+    if not userid:
+        user_doc = _create_user(phone)
         
+    
     profile = frappe.get_doc({
         'doctype': PROFILE_TYPE,
         'phone': phone,
-        'devoteee_name' : name,
-        'frappe_profile' : current_user_id
+        'frappe_profile' : user_doc.email
     })
     
     profile.insert()
@@ -116,6 +114,7 @@ def create_devoteee_user(phone:int, name:str):
     
     return profile
     
+
 
 
 @frappe.whitelist()
