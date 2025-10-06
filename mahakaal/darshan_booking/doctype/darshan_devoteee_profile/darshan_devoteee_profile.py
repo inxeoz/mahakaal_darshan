@@ -57,7 +57,7 @@ def login_request(phone: int):
     return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
 
-
+@frappe.whitelist(allow_guest=True)
 def create_devoteee_user(phone:int):
     
     nomail = _phone_to_nomail(phone)
@@ -68,9 +68,12 @@ def create_devoteee_user(phone:int):
         return 'User exist'
 
     user_id = frappe.db.exists('User', {'email': nomail})
+
+        
+    if user_id:
+        return 'user exist'
     
-    if not userid:
-        user_doc = _create_user(phone)
+    user_doc = _create_user(phone)
         
     
     profile = frappe.get_doc({
