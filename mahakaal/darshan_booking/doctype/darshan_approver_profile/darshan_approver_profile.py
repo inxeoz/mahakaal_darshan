@@ -1,83 +1,107 @@
 # Copyright (c) 2025, inx and contributors
 # For license information, please see license.txt
 
-# import frappe
 import frappe
 from frappe.model.document import Document
 from frappe.model.workflow import apply_workflow
+from functools import wraps
+from typing import Optional, Any, Callable, Dict
 
-from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment,_get_appointment_stats
-from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request, _create_profile
+from ..darshan_appointment.darshan_appointment import (
+    _get_appointment_list,
+    _get_appointment,
+    _get_appointment_stats,
+)
+from ..session_login.session_login import (
+    _create_profile,
+    _login_request,
+)
+
+from ..ensure_role import _ensure_role
+
+PROFILE_TYPE = "Darshan Approver Profile"
+PROFILE_ROLE = "Approver Role"
 
 
 class DarshanApproverProfile(Document):
-	pass
+    """Document for Darshan Approver profile."""
+    pass
 
 
-
-
-PROFILE_TYPE="Darshan Approver Profile"
+def _appointment_exists(appointment_id: str) -> bool:
+    return frappe.db.exists("Darshan Appointment", {"name": appointment_id}) is not None
 
 
 @frappe.whitelist()
-def create_approver(phone:int):
-    
-   return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name='Approver Role')
-    
-
+def create_approver(phone: int) -> Dict[str, Any]:
+    return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
 
 
 @frappe.whitelist(allow_guest=True)
-def login_request(phone: int):
+def login_request(phone: int) -> Dict[str, Any]:
     return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
 
 @frappe.whitelist()
-def get_appointment_list(devoteee_profile_id:str=None,  darshan_type: str=None, workflow_state:str=None,  limit_start=0, limit_page_length=10 ) :
-    
-    return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  darshan_type=darshan_type, workflow_state=workflow_state, limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=True )
-
-
+@_ensure_role(PROFILE_ROLE)
+def get_appointment_list(
+    devoteee_profile_id: Optional[str] = None,
+    darshan_type: Optional[str] = None,
+    workflow_state: Optional[str] = None,
+    limit_start: int = 0,
+    limit_page_length: int = 10,
+):
+    return _get_appointment_list(
+        devoteee_profile_id=devoteee_profile_id,
+        darshan_type=darshan_type,
+        workflow_state=workflow_state,
+        limit_start=limit_start,
+        limit_page_length=limit_page_length,
+        ignore_permissions=True,
+    )
 
 
 @frappe.whitelist()
-def get_appointment_stats( ):
+@_ensure_role(PROFILE_ROLE)
+def get_appointment_stats():
     return _get_appointment_stats(devoteee_profile_id=None, ignore_permissions=True)
-    
 
 
 @frappe.whitelist()
-def get_appointment(appointment_id:str ) :
-
-    return _get_appointment(devoteee_profile_id=None , appointment_id=appointment_id)
+@_ensure_role(PROFILE_ROLE)
+def get_appointment(appointment_id: str):
+    return _get_appointment(devoteee_profile_id=None, appointment_id=appointment_id)
 
 
 @frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
 def get_self_profile():
-    current_user_id = frappe.session.user
-    return frappe.get_doc(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+    current_user = frappe.session.user
+
+    return frappe.get_doc(PROFILE_TYPE, {"frappe_profile": current_user})
 
 
+def _apply_workflow_on_appointment(appointment_id: str, action: str) -> Dict[str, Any]:
 
-@frappe.whitelist()
-def apply_workflow_on_appointment(appointment_id:str, action: str):
-    
-    if not frappe.db.exists('Darshan Appointment', {'name': appointment_id}):
-        
-        return 'appointment_id ' + appointment_id + ' doesnot exist'
-        
-    appointment_doc = frappe.get_doc('Darshan Appointment', appointment_id)
-      
-    apply_workflow(appointment_doc, action)  # must match your workflow Action name
-        
-    return  {'appointment_id': appointment_id, 'workflow_state': appointment_doc.workflow_state}
+    if not _appointment_exists(appointment_id):
+        return {"error": "not_found", "message": f"appointment_id '{appointment_id}' does not exist"}
 
+    # use get_doc to fetch; will raise if problem — that bubble up as exception handled by frappe framework
+    appointment_doc = frappe.get_doc("Darshan Appointment", appointment_id)
 
-@frappe.whitelist()
-def approve_appointment(appointment_id:str):
-    return apply_workflow_on_appointment(appointment_id=appointment_id, action='Approve')
+    # apply_workflow mutates appointment_doc
+    apply_workflow(appointment_doc, action)
+
+    return {"appointment_id": appointment_id, "workflow_state": appointment_doc.workflow_state}
 
 
 @frappe.whitelist()
-def reject_appointment(appointment_id:str):
-    return apply_workflow_on_appointment(appointment_id=appointment_id, action='Reject')
+@_ensure_role(PROFILE_ROLE)
+def approve_appointment(appointment_id: str):
+    return _apply_workflow_on_appointment(appointment_id=appointment_id, action="Approve")
+
+
+@frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
+def reject_appointment(appointment_id: str):
+    return _apply_workflow_on_appointment(appointment_id=appointment_id, action="Reject")
