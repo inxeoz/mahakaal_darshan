@@ -95,13 +95,13 @@ def _apply_workflow_on_appointment(appointment_id: str, action: str) -> Dict[str
     # apply_workflow mutates appointment_doc
     apply_workflow(appointment_doc, action)
 
-    # if action == "Approve" :
+    if action == "Approve" :
         
-    #     darshan_companion_count = len(appointment_doc.darshan_companion)
+        darshan_companion_count = len(appointment_doc.darshan_companion)
         
-    #     str_date = appointment_doc.darshan_date.strftime("%Y-%m-%d")
+        str_date = appointment_doc.darshan_date.strftime("%Y-%m-%d")
         
-    #     update_slot_occupancy(slot_date=str_date, number_of_people= darshan_companion_count + 1, available_occupancy_name=appointment_doc.slot_name )
+        update_slot_occupancy(slot_date=str_date, number_of_people= darshan_companion_count + 1, slot_name=appointment_doc.slot_name )
 
 
     return {"appointment_id": appointment_id, "workflow_state": appointment_doc.workflow_state}
