@@ -19,6 +19,8 @@ from ..session_login.session_login import (
 
 from ..ensure_role import _ensure_role
 
+from ..vip_darshan_booking_slot.vip_darshan_booking_slot import update_slot_occupancy
+
 PROFILE_TYPE = "Darshan Approver Profile"
 PROFILE_ROLE = "Approver Role"
 
@@ -89,9 +91,18 @@ def _apply_workflow_on_appointment(appointment_id: str, action: str) -> Dict[str
 
     # use get_doc to fetch; will raise if problem — that bubble up as exception handled by frappe framework
     appointment_doc = frappe.get_doc("Darshan Appointment", appointment_id)
-
+    
     # apply_workflow mutates appointment_doc
     apply_workflow(appointment_doc, action)
+
+    # if action == "Approve" :
+        
+    #     darshan_companion_count = len(appointment_doc.darshan_companion)
+        
+    #     str_date = appointment_doc.darshan_date.strftime("%Y-%m-%d")
+        
+    #     update_slot_occupancy(slot_date=str_date, number_of_people= darshan_companion_count + 1, available_occupancy_name=appointment_doc.slot_name )
+
 
     return {"appointment_id": appointment_id, "workflow_state": appointment_doc.workflow_state}
 

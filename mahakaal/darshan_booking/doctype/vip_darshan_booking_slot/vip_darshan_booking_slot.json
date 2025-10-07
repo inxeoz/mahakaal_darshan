@@ -8,12 +8,13 @@
  "field_order": [
   "date_format",
   "slot_date",
+  "frappe_slot_date",
   "slot_1_section",
-  "slot1_available_occupancy",
+  "slot1",
   "section_break_atcp",
-  "slot2_available_occupancy",
+  "slot2",
   "section_break_jvfi",
-  "slot3_available_occupancy"
+  "slot3"
  ],
  "fields": [
   {
@@ -27,7 +28,7 @@
   {
    "fieldname": "date_format",
    "fieldtype": "Heading",
-   "label": "DD-MM-YYYY"
+   "label": "YYYY-MM-DD"
   },
   {
    "fieldname": "slot_1_section",
@@ -45,31 +46,37 @@
    "label": "slot 3"
   },
   {
+   "fieldname": "frappe_slot_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "frappe slot date"
+  },
+  {
    "default": "20",
-   "fieldname": "slot1_available_occupancy",
+   "fieldname": "slot3",
    "fieldtype": "Int",
-   "label": "slot1_available_occupancy",
+   "label": "slot3",
    "non_negative": 1
   },
   {
    "default": "20",
-   "fieldname": "slot2_available_occupancy",
+   "fieldname": "slot2",
    "fieldtype": "Int",
-   "label": "slot2_available_occupancy",
+   "label": "slot2",
    "non_negative": 1
   },
   {
    "default": "20",
-   "fieldname": "slot3_available_occupancy",
+   "fieldname": "slot1",
    "fieldtype": "Int",
-   "label": "slot2_available_occupancy",
+   "label": "slot1",
    "non_negative": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-07 23:20:28.645503",
+ "modified": "2025-10-08 03:19:44.153424",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Vip Darshan Booking Slot",

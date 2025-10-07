@@ -19,9 +19,9 @@ def get_slot_occupancy_info(slot_date: str):
 
     return {
             "slot_date": slot_doc.slot_date,
-            "slot1_available_occupancy": slot_doc.slot1_available_occupancy,
-            "slot2_available_occupancy": slot_doc.slot2_available_occupancy,
-            "slot3_available_occupancy": slot_doc.slot3_available_occupancy
+            "slot1": slot_doc.slot1,
+            "slot2": slot_doc.slot2,
+            "slot3": slot_doc.slot3
         }
 
 
@@ -34,7 +34,7 @@ def _create_slot(slot_date:str):
         slot_doc = frappe.get_doc(SLOT_DOC_TYPE, slot_id)
         return slot_doc
 
-    slot_doc = frappe.new_doc({
+    slot_doc = frappe.get_doc({
         "doctype": SLOT_DOC_TYPE,
         "slot_date": slot_date
     })

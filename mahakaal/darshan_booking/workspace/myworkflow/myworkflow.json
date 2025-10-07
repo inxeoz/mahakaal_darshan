@@ -1,7 +1,7 @@
 {
  "app": "frappe",
  "charts": [],
- "content": "[{\"id\":\"tBYwIAFs5m\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MyworkFlow</span>\",\"col\":12}},{\"id\":\"KwkddXLUR5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Devoteee Profile\",\"col\":3}},{\"id\":\"Ho_qgmyhtE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Attender Profile\",\"col\":3}},{\"id\":\"7_IWN2DqSS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Approver Profile\",\"col\":3}},{\"id\":\"J_Z7xvuBdo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"empNkocbqb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Session Login\",\"col\":3}},{\"id\":\"uODB64LYlm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vip Darshan Booking Slot\",\"col\":3}},{\"id\":\"EKQcuSFCQP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"s7XpGRj38m\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workflow\",\"col\":3}},{\"id\":\"RnDg2qzphI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"User\",\"col\":3}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}}]",
+ "content": "[{\"id\":\"tBYwIAFs5m\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MyworkFlow</span>\",\"col\":12}},{\"id\":\"KwkddXLUR5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Devoteee Profile\",\"col\":3}},{\"id\":\"Ho_qgmyhtE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Attender Profile\",\"col\":3}},{\"id\":\"7_IWN2DqSS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Approver Profile\",\"col\":3}},{\"id\":\"J_Z7xvuBdo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"empNkocbqb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Session Login\",\"col\":3}},{\"id\":\"uODB64LYlm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vip Darshan Booking Slot\",\"col\":3}},{\"id\":\"EKQcuSFCQP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"s7XpGRj38m\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workflow\",\"col\":3}},{\"id\":\"RnDg2qzphI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"User\",\"col\":3}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}},{\"id\":\"e1bU6KSKka\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vip Darshan Booking Slot\",\"col\":3}}]",
  "creation": "2025-09-26 16:41:19.235403",
  "custom_blocks": [],
  "docstatus": 0,
@@ -15,7 +15,7 @@
  "label": "MyworkFlow",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-10-07 23:02:01.043504",
+ "modified": "2025-10-08 02:38:34.435983",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "MyworkFlow",
@@ -30,16 +30,16 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Doctype",
-   "link_to": "DocType",
+   "label": "Vip Darshan Booking Slot",
+   "link_to": "Vip Darshan Booking Slot",
    "stats_filter": "[]",
    "type": "DocType"
   },
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Vip Darshan Booking Slot",
-   "link_to": "Vip Darshan Booking Slot",
+   "label": "Doctype",
+   "link_to": "DocType",
    "stats_filter": "[]",
    "type": "DocType"
   },

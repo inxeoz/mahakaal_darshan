@@ -17,6 +17,7 @@
   "section_break_frkb",
   "darshan_type",
   "darshan_with_protocol",
+  "slot_name",
   "section_break_fbpu",
   "protocol_rank",
   "government_authority_letter",
@@ -125,13 +126,18 @@
    "fieldname": "attender",
    "fieldtype": "Data",
    "label": "Attender"
+  },
+  {
+   "fieldname": "slot_name",
+   "fieldtype": "Data",
+   "label": "slot_name"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-08 00:15:36.876685",
+ "modified": "2025-10-08 02:31:32.136727",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",
