@@ -10,7 +10,7 @@ from frappe.model.workflow import apply_workflow
 from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment, _create_appointment, _get_appointment_stats
 
 
-from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request
+from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request, _create_profile
 
 
 @frappe.whitelist()   # makes the function callable from frontend
@@ -41,32 +41,11 @@ def login_request(phone: int):
     return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
 
+
 @frappe.whitelist(allow_guest=True)
 def create_devoteee_user(phone:int):
     
-    nomail = _phone_to_nomail(phone)
-
-    user_id = frappe.db.exists('User', {'email': nomail})
-
-    if not user_id:
-        user_doc = _create_user(phone, role_name='Devoteee Role')
-    
-    
-    profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile': nomail})
-    
-    if profile_id:
-        return {'err' : 'User exist' }
-
-    profile = frappe.get_doc({
-        'doctype': PROFILE_TYPE,
-        'phone': phone,
-        'frappe_profile' : nomail
-    })
-    
-    profile.insert(ignore_permissions=True)
-    frappe.db.commit()
-    
-    return {'res' : 'user created successfully'}
+   return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name='Devoteee Role')
     
 
 
@@ -132,8 +111,6 @@ def get_appointment_list( darshan_type: str=None, workflow_state:str=None,  limi
         
         return {'err' : 'can;t get appointment list user not exist'}
 
-
-    
     return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  darshan_type=darshan_type, workflow_state=workflow_state, limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=True )
 
 

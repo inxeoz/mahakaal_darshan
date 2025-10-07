@@ -106,83 +106,29 @@ def _login_request(phone: int, profile_type:str):
     return {'res': 'login using temp password that is sent to your number'}
 
 
-# # @frappe.whitelist()
-# # def _is_profile_exist(phone:str, profile_type:str):
-    
-# #     profile_id = frappe.db.exists(profile_type, {'phone': phone})
-# #     return profile_id
 
+def _create_profile(phone:int, profile_type:str, role_name:str):
+    
+    nomail = _phone_to_nomail(phone)
 
-# def _get_unique_new_token_for_active_session(token_type:str):
-    
-#     new_token = secrets.token_hex(16)
-    
-#     token_exist = frappe.db.exists('Active Session', {token_type: new_token})
-#     if token_exist:
-#             new_token = secrets.token_hex(16) + secrets.token_hex(2)
-#     return new_token
+    user_id = frappe.db.exists('User', {'email': nomail})
 
-# @frappe.whitelist()
-# def login_request(phone:int, profile_type:str):
+    if not user_id:
+        user_doc = _create_user(phone, role_name=role_name)
     
-#     profile_id = _is_profile_exist(phone=phone, profile_type=profile_type)
+    
+    profile_id = frappe.db.exists(profile_type, {'frappe_profile': nomail})
+    
+    if profile_id:
+        return {'err' : 'User exist' }
 
-#     if profile_id is None:
-#          return {'err' : 'connect ' + profile_type + ' profile not exist '} 
-     
-
-#     ### after checks succsess profile exist create token unique and otp    
-#     new_session_token = _get_unique_new_token_for_active_session('session_token')
-#     new_login_token = _get_unique_new_token_for_active_session('login_token')
-#     new_otp = secrets.token_hex(2)
+    profile = frappe.get_doc({
+        'doctype': profile_type,
+        'phone': phone,
+        'frappe_profile' : nomail
+    })
     
-        
-#     new_session = frappe.get_doc({
-#         'doctype': 'Active Session',
-  
-#         'session_token': new_session_token,
-#         'login_token': new_login_token,
-  
-#         'profile_type' : profile_type,
-#         'profile_id' : profile_id,
-  
-  
-#         'phone' : phone,
-#         'otp' : new_otp,
-#     })
+    profile.insert(ignore_permissions=True)
+    frappe.db.commit()
     
-#     new_session.insert()
-#     frappe.db.commit()
-    
-#     return  {'login_token': new_login_token}
-
-# @frappe.whitelist()
-# def _verify_login_token_and_get_session_token(login_token:str, otp:str):
-    
-#     active_session_id = frappe.db.exists('Active Session', {'login_token': login_token, 'otp' : otp})
-    
-#     if active_session_id :
-#         active_session = frappe.get_doc('Active Session', active_session_id)
-        
-#         # active_session.login_token = '' lets not remove it for testing
-#         active_session.save()
-        
-#         return {'session_token' : active_session.session_token}
-    
-#     return {'err' : 'incorrect credentials'}  # or some status
-
-# @frappe.whitelist()    
-# def session_token_to_profile_id(session_token:str):
-    
-#     active_session_id = frappe.db.exists('Active Session', {'session_token': session_token})
-    
-#     if active_session_id :
-#         active_session = frappe.get_doc('Active Session', active_session_id)
-        
-        
-#         return {'profile_id' : active_session.profile_id, 'profile_type' : active_session.profile_type }
-    
-#     return {'err' : 'incorrect credentials'}  # or some status
-    
-
-
+    return {'res' : profile_type + ' user created successfully'}
