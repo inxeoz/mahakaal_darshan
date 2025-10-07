@@ -21,7 +21,7 @@ class DarshanAttenderProfile(Document):
 PROFILE_TYPE="Darshan Attender Profile"
 
 @frappe.whitelist()
-def create_approver(phone:int):
+def create_attender(phone:int):
     
    return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name='Attender Role')
     
