@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:slot_date",
  "creation": "2025-10-07 20:02:39.601376",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -8,11 +9,11 @@
   "date_format",
   "slot_date",
   "slot_1_section",
-  "slot1_booked_count",
+  "slot1_available_occupancy",
   "section_break_atcp",
-  "slot2_booked_count",
+  "slot2_available_occupancy",
   "section_break_jvfi",
-  "slot2_booked_count_copy"
+  "slot3_available_occupancy"
  ],
  "fields": [
   {
@@ -34,23 +35,9 @@
    "label": "slot 1"
   },
   {
-   "fieldname": "slot1_booked_count",
-   "fieldtype": "Int",
-   "label": "slot1_booked_count",
-   "non_negative": 1,
-   "read_only": 1
-  },
-  {
    "fieldname": "section_break_atcp",
    "fieldtype": "Section Break",
    "label": "slot 2"
-  },
-  {
-   "fieldname": "slot2_booked_count",
-   "fieldtype": "Int",
-   "label": "slot2_booked_count",
-   "non_negative": 1,
-   "read_only": 1
   },
   {
    "fieldname": "section_break_jvfi",
@@ -58,20 +45,35 @@
    "label": "slot 3"
   },
   {
-   "fieldname": "slot2_booked_count_copy",
+   "default": "20",
+   "fieldname": "slot1_available_occupancy",
    "fieldtype": "Int",
-   "label": "slot3_booked_count",
-   "non_negative": 1,
-   "read_only": 1
+   "label": "slot1_available_occupancy",
+   "non_negative": 1
+  },
+  {
+   "default": "20",
+   "fieldname": "slot2_available_occupancy",
+   "fieldtype": "Int",
+   "label": "slot2_available_occupancy",
+   "non_negative": 1
+  },
+  {
+   "default": "20",
+   "fieldname": "slot3_available_occupancy",
+   "fieldtype": "Int",
+   "label": "slot2_available_occupancy",
+   "non_negative": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-07 20:20:30.991347",
+ "modified": "2025-10-07 23:20:28.645503",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Vip Darshan Booking Slot",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
