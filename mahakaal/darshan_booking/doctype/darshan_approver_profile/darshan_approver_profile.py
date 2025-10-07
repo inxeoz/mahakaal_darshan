@@ -29,9 +29,6 @@ def create_approver(phone:int):
 
 @frappe.whitelist(allow_guest=True)
 def login_request(phone: int):
-    
-    PROFILE_TYPE = PROFILE_TYPE
-    
     return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
 
@@ -57,8 +54,8 @@ def get_appointment(appointment_id:str ) :
 
 @frappe.whitelist()
 def get_self_profile():
-
-    return frappe.get_doc(profile_id=admin_profile_id, profile_type=PROFILE_TYPE)
+    current_user_id = frappe.session.user
+    return frappe.get_doc(PROFILE_TYPE, {'frappe_profile' : current_user_id})
 
 
 
