@@ -106,7 +106,7 @@ def _create_profile(phone:int, profile_type:str, role_name:str):
 
     user_doc = _create_user(phone)
 
-    roles_set = {"Devotee Role", "Approver Role", "Attender Role"}  # Use a set for O(1) membership checks
+    roles_set = {"Devoteee Role", "Approver Role", "Attender Role"}
     
     user_roles = set(frappe.get_roles(user_doc.name))  # Convert user roles to set once
 

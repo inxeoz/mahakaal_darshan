@@ -101,8 +101,8 @@ def create_appointment(info: dict):
 
 
 
-@_ensure_role(PROFILE_ROLE)
 @frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
 def get_appointment_list( darshan_type: str=None, workflow_state:str=None,  limit_start=0, limit_page_length=10 ) :
     
     current_user_id = frappe.session.user

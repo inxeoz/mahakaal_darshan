@@ -19,6 +19,7 @@ class DarshanAttenderProfile(Document):
 
 
 PROFILE_TYPE="Darshan Attender Profile"
+PROFILE_ROLE = "Attender Role"
 
 @frappe.whitelist()
 def create_attender(phone:int):
