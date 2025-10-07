@@ -6,7 +6,7 @@ import frappe
 from frappe.model.document import Document
 from frappe.model.workflow import apply_workflow
 
-from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment
+from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment,_get_appointment_stats
 from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request, _create_profile
 
 
@@ -71,3 +71,13 @@ def apply_workflow_on_appointment(appointment_id:str, action: str):
     apply_workflow(appointment_doc, action)  # must match your workflow Action name
         
     return  {'appointment_id': appointment_id, 'workflow_state': appointment_doc.workflow_state}
+
+
+@frappe.whitelist()
+def approve_appointment(appointment_id:str):
+    return apply_workflow_on_appointment(appointment_id=appointment_id, action='Approve')
+
+
+@frappe.whitelist()
+def reject_appointment(appointment_id:str):
+    return apply_workflow_on_appointment(appointment_id=appointment_id, action='Reject')
