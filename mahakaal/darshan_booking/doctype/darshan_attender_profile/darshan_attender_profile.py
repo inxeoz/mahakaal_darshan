@@ -8,7 +8,7 @@ import frappe
 # import frappe
 from frappe.model.document import Document
 
-from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request
+from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request, _create_profile
 
 
 class DarshanAttenderProfile(Document):
@@ -19,6 +19,13 @@ class DarshanAttenderProfile(Document):
 
 
 PROFILE_TYPE="Darshan Attender Profile"
+
+@frappe.whitelist()
+def create_approver(phone:int):
+    
+   return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name='Attender Role')
+    
+
 
 
 @frappe.whitelist(allow_guest=True)

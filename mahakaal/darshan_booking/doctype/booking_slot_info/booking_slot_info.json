@@ -1,0 +1,63 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-10-07 20:21:17.323103",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "vip_darshan_slot_section",
+  "vip_darshan_slot_info",
+  "bhasm_arti_darshan_slot_section",
+  "bhasm_arti_slot"
+ ],
+ "fields": [
+  {
+   "fieldname": "vip_darshan_slot_section",
+   "fieldtype": "Section Break",
+   "label": "Vip Darshan"
+  },
+  {
+   "fieldname": "vip_darshan_slot_info",
+   "fieldtype": "Table",
+   "label": "vip darshan slot info",
+   "options": "Booking Slot Child"
+  },
+  {
+   "fieldname": "bhasm_arti_darshan_slot_section",
+   "fieldtype": "Section Break",
+   "label": "bhasm arti"
+  },
+  {
+   "fieldname": "bhasm_arti_slot",
+   "fieldtype": "Table",
+   "label": "bhasm arti slot",
+   "options": "Booking Slot Child"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-10-07 21:45:47.034626",
+ "modified_by": "Administrator",
+ "module": "darshan-booking",
+ "name": "Booking Slot Info",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
