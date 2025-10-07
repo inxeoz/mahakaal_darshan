@@ -14,7 +14,16 @@ SLOT_CAPCITY=20
 
 @frappe.whitelist(allow_guest=True)
 def get_slot_occupancy_info(slot_date: str):
-    return _create_slot(slot_date=slot_date)
+    
+    slot_doc =  _create_slot(slot_date=slot_date)
+
+    return {
+            "slot_date": slot_doc.slot_date,
+            "slot1_available_occupancy": slot_doc.slot1_available_occupancy,
+            "slot2_available_occupancy": slot_doc.slot2_available_occupancy,
+            "slot3_available_occupancy": slot_doc.slot3_available_occupancy
+        }
+
 
 
 def _create_slot(slot_date:str):
