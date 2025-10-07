@@ -87,10 +87,13 @@ def _get_appointment( devoteee_profile_id:str, appointment_id:str) :
     return appointment
 
 
-def _get_appointment_list_by_darshan_type(devoteee_profile_id: str, darshan_type: str, workflow_state:str, ignore_permissions:bool, limit_start=0, limit_page_length=10 ):
+def _get_appointment_list(devoteee_profile_id: str, darshan_type: str, workflow_state:str, ignore_permissions:bool, limit_start=0, limit_page_length=10 ):
     
     
-    filters = {'darshan_type': darshan_type }
+    filters = { }
+
+    if darshan_type:
+        filters['darshan_type'] = darshan_type
 
     if devoteee_profile_id :
         filters['devoteee_profile'] = devoteee_profile_id
@@ -111,7 +114,7 @@ def _get_appointment_list_by_darshan_type(devoteee_profile_id: str, darshan_type
         
     )
     
-    return   darshan_type_appointments
+    return  darshan_type_appointments
 
 
 
