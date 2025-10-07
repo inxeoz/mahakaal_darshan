@@ -45,6 +45,7 @@ def _create_user(phone:str, role_name: str = None) :
     user_id = frappe.db.exists('User', {'email' : nomail} )
     
     if user_id:
+
         user_doc = frappe.get_doc('User', user_id)
         return user_doc
 
@@ -60,15 +61,7 @@ def _create_user(phone:str, role_name: str = None) :
         
     })
 
-
-    if role_name:
-        user_doc.append("roles", {
-                "doctype": "Has Role",
-                "role": role_name
-            })
-
     user_doc.insert(ignore_permissions = True)
-
     frappe.db.commit()
     
     return user_doc
@@ -111,11 +104,15 @@ def _create_profile(phone:int, profile_type:str, role_name:str):
     
     nomail = _phone_to_nomail(phone)
 
-    user_id = frappe.db.exists('User', {'email': nomail})
+    user_doc = _create_user(phone, role_name=role_name)
 
-    if not user_id:
-        user_doc = _create_user(phone, role_name=role_name)
-    
+
+    if not role_name in frappe.get_roles(user_doc.name) and role_name:
+
+        user_doc.append('roles', {'doctype': 'Has Role', 'role': role_name})
+        user_doc.save(ignore_permissions=True)
+        frappe.db.commit()
+
     
     profile_id = frappe.db.exists(profile_type, {'frappe_profile': nomail})
     
