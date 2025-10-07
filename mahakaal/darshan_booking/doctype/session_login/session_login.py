@@ -38,7 +38,7 @@ def get_current_session_info():
 def _phone_to_nomail(phone: int) :
     return f"{phone}@nomail.com"
 
-def _create_user(phone:str, role_name: str = None) :
+def _create_user(phone:str) :
     
     nomail = _phone_to_nomail(phone)
     
@@ -104,14 +104,23 @@ def _create_profile(phone:int, profile_type:str, role_name:str):
     
     nomail = _phone_to_nomail(phone)
 
-    user_doc = _create_user(phone, role_name=role_name)
+    user_doc = _create_user(phone)
+
+    roles_set = {"Devotee Role", "Approver Role", "Attender Role"}  # Use a set for O(1) membership checks
+    
+    user_roles = set(frappe.get_roles(user_doc.name))  # Convert user roles to set once
 
 
-    if not role_name in frappe.get_roles(user_doc.name) and role_name:
+    restricted_roles = roles_set - {role_name}  # set difference excludes current role
+    if user_roles.intersection(restricted_roles):
+        return f"cant create {profile_type} , user have restricted role"
 
+    # Only add the role if user doesn't already have it
+    if role_name not in user_roles:
         user_doc.append('roles', {'doctype': 'Has Role', 'role': role_name})
         user_doc.save(ignore_permissions=True)
         frappe.db.commit()
+
 
     
     profile_id = frappe.db.exists(profile_type, {'frappe_profile': nomail})

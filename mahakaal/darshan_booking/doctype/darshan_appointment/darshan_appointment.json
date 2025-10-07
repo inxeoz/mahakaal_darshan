@@ -31,17 +31,20 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Devoteee Profile",
-   "options": "Darshan Devoteee Profile"
+   "options": "Darshan Devoteee Profile",
+   "reqd": 1
   },
   {
    "fieldname": "darshan_date",
    "fieldtype": "Date",
-   "label": "Darshan Date"
+   "label": "Darshan Date",
+   "reqd": 1
   },
   {
    "fieldname": "darshan_time",
    "fieldtype": "Time",
-   "label": "Darshan Time"
+   "label": "Darshan Time",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_lsyb",
@@ -128,7 +131,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-06 01:59:25.337412",
+ "modified": "2025-10-08 00:15:36.876685",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",
@@ -156,7 +159,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Darshan Approver Role",
+   "role": "Approver Role",
    "share": 1,
    "write": 1
   }
