@@ -15,16 +15,7 @@ SLOT_CAPCITY=20
 @frappe.whitelist(allow_guest=True)
 def get_slot_occupancy_info(slot_date: str):
     
-    slot_doc =  _create_slot(slot_date=slot_date)
-
-    return {
-            "slot_date": slot_doc.slot_date,
-            "slot1": slot_doc.slot1,
-            "slot2": slot_doc.slot2,
-            "slot3": slot_doc.slot3
-        }
-
-
+    return _create_slot(slot_date=slot_date) 
 
 def _create_slot(slot_date:str):
     
@@ -32,34 +23,67 @@ def _create_slot(slot_date:str):
 
     if slot_id:
         slot_doc = frappe.get_doc(SLOT_DOC_TYPE, slot_id)
-        return slot_doc
+    else:
+        slot_doc = frappe.get_doc({
+            "doctype": SLOT_DOC_TYPE,
+            "slot_date": slot_date,
+            "slots": [
+                {"slot_name": "slot1", "slot_start_time": "12:00:00", "slot_end_time": "12:30:00", "slot_capacity": 20},
+                {"slot_name": "slot2", "slot_start_time": "12:30:00", "slot_end_time": "13:00:00", "slot_capacity": 20},
+                {"slot_name": "slot3", "slot_start_time": "13:00:00", "slot_end_time": "13:30:00", "slot_capacity": 20},
+                {"slot_name": "slot4", "slot_start_time": "13:30:00", "slot_end_time": "14:00:00", "slot_capacity": 20},
+            ]
+        })
+        slot_doc.insert(ignore_permissions=True)
+        frappe.db.commit()
+      # Return only filtered slot details
+    slot_details = [
+        {
+            "slot_name": slot.slot_name,
+            "slot_start_time": slot.slot_start_time,
+            "slot_end_time": slot.slot_end_time,
+            "slot_capacity": slot.slot_capacity
+        }
+        for slot in slot_doc.slots
+    ]
 
-    slot_doc = frappe.get_doc({
-        "doctype": SLOT_DOC_TYPE,
-        "slot_date": slot_date
-    })
+    return slot_details
 
-    slot_doc.insert(ignore_permissions=True)
-    frappe.db.commit()
-
-    return slot_doc
 
 @frappe.whitelist(allow_guest=True)
-def update_slot_occupancy(slot_date: str, number_of_people: int, available_occupancy_name:str):
-    
-    slot_doc = _create_slot(slot_date=slot_date)
+def update_slot_occupancy(slot_date: str, number_of_people: int, slot_name: str):
 
-    availble_occupancy = getattr(slot_doc, available_occupancy_name, None)
+    # Ensure slot document exists (creates one if missing)
+    slot_id = frappe.db.exists(SLOT_DOC_TYPE, {"slot_date": slot_date})
+    if slot_id:
+        slot_doc = frappe.get_doc(SLOT_DOC_TYPE, slot_id)
+    else:
+        slot_doc = _create_slot(slot_date)  # this will create and return doc
+        slot_doc = frappe.get_doc(SLOT_DOC_TYPE, {"slot_date": slot_date})
 
-    if availble_occupancy - number_of_people < 0  :
+    # Find the slot we need to update
+    target_slot = next((s for s in slot_doc.slots if s.slot_name == slot_name), None)
 
-        return 'Not enough capacity'
-        
-        
-    
-    setattr(slot_doc, available_occupancy_name, availble_occupancy - number_of_people)
+    print(f"losts", target_slot)
 
+    if not target_slot:
+        return {"error": f"Slot '{slot_name}' not found on {slot_date}"}
+
+    # Check capacity
+    if target_slot.slot_capacity - number_of_people < 0:
+        return {"error": "Not enough capacity"}
+
+    # Update slot capacity
+    target_slot.slot_capacity -= number_of_people
+
+    # Save changes
     slot_doc.save(ignore_permissions=True)
     frappe.db.commit()
 
-    return slot_doc
+    # Return updated slot info
+    return {
+        "message": "Slot occupancy updated successfully",
+        "slot_name": target_slot.slot_name,
+        "remaining_capacity": target_slot.slot_capacity,
+        "slot_date": slot_date
+    }

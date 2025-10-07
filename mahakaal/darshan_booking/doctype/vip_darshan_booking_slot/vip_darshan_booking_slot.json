@@ -9,12 +9,7 @@
   "date_format",
   "slot_date",
   "frappe_slot_date",
-  "slot_1_section",
-  "slot1",
-  "section_break_atcp",
-  "slot2",
-  "section_break_jvfi",
-  "slot3"
+  "slots"
  ],
  "fields": [
   {
@@ -31,52 +26,22 @@
    "label": "YYYY-MM-DD"
   },
   {
-   "fieldname": "slot_1_section",
-   "fieldtype": "Section Break",
-   "label": "slot 1"
-  },
-  {
-   "fieldname": "section_break_atcp",
-   "fieldtype": "Section Break",
-   "label": "slot 2"
-  },
-  {
-   "fieldname": "section_break_jvfi",
-   "fieldtype": "Section Break",
-   "label": "slot 3"
-  },
-  {
    "fieldname": "frappe_slot_date",
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "frappe slot date"
   },
   {
-   "default": "20",
-   "fieldname": "slot3",
-   "fieldtype": "Int",
-   "label": "slot3",
-   "non_negative": 1
-  },
-  {
-   "default": "20",
-   "fieldname": "slot2",
-   "fieldtype": "Int",
-   "label": "slot2",
-   "non_negative": 1
-  },
-  {
-   "default": "20",
-   "fieldname": "slot1",
-   "fieldtype": "Int",
-   "label": "slot1",
-   "non_negative": 1
+   "fieldname": "slots",
+   "fieldtype": "Table",
+   "label": "slots",
+   "options": "Booking Slot Child"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-08 03:19:44.153424",
+ "modified": "2025-10-08 03:41:24.329213",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Vip Darshan Booking Slot",
