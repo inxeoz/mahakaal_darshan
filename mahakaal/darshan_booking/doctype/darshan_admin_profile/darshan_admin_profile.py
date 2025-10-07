@@ -24,12 +24,13 @@ def login_request(phone: int):
     PROFILE_TYPE = "Darshan Admin Profile"
     
     return _login_request(phone=phone, profile_type=PROFILE_TYPE)
-
+    
 
 @frappe.whitelist()
-def get_appointment_list(limit_start=0, limit_page_length=10) :
+def get_appointment_list(devoteee_profile_id:str=None,  darshan_type: str=None, workflow_state:str=None,  limit_start=0, limit_page_length=10 ) :
     
-    return _get_appointment_list( devoteee_profile_id=None, limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=False )
+    return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  darshan_type=darshan_type, workflow_state=workflow_state, limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=True )
+
 
 
 

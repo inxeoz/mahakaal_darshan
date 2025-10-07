@@ -119,7 +119,7 @@ def _get_appointment_list(devoteee_profile_id: str, darshan_type: str, workflow_
 
 
 
-def _get_appointment_stats(devoteee_profile_id: str, ignore_permissions:bool, limit_start=0, limit_page_length=10, ):
+def _get_appointment_stats(devoteee_profile_id: str, ignore_permissions:bool):
     
 
         

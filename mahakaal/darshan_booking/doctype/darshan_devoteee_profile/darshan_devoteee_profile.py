@@ -7,7 +7,7 @@ from frappe.model.document import Document
 from frappe.model.workflow import apply_workflow
 
 
-from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment, _create_appointment
+from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment, _create_appointment, _get_appointment_stats
 
 
 from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request
@@ -137,6 +137,20 @@ def get_appointment_list( darshan_type: str=None, workflow_state:str=None,  limi
     return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  darshan_type=darshan_type, workflow_state=workflow_state, limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=True )
 
 
+@frappe.whitelist()
+def get_appointment_stats( ):
+
+    current_user_id = frappe.session.user
+    
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    if not devoteee_profile_id:
+        
+        return {'err' : 'can;t get appointment list user not exist'}
+
+    return _get_appointment_stats(devoteee_profile_id=devoteee_profile_id, ignore_permissions=True)
+    
+    
 
 @frappe.whitelist()
 def get_appointment(appointment_id:str ) :
