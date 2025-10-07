@@ -12,6 +12,8 @@ from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _g
 
 from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request, _create_profile
 
+from ..ensure_role import _ensure_role
+
 
 @frappe.whitelist()   # makes the function callable from frontend
 def test_server_action(doc):
@@ -25,7 +27,7 @@ class DarshanDevoteeeProfile(Document):
 
 
 PROFILE_TYPE="Darshan Devoteee Profile"
-
+PROFILE_ROLE = "Devoteee Role"
 
 
 
@@ -35,8 +37,6 @@ import traceback
 
 @frappe.whitelist(allow_guest=True)
 def login_request(phone: int):
-    
-    PROFILE_TYPE = "Darshan Devoteee Profile"
     
     return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
@@ -51,6 +51,7 @@ def create_devoteee_user(phone:int):
 
 
 @frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
 def update_profile(info: dict):
     
     current_user_id = frappe.session.user
@@ -84,6 +85,7 @@ def update_profile(info: dict):
     return 'update success'
 
 @frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
 def create_appointment(info: dict):
     
             
@@ -99,7 +101,7 @@ def create_appointment(info: dict):
 
 
 
-
+@_ensure_role(PROFILE_ROLE)
 @frappe.whitelist()
 def get_appointment_list( darshan_type: str=None, workflow_state:str=None,  limit_start=0, limit_page_length=10 ) :
     
@@ -115,6 +117,7 @@ def get_appointment_list( darshan_type: str=None, workflow_state:str=None,  limi
 
 
 @frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
 def get_appointment_stats( ):
 
     current_user_id = frappe.session.user
@@ -130,6 +133,7 @@ def get_appointment_stats( ):
     
 
 @frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
 def get_appointment(appointment_id:str ) :
 
         
@@ -145,6 +149,7 @@ def get_appointment(appointment_id:str ) :
 
 
 @frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
 def get_profile():
     
     current_user_id = frappe.session.user
