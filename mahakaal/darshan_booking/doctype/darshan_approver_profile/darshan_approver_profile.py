@@ -37,7 +37,10 @@ def _appointment_exists(appointment_id: str) -> bool:
 @frappe.whitelist()
 @_ensure_role("Administrator")
 def create_approver(phone: int) -> Dict[str, Any]:
-    return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
+    
+    _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
+
+    return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
 
 @frappe.whitelist(allow_guest=True)

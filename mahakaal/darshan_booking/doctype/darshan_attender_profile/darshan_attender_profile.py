@@ -25,8 +25,10 @@ PROFILE_ROLE = "Attender Role"
 @frappe.whitelist()
 @_ensure_role("Administrator")
 def create_attender(phone:int):
-   return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
     
+    _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
+
+    return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
 
 
