@@ -1,143 +1,101 @@
-
-
 # Copyright (c) 2025, inx and contributors
 # For license information, please see license.txt
 
-import frappe
-from frappe.model.document import Document
-from frappe.model.workflow import apply_workflow
-
 import secrets
-
+import frappe
 from frappe.model.document import Document
 
 
 class SessionLogin(Document):
-	pass
+    pass
 
 
 @frappe.whitelist()
 def get_current_session_info():
-    # get current logged-in user (email/ID)
-    current_user = frappe.session.user
-
-    # fetch the User document
-    user_doc = frappe.get_doc("User", current_user)
-
-    # return their email field
+    u = frappe.get_doc("User", frappe.session.user)
     return {
-        "wh" : current_user,
-        "user": current_user,      # usually same as email, e.g. "john@example.com"
-        "email": user_doc.email,
-        "full_name": user_doc.full_name,
-        "mobile_no": user_doc.mobile_no
+        "wh": frappe.session.user,
+        "user": frappe.session.user,
+        "email": u.email,
+        "full_name": u.full_name,
+        "mobile_no": u.mobile_no
     }
 
 
+def _phone_to_nomail(phone):
+    return f"{str(phone)}@nomail.com"
 
-def _phone_to_nomail(phone: int) :
-    return f"{phone}@nomail.com"
 
-def _create_user(phone:str) :
-    
-    nomail = _phone_to_nomail(phone)
-    
-    user_id = frappe.db.exists('User', {'email' : nomail} )
-    
-    if user_id:
+def _create_user(phone):
+    email = _phone_to_nomail(phone)
+    exists = frappe.db.exists("User", {"email": email})
 
-        user_doc = frappe.get_doc('User', user_id)
-        return user_doc
+    if exists:
+        return frappe.get_doc("User", exists)
 
-    user_doc = frappe.get_doc({
+    u = frappe.get_doc({
         "doctype": "User",
-        "email": nomail,
-        "first_name": nomail,
+        "email": email,
+        "first_name": email,
         "enabled": 1,
-        "send_welcome_email": 0,  # Disable welcome email
+        "send_welcome_email": 0,
         "user_type": "System User",
-        "mobile_no" : phone,
-        "phone" : phone
-        
+        "mobile_no": phone,
+        "phone": phone
     })
 
-    user_doc.insert(ignore_permissions = True)
+    u.insert(ignore_permissions=True)
     frappe.db.commit()
-    
-    return user_doc
-    
 
-def _login_request(phone: int, profile_type:str):
-
-    nomail = _phone_to_nomail(phone)
-    
-    profile_id = frappe.db.exists(profile_type, {'frappe_profile': nomail})
-
-    if not profile_id:
-        return {'err': 'user not exist'}
+    return u
 
 
- 
-    user_doc = frappe.get_doc('User', nomail)
-    
-    # Generate temporary password
-    # temp_pwd = secrets.token_hex(8)
-    temp_pwd = 'A12345678Hz'
-    # user_doc.new_password = temp_pwd
-    user_doc.new_password = temp_pwd
-    
-            # ignore permissions to allow guest-call reset if appropriate; remove if not desired
-    user_doc.save(ignore_permissions=True)
+def _login_request(phone, profile_type):
+    email = _phone_to_nomail(phone)
 
+    if not frappe.db.exists(profile_type, {"frappe_profile": email}):
+        return {"err": "user not exist"}
 
-    session_login = frappe.get_doc({
-        'doctype': 'Session Login',
-        'user': nomail,
-        'pwd': temp_pwd,
-    })
-    session_login.insert(ignore_permissions=True)
+    u = frappe.get_doc("User", email)
+    pwd = secrets.token_hex(6)
+
+    u.new_password = pwd
+    u.save(ignore_permissions=True)
+
+    frappe.get_doc({
+        "doctype": "Session Login",
+        "user": email,
+        "pwd": pwd
+    }).insert(ignore_permissions=True)
 
     frappe.db.commit()
 
-    return {'res': 'login using temp password that is sent to your number'}
+    return {"res": "login using temp password that is sent to your number"}
 
 
+def _create_profile(phone, profile_type, role_name):
+    email = _phone_to_nomail(phone)
+    u = _create_user(phone)
 
-def _create_profile(phone:int, profile_type:str, role_name:str):
-    
-    nomail = _phone_to_nomail(phone)
+    restricted = {"Devoteee Role", "Approver Role", "Attender Role"} - {role_name}
+    user_roles = set(frappe.get_roles(u.name))
 
-    user_doc = _create_user(phone)
+    if user_roles & restricted:
+        return {"err": f"cant create {profile_type} , user have restricted role"}
 
-    roles_set = {"Devoteee Role", "Approver Role", "Attender Role"}
-    
-    user_roles = set(frappe.get_roles(user_doc.name))  # Convert user roles to set once
-
-
-    restricted_roles = roles_set - {role_name}  # set difference excludes current role
-    if user_roles.intersection(restricted_roles):
-        return f"cant create {profile_type} , user have restricted role"
-
-    # Only add the role if user doesn't already have it
     if role_name not in user_roles:
-        user_doc.append('roles', {'doctype': 'Has Role', 'role': role_name})
-        user_doc.save(ignore_permissions=True)
-        frappe.db.commit()
+        u.append("roles", {"doctype": "Has Role", "role": role_name})
+        u.save(ignore_permissions=True)
 
+    if frappe.db.exists(profile_type, {"frappe_profile": email}):
+        return {"err": "User exist"}
 
-    
-    profile_id = frappe.db.exists(profile_type, {'frappe_profile': nomail})
-    
-    if profile_id:
-        return {'err' : 'User exist' }
+    frappe.get_doc({
+        "doctype": profile_type,
+        "phone": phone,
+        "frappe_profile": email
+    }).insert(ignore_permissions=True)
 
-    profile = frappe.get_doc({
-        'doctype': profile_type,
-        'phone': phone,
-        'frappe_profile' : nomail
-    })
-    
-    profile.insert(ignore_permissions=True)
     frappe.db.commit()
-    
-    return {'res' : profile_type + ' user created successfully'}
+
+    return {"res": f"{profile_type} user created successfully"}
