@@ -1,7 +1,7 @@
 // Copyright (c) 2025, inx and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Vip Darshan Booking Slot", {
+// frappe.ui.form.on("Booking Slot", {
 // 	refresh(frm) {
 
 // 	},

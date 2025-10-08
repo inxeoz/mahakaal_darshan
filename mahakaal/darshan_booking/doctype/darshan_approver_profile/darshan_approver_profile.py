@@ -19,7 +19,7 @@ from ..session_login.session_login import (
 
 from ..ensure_role import _ensure_role
 
-from ..vip_darshan_booking_slot.vip_darshan_booking_slot import update_slot_occupancy
+from ..booking_slot.booking_slot import update_slot_occupancy
 
 PROFILE_TYPE = "Darshan Approver Profile"
 PROFILE_ROLE = "Approver Role"

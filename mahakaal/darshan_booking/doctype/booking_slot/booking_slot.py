@@ -5,12 +5,12 @@ import frappe
 from frappe.model.document import Document
 
 
-class VipDarshanBookingSlot(Document):
+class BookingSlot(Document):
     pass
 
 import datetime
 
-SLOT_DOC_TYPE = "Vip Darshan Booking Slot"
+SLOT_DOC_TYPE = "Booking Slot"
 
 SLOT_CAPCITY=20
 
