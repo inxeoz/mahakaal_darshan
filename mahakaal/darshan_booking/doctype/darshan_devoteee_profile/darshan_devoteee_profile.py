@@ -73,7 +73,7 @@ def update_profile(info: dict):
             devoteee_profile_doc.set(field, info[field])
 
     # Set is_ekyc_complete flag only once, avoid unnecessary repeated saves
-    if devoteee_profile_doc.aadhar and len(profile.aadhar) > 0:
+    if devoteee_profile_doc.aadhar and len(devoteee_profile_doc.aadhar) > 0:
         devoteee_profile_doc.is_ekyc_complete = 1
 
     # Save the profile document
