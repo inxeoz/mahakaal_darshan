@@ -45,9 +45,8 @@ def login_request(phone: int):
 @frappe.whitelist(allow_guest=True)
 def create_devoteee_user(phone:int):
     
-    _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
+    return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
 
-    return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
 
 @frappe.whitelist()

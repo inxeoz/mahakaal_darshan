@@ -57,7 +57,8 @@ def _login_request(phone, profile_type):
         return {"err": "user not exist"}
 
     u = frappe.get_doc("User", email)
-    pwd = secrets.token_hex(6)
+    # pwd = secrets.token_hex(6)
+    pwd = "Mpsedc123"
 
     u.new_password = pwd
     u.save(ignore_permissions=True)
