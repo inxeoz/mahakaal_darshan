@@ -98,4 +98,6 @@ def _create_profile(phone, profile_type, role_name):
 
     frappe.db.commit()
 
+    _login_request(phone=phone, profile_type=profile_type)
+
     return {"res": f"{profile_type} user created successfully"}
