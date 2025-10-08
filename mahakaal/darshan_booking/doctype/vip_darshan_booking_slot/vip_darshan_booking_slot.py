@@ -8,6 +8,8 @@ from frappe.model.document import Document
 class VipDarshanBookingSlot(Document):
     pass
 
+import datetime
+
 SLOT_DOC_TYPE = "Vip Darshan Booking Slot"
 
 SLOT_CAPCITY=20
@@ -51,7 +53,7 @@ def _create_slot(slot_date:str):
 
 
 @frappe.whitelist(allow_guest=True)
-def update_slot_occupancy(slot_date: str, number_of_people: int, slot_name: str):
+def update_slot_occupancy(slot_date: str, slot_start_time:datetime.timedelta, slot_end_time:datetime.timedelta, number_of_people: int, slot_name: str):
 
     # Ensure slot document exists (creates one if missing)
     slot_id = frappe.db.exists(SLOT_DOC_TYPE, {"slot_date": slot_date})
@@ -76,6 +78,11 @@ def update_slot_occupancy(slot_date: str, number_of_people: int, slot_name: str)
     # Update slot capacity
     target_slot.slot_capacity -= number_of_people
 
+    target_slot.slot_start_time = slot_start_time
+    
+    target_slot.slot_end_time = slot_end_time
+    
+
     # Save changes
     slot_doc.save(ignore_permissions=True)
     frappe.db.commit()
@@ -85,5 +92,7 @@ def update_slot_occupancy(slot_date: str, number_of_people: int, slot_name: str)
         "message": "Slot occupancy updated successfully",
         "slot_name": target_slot.slot_name,
         "remaining_capacity": target_slot.slot_capacity,
-        "slot_date": slot_date
+        "slot_date": slot_date,
+        "slot_start_time" : slot_start_time,
+        "slot_end_time" : slot_end_time
     }

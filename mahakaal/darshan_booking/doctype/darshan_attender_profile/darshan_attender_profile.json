@@ -9,7 +9,9 @@
  "field_order": [
   "phone",
   "attender_name",
-  "frappe_profile"
+  "frappe_profile",
+  "section_break_aord",
+  "schedule"
  ],
  "fields": [
   {
@@ -31,12 +33,22 @@
    "label": "frappe_profile",
    "options": "User",
    "reqd": 1
+  },
+  {
+   "fieldname": "section_break_aord",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "schedule",
+   "fieldtype": "Table",
+   "label": "schedule",
+   "options": "Attender Schedule Table"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-06 17:09:14.639328",
+ "modified": "2025-10-08 12:07:25.202022",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Attender Profile",
@@ -64,6 +76,7 @@
    "read": 1,
    "report": 1,
    "role": "Attender Role",
+   "select": 1,
    "share": 1,
    "write": 1
   }

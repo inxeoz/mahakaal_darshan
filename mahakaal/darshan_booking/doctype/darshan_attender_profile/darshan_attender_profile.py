@@ -9,7 +9,7 @@ import frappe
 from frappe.model.document import Document
 
 from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request, _create_profile
-
+from ..ensure_role import _ensure_role
 
 class DarshanAttenderProfile(Document):
 	pass
@@ -49,3 +49,33 @@ def get_profile():
         return {'err' : 'can;t get user not exist'}
 
     return {'profile': frappe.get_doc(PROFILE_TYPE, devoteee_profile_id) }
+
+
+@frappe.whitelist()
+def get_attenders(appointment_date: str, start_time: str, end_time: str, appointment_type: str):
+    # Fetch all parent IDs once
+    all_ids = set(frappe.get_all('Darshan Attender Profile', pluck='name'))
+
+    # Fetch matching schedule parents
+    have_match_ids = set(
+        s['parent'] for s in frappe.get_all(
+            'Attender Schedule Table',
+            filters={
+                'appointment_date': appointment_date,
+                'start_time': start_time,
+                'end_time': end_time,
+                'appointment_type': appointment_type
+            },
+            fields=['parent']
+        )
+    )
+
+    # Set difference gives IDs without matching schedules
+    no_match_ids = list(all_ids - have_match_ids)
+
+    # Return both if needed, or only no_match_ids based on usage
+    return {
+        "all_ids": list(all_ids),
+        "have_match_ids": list(have_match_ids),
+        "no_match_ids": no_match_ids
+    }

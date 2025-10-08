@@ -9,7 +9,6 @@
  "field_order": [
   "devoteee_profile",
   "darshan_date",
-  "darshan_time",
   "section_break_lsyb",
   "darshan_companion",
   "section_break_aysr",
@@ -18,6 +17,8 @@
   "darshan_type",
   "darshan_with_protocol",
   "slot_name",
+  "slot_start_time",
+  "slot_end_time",
   "section_break_fbpu",
   "protocol_rank",
   "government_authority_letter",
@@ -39,12 +40,6 @@
    "fieldname": "darshan_date",
    "fieldtype": "Date",
    "label": "Darshan Date",
-   "reqd": 1
-  },
-  {
-   "fieldname": "darshan_time",
-   "fieldtype": "Time",
-   "label": "Darshan Time",
    "reqd": 1
   },
   {
@@ -131,13 +126,23 @@
    "fieldname": "slot_name",
    "fieldtype": "Data",
    "label": "slot_name"
+  },
+  {
+   "fieldname": "slot_start_time",
+   "fieldtype": "Time",
+   "label": "slot_start_time"
+  },
+  {
+   "fieldname": "slot_end_time",
+   "fieldtype": "Time",
+   "label": "slot_end_time"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-08 02:31:32.136727",
+ "modified": "2025-10-08 12:44:35.910903",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",
