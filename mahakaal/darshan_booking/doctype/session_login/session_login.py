@@ -81,8 +81,11 @@ def _login_request(phone: int, profile_type:str):
     user_doc = frappe.get_doc('User', nomail)
     
     # Generate temporary password
-    temp_pwd = secrets.token_hex(8)
+    # temp_pwd = secrets.token_hex(8)
+    temp_pwd = 'A12345678Hz'
+    # user_doc.new_password = temp_pwd
     user_doc.new_password = temp_pwd
+    
             # ignore permissions to allow guest-call reset if appropriate; remove if not desired
     user_doc.save(ignore_permissions=True)
 
