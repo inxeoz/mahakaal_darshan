@@ -13,6 +13,7 @@ from ..ensure_role import _ensure_role
 from frappe.utils import get_time_str
 from datetime import timedelta
 from datetime import date
+import datetime
 
 class DarshanAttenderProfile(Document):
 	pass
@@ -56,14 +57,18 @@ def get_attenders(appointment_date: datetime.date, slot_start_time: timedelta, s
     # Fetch all parent IDs once
     all_ids = set(frappe.get_all('Darshan Attender Profile', pluck='name'))
 
+    slot_start_time_str = get_time_str(slot_start_time)
+    slot_end_time_str = get_time_str(slot_end_time)
+    appointment_date_str = appointment_date.strftime('%Y-%m-%d') 
+
     # Fetch matching schedule parents
     have_match_ids = set(
         s['parent'] for s in frappe.get_all(
             'Attender Schedule Table',
             filters={
-                'appointment_date': appointment_date,
-                'slot_start_time': slot_start_time,
-                'slot_end_time': slot_end_time,
+                'appointment_date': appointment_date_str,
+                'slot_start_time': slot_start_time_str,
+                'slot_end_time': slot_end_time_str,
                 'appointment_type': appointment_type
             },
             fields=['parent']
@@ -87,7 +92,7 @@ def _assign_attender(appointment_id:str):
 
     A = frappe.get_doc("Darshan Appointment", appointment_id)
 
-    attenders  = get_attenders(appointment_date=A.appointment_date, slot_start_time=A.slot_start_time, slot_end_time=A.slot_end_time, appointment_type=A.darshan_type)
+    attenders  = get_attenders(appointment_date=A.darshan_date, slot_start_time=A.slot_start_time, slot_end_time=A.slot_end_time, appointment_type=A.darshan_type)
 
     A.attender = attenders["no_match_ids"][0]
     
