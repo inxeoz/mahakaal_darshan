@@ -9,7 +9,12 @@
  "field_order": [
   "phone",
   "approver_name",
-  "frappe_profile"
+  "frappe_profile",
+  "gender",
+  "dob",
+  "email",
+  "aadhar",
+  "address"
  ],
  "fields": [
   {
@@ -31,12 +36,38 @@
    "fieldname": "approver_name",
    "fieldtype": "Data",
    "label": "approver name"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "gender",
+   "options": "male\nfemale\nnon-binary\nprefer-not-to-say"
+  },
+  {
+   "fieldname": "dob",
+   "fieldtype": "Date",
+   "label": "dob"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "email"
+  },
+  {
+   "fieldname": "aadhar",
+   "fieldtype": "Data",
+   "label": "aadhar"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "address"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-07 22:05:06.424771",
+ "modified": "2025-10-09 11:27:06.723703",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Approver Profile",
