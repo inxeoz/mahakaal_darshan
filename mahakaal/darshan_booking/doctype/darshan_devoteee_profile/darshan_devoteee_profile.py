@@ -149,7 +149,7 @@ def get_appointment(appointment_id:str ) :
 
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
-def get_profile():
+def get_self_profile():
     
     current_user_id = frappe.session.user
     
