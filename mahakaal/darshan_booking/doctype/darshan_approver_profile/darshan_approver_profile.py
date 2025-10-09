@@ -21,6 +21,8 @@ from ..ensure_role import _ensure_role
 
 from ..booking_slot.booking_slot import update_slot_occupancy
 
+from ..darshan_attender_profile.darshan_attender_profile import _assign_attender
+
 PROFILE_TYPE = "Darshan Approver Profile"
 PROFILE_ROLE = "Approver Role"
 
@@ -123,10 +125,14 @@ def _apply_workflow_on_appointment(appointment_id: str, action: str) -> Dict[str
     return {"appointment_id": appointment_id, "workflow_state": appointment_doc.workflow_state}
 
 
+
+    
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def approve_appointment(appointment_id: str):
-    return _apply_workflow_on_appointment(appointment_id=appointment_id, action="Approve")
+    
+     _apply_workflow_on_appointment(appointment_id=appointment_id, action="Approve")
+     return _assign_attender(appointment_id=appointment_id)
 
 
 @frappe.whitelist()

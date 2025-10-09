@@ -10,6 +10,9 @@ from frappe.model.document import Document
 
 from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request, _create_profile
 from ..ensure_role import _ensure_role
+from frappe.utils import get_time_str
+from datetime import timedelta
+from datetime import date
 
 class DarshanAttenderProfile(Document):
 	pass
@@ -21,9 +24,8 @@ class DarshanAttenderProfile(Document):
 PROFILE_TYPE="Darshan Attender Profile"
 PROFILE_ROLE = "Attender Role"
 
-
-@frappe.whitelist()
-@_ensure_role("Administrator")
+# @_ensure_role("Administrator")
+@frappe.whitelist(allow_guest=True)
 def create_attender(phone:int):
     return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
 
@@ -50,7 +52,7 @@ def get_profile():
 
 
 @frappe.whitelist()
-def get_attenders(appointment_date: str, start_time: str, end_time: str, appointment_type: str):
+def get_attenders(appointment_date: datetime.date, slot_start_time: timedelta, slot_end_time: timedelta, appointment_type: str):
     # Fetch all parent IDs once
     all_ids = set(frappe.get_all('Darshan Attender Profile', pluck='name'))
 
@@ -60,8 +62,8 @@ def get_attenders(appointment_date: str, start_time: str, end_time: str, appoint
             'Attender Schedule Table',
             filters={
                 'appointment_date': appointment_date,
-                'start_time': start_time,
-                'end_time': end_time,
+                'slot_start_time': slot_start_time,
+                'slot_end_time': slot_end_time,
                 'appointment_type': appointment_type
             },
             fields=['parent']
@@ -77,3 +79,20 @@ def get_attenders(appointment_date: str, start_time: str, end_time: str, appoint
         "have_match_ids": list(have_match_ids),
         "no_match_ids": no_match_ids
     }
+
+# delta = timedelta(hours=2, minutes=30)
+# time_str = get_time_str(delta)  # Outputs: "02:30:00"
+
+def _assign_attender(appointment_id:str):
+
+    A = frappe.get_doc("Darshan Appointment", appointment_id)
+
+    attenders  = get_attenders(appointment_date=A.appointment_date, slot_start_time=A.slot_start_time, slot_end_time=A.slot_end_time, appointment_type=A.darshan_type)
+
+    A.attender = attenders["no_match_ids"][0]
+    
+    A.save(ignore_permissions=True)
+    
+    frappe.db.commit()
+    
+    # appointment_date: str, start_time: str, end_time: str, appointment_type: str

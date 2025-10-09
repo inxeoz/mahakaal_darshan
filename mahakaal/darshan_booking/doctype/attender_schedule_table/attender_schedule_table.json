@@ -8,25 +8,11 @@
  "field_order": [
   "appointment_date",
   "appointment_type",
-  "start_time",
-  "end_time",
+  "slot_start_time",
+  "slot_end_time",
   "appointment"
  ],
  "fields": [
-  {
-   "fieldname": "start_time",
-   "fieldtype": "Time",
-   "in_list_view": 1,
-   "label": "start_time",
-   "reqd": 1
-  },
-  {
-   "fieldname": "end_time",
-   "fieldtype": "Time",
-   "in_list_view": 1,
-   "label": "end_time",
-   "reqd": 1
-  },
   {
    "fieldname": "appointment",
    "fieldtype": "Link",
@@ -49,13 +35,27 @@
    "label": "appointment_type",
    "options": "Vip Darshan\nShigra Darshan\nBhasm Arti\nLocalide Darshan",
    "reqd": 1
+  },
+  {
+   "fieldname": "slot_start_time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "slot_start_time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "slot_end_time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "slot_end_time",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-10-08 12:02:49.592743",
+ "modified": "2025-10-09 12:53:17.066393",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Attender Schedule Table",
