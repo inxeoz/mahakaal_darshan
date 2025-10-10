@@ -24,7 +24,8 @@
    "fieldname": "companion_phone",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "phone"
+   "label": "phone",
+   "length": 20
   },
   {
    "allow_in_quick_entry": 1,
@@ -44,7 +45,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-10-03 11:26:02.544814",
+ "modified": "2025-10-09 16:07:52.480761",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Companion",

@@ -101,3 +101,20 @@ def _assign_attender(appointment_id:str):
     frappe.db.commit()
     
     # appointment_date: str, start_time: str, end_time: str, appointment_type: str
+
+
+
+@frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
+def get_self_profile():
+    
+    current_user_id = frappe.session.user
+    
+    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    if not attender_profile_id:
+        
+        return {'err' : 'can;t get user not exist'}
+
+    return {'profile': frappe.get_doc(PROFILE_TYPE, attender_profile_id) }
+
