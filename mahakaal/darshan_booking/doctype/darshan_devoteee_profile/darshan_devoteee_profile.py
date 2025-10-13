@@ -143,8 +143,27 @@ def get_appointment(appointment_id:str ) :
     if not devoteee_profile_id:
         
         return {'err' : 'can;t get appointment user not exist'}
+
     
-    return _get_appointment(devoteee_profile_id=devoteee_profile_id , appointment_id=appointment_id)
+    devoteee_doc = frappe.get_doc(PROFILE_TYPE, devoteee_profile_id )
+
+    
+    appointment = _get_appointment(devoteee_profile_id=devoteee_profile_id , appointment_id=appointment_id)
+    
+    return {
+        "appointment_id" : appointment_id,
+        "devoteee_name" : devoteee_doc.devoteee_name,
+        "appointment_type" : appointment.darshan_type,
+        "slot_start_time" : appointment.slot_start_time,
+        "slot_end_time" : appointment.slot_end_time,
+        "workflow_state" : appointment.workflow_state,
+        "appointment_date" : appointment.darshan_date,
+        "with_protocol" : appointment.darshan_with_protocol,
+        "protocol_rank" : appointment.protocol_rank,
+        # "devoteee_profile_id" : devoteee_profile_id,
+        "companions" : appointment.darshan_companion,
+        "group_size" : len(appointment.darshan_companion) + 1
+    }
 
 
 @frappe.whitelist()
