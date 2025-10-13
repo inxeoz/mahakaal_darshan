@@ -5,32 +5,20 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "vip_darshan_slot_section",
   "vip_darshan_slot_info",
-  "bhasm_arti_darshan_slot_section",
-  "bhasm_arti_slot"
+  "bhasm_arti_slot_info"
  ],
  "fields": [
   {
-   "fieldname": "vip_darshan_slot_section",
-   "fieldtype": "Section Break",
-   "label": "Vip Darshan"
-  },
-  {
    "fieldname": "vip_darshan_slot_info",
    "fieldtype": "Table",
-   "label": "vip darshan slot info",
+   "label": "vip_darshan_slot_info",
    "options": "Booking Slot Child"
   },
   {
-   "fieldname": "bhasm_arti_darshan_slot_section",
-   "fieldtype": "Section Break",
-   "label": "bhasm arti"
-  },
-  {
-   "fieldname": "bhasm_arti_slot",
+   "fieldname": "bhasm_arti_slot_info",
    "fieldtype": "Table",
-   "label": "bhasm arti slot",
+   "label": "bhasm_arti_slot_info",
    "options": "Booking Slot Child"
   }
  ],
@@ -38,7 +26,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-10-07 21:45:47.034626",
+ "modified": "2025-10-13 12:29:47.282875",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Booking Slot Info",

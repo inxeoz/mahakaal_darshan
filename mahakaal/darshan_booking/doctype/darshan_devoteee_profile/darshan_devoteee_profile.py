@@ -155,6 +155,8 @@ def get_self_profile():
     
     devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
 
+    print(f"WWWWW {devoteee_profile_id}")
+
     if not devoteee_profile_id:
         
         return {'err' : 'can;t get user not exist'}

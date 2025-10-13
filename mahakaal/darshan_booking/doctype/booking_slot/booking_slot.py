@@ -26,15 +26,13 @@ def _create_slot(slot_date:str):
     if slot_id:
         slot_doc = frappe.get_doc(SLOT_DOC_TYPE, slot_id)
     else:
+        
+        vip_darshan_slot_info = frappe.get_doc('Booking Slot Info').vip_darshan_slot_info
+
         slot_doc = frappe.get_doc({
             "doctype": SLOT_DOC_TYPE,
             "slot_date": slot_date,
-            "slots": [
-                {"slot_name": "slot1", "slot_start_time": "12:00:00", "slot_end_time": "12:30:00", "slot_capacity": 20},
-                {"slot_name": "slot2", "slot_start_time": "12:30:00", "slot_end_time": "13:00:00", "slot_capacity": 20},
-                {"slot_name": "slot3", "slot_start_time": "13:00:00", "slot_end_time": "13:30:00", "slot_capacity": 20},
-                {"slot_name": "slot4", "slot_start_time": "13:30:00", "slot_end_time": "14:00:00", "slot_capacity": 20},
-            ]
+            "slots": vip_darshan_slot_info
         })
         slot_doc.insert(ignore_permissions=True)
         frappe.db.commit()
@@ -48,6 +46,8 @@ def _create_slot(slot_date:str):
         }
         for slot in slot_doc.slots
     ]
+
+    print(f"slot details ##################@@@@@@@@@@@@ {slot_details}")
 
     return slot_details
 
