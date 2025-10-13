@@ -117,7 +117,7 @@ def _apply_workflow_on_appointment(appointment_id: str, action: str) -> Dict[str
         slot_end_time = appointment_doc.slot_end_time
         
         
-        str_date = appointment_doc.darshan_date.strftime("%Y-%m-%d")
+        str_date = appointment_doc.appointment_date.strftime("%Y-%m-%d")
         
         update_slot_occupancy(slot_date=str_date, slot_start_time =slot_start_time, slot_end_time =slot_end_time, number_of_people= darshan_companion_count + 1, slot_name=appointment_doc.slot_name )
 

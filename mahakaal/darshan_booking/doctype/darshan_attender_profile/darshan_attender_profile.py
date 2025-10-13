@@ -92,17 +92,41 @@ def _assign_attender(appointment_id:str):
 
     A = frappe.get_doc("Darshan Appointment", appointment_id)
 
-    attenders  = get_attenders(appointment_date=A.darshan_date, slot_start_time=A.slot_start_time, slot_end_time=A.slot_end_time, appointment_type=A.darshan_type)
+    attenders  = get_attenders(appointment_date=A.appointment_date, slot_start_time=A.slot_start_time, slot_end_time=A.slot_end_time, appointment_type=A.darshan_type)
 
-    A.attender = attenders["no_match_ids"][0]
+    attender_id  = attenders["no_match_ids"][0]
+
+    A.attender = attender_id
     
     A.save(ignore_permissions=True)
+
+    # _add_appointment_in_schedule(attender_id=attender_id, appointment_id=appointment_id, appointment_date=A.darshan_date, slot_start_time=A.slot_start_time, slot_end_time= A.slot_end_time,  appointment_type=A.darshan_type)
     
     frappe.db.commit()
     
     # appointment_date: str, start_time: str, end_time: str, appointment_type: str
 
 
+# def _add_appointment_in_attender_schedule(attender_id:str,  appointment_id:str):
+
+#     appointment_doc = frappe.get_doc("Darshan Appointment", appointment_id)
+
+
+#     attender_profile = frappe.get_doc("Darshan Attender Profile", attender_id)
+
+#     attender_profile.append('schedule', {
+#     'appointment_date': appointment_doc.appointment_date,
+#     'appointment_type':appointment_doc.appointment_type,
+#     'slot_start_time': appointment_doc.slot_start_time,
+#     'slot_end_time': appointment_doc.slot_end_time,
+#     'appointment': appointment_id,
+    
+#     })
+
+#     attender_profile.save(ignore_permissions=True)
+
+#     frappe.db.commit()
+    
 
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)

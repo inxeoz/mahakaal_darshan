@@ -157,7 +157,7 @@ def get_appointment(appointment_id:str ) :
         "slot_start_time" : appointment.slot_start_time,
         "slot_end_time" : appointment.slot_end_time,
         "workflow_state" : appointment.workflow_state,
-        "appointment_date" : appointment.darshan_date,
+        "appointment_date" : appointment.appointment_date,
         "with_protocol" : appointment.darshan_with_protocol,
         "protocol_rank" : appointment.protocol_rank,
         # "devoteee_profile_id" : devoteee_profile_id,

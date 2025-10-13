@@ -1,5 +1,4 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "DA.#####.",
@@ -8,14 +7,14 @@
  "engine": "InnoDB",
  "field_order": [
   "devoteee_profile",
-  "darshan_date",
   "section_break_lsyb",
   "darshan_companion",
   "section_break_aysr",
   "attender",
   "section_break_frkb",
-  "darshan_type",
   "darshan_with_protocol",
+  "appointment_type",
+  "appointment_date",
   "slot_name",
   "slot_start_time",
   "slot_end_time",
@@ -34,12 +33,6 @@
    "in_list_view": 1,
    "label": "Devoteee Profile",
    "options": "Darshan Devoteee Profile",
-   "reqd": 1
-  },
-  {
-   "fieldname": "darshan_date",
-   "fieldtype": "Date",
-   "label": "Darshan Date",
    "reqd": 1
   },
   {
@@ -108,12 +101,6 @@
    "search_index": 1
   },
   {
-   "fieldname": "darshan_type",
-   "fieldtype": "Select",
-   "label": "Darshan Type",
-   "options": "Shigra Darshan\nBhasm Arti\nVip Darshan\nLocalide Darshan"
-  },
-  {
    "fieldname": "section_break_aysr",
    "fieldtype": "Section Break"
   },
@@ -136,13 +123,26 @@
    "fieldname": "slot_end_time",
    "fieldtype": "Time",
    "label": "slot_end_time"
+  },
+  {
+   "fieldname": "appointment_type",
+   "fieldtype": "Select",
+   "label": "Appointment Type",
+   "options": "Shigra Darshan\nBhasm Arti\nVip Darshan\nLocalide Darshan"
+  },
+  {
+   "fieldname": "appointment_date",
+   "fieldtype": "Date",
+   "label": "Appointment date",
+   "options": "Shigra Darshan\nBhasm Arti\nVip Darshan\nLocalide Darshan",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-08 12:59:47.317413",
+ "modified": "2025-10-13 16:22:45.672767",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",
