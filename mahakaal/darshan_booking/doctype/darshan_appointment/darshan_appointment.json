@@ -128,21 +128,19 @@
    "fieldname": "appointment_type",
    "fieldtype": "Select",
    "label": "Appointment Type",
-   "options": "Shigra Darshan\nBhasm Arti\nVip Darshan\nLocalide Darshan"
+   "options": "Vip Darshan"
   },
   {
    "fieldname": "appointment_date",
    "fieldtype": "Date",
-   "label": "Appointment date",
-   "options": "Shigra Darshan\nBhasm Arti\nVip Darshan\nLocalide Darshan",
-   "reqd": 1
+   "label": "Appointment date"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-13 16:22:45.672767",
+ "modified": "2025-10-13 17:30:48.897265",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",

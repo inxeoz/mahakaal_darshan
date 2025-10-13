@@ -95,6 +95,8 @@ def create_appointment(info: dict):
     if not devoteee_profile_id:
         
         return {'err' : 'can;t get appointment user not exist'}
+
+    info['appointment_type'] = "Vip Darshan"
     
     return  _create_appointment(devoteee_profile_id=devoteee_profile_id,info=info , ignore_permissions=True)
 
@@ -153,7 +155,7 @@ def get_appointment(appointment_id:str ) :
     return {
         "appointment_id" : appointment_id,
         "devoteee_name" : devoteee_doc.devoteee_name,
-        "appointment_type" : appointment.darshan_type,
+        "appointment_type" : appointment.appointment_type,
         "slot_start_time" : appointment.slot_start_time,
         "slot_end_time" : appointment.slot_end_time,
         "workflow_state" : appointment.workflow_state,
