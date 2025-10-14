@@ -155,10 +155,13 @@ def get_attender_appointments_list(appointment_date:str=None):
     else:
         appointment_date = frappe.utils.getdate(appointment_date)
 
+    attender_doc  = frappe.get_doc(PROFILE_TYPE, attender_profile_id)
+    
     schedules = frappe.get_all(
             'Attender Schedule Table',
             filters={
                 'appointment_date': appointment_date,
+                "parent" : attender_doc.name
             },
             fields=['appointment_date', 'appointment_type', 'slot_start_time', 'slot_end_time', 'appointment', 'name', "mark_exit"] 
         )
