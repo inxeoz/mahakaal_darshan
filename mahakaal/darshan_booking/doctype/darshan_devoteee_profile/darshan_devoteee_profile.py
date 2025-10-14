@@ -88,18 +88,18 @@ def update_profile(info: dict):
 @_ensure_role(PROFILE_ROLE)
 def create_appointment(info: dict):
     
-            
-    current_user_id = frappe.session.user
-    
-    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if not devoteee_profile_id:
-        
         return {'err' : 'can;t get appointment user not exist'}
 
+    devoteee_doc = frappe.get_doc('Darshan Devoteee Profile', devoteee_profile_id)
+
+    info['primary_devoteee_name']  = devoteee_doc.devoteee_name
+    
     info['appointment_type'] = "Vip Darshan"
     
-    return  _create_appointment(devoteee_profile_id=devoteee_profile_id,info=info , ignore_permissions=True)
+    return  _create_appointment(info=info)
 
 
 

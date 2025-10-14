@@ -19,6 +19,7 @@
   "slot_name",
   "slot_start_time",
   "slot_end_time",
+  "group_size",
   "section_break_fbpu",
   "protocol_rank",
   "government_authority_letter",
@@ -141,13 +142,19 @@
    "fieldname": "primary_devoteee_name",
    "fieldtype": "Data",
    "label": "primary devoteee name"
+  },
+  {
+   "fieldname": "group_size",
+   "fieldtype": "Int",
+   "label": "group size",
+   "non_negative": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-14 16:55:59.659406",
+ "modified": "2025-10-14 17:10:10.443265",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",
