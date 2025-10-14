@@ -106,8 +106,9 @@
   },
   {
    "fieldname": "attender",
-   "fieldtype": "Data",
-   "label": "Attender"
+   "fieldtype": "Link",
+   "label": "Attender",
+   "options": "Darshan Attender Profile"
   },
   {
    "fieldname": "slot_name",
@@ -140,7 +141,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-13 17:30:48.897265",
+ "modified": "2025-10-14 15:38:31.798451",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",
