@@ -50,14 +50,14 @@ def login_request(phone: int) -> Dict[str, Any]:
 @_ensure_role(PROFILE_ROLE)
 def get_appointment_list(
     devoteee_profile_id: Optional[str] = None,
-    darshan_type: Optional[str] = None,
+    appointment_type: Optional[str] = None,
     workflow_state: Optional[str] = None,
     limit_start: int = 0,
     limit_page_length: int = 10,
 ):
     return _get_appointment_list(
         devoteee_profile_id=devoteee_profile_id,
-        darshan_type=darshan_type,
+        appointment_type=appointment_type,
         workflow_state=workflow_state,
         limit_start=limit_start,
         limit_page_length=limit_page_length,
