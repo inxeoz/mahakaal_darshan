@@ -92,7 +92,7 @@ def _assign_attender(appointment_id:str):
 
     A = frappe.get_doc("Darshan Appointment", appointment_id)
 
-    attenders  = get_attenders(appointment_date=A.appointment_date, slot_start_time=A.slot_start_time, slot_end_time=A.slot_end_time, appointment_type=A.darshan_type)
+    attenders  = get_attenders(appointment_date=A.appointment_date, slot_start_time=A.slot_start_time, slot_end_time=A.slot_end_time, appointment_type=A.appointment_type)
 
     attender_id  = attenders["no_match_ids"][0]
 

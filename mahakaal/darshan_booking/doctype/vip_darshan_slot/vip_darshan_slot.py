@@ -69,6 +69,8 @@ def update_slot_occupancy(appointment_id:str):
 
     slot_doc = frappe.get_doc(SLOT_DOC_TYPE, {"slot_date": AP.appointment_date.strftime("%Y-%m-%d")})
 
+
+
     # Find the slot we need to update
     TS = next((s for s in slot_doc.slots if s.slot_name == AP.slot_name), None) ## TS : TARGET_SLOT
 
