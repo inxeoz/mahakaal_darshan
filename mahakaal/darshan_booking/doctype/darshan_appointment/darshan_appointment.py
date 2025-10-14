@@ -11,6 +11,10 @@ class DarshanAppointment(Document):
 
 def _create_appointment(devoteee_profile_id:str, info: dict, ignore_permissions:bool):
 
+    devoteee_doc = frappe.get_doc('Darshan Devoteee Profile', devoteee_profile_id)
+
+    info['primary_devoteee_name']  = devoteee_doc.devoteee_name
+
     darshan_appointment_doc = frappe.get_doc({
         "doctype": "Darshan Appointment",
         "devoteee_profile": devoteee_profile_id,

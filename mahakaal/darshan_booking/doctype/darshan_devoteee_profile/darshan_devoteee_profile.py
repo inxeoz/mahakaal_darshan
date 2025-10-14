@@ -147,15 +147,11 @@ def get_appointment(appointment_id:str ) :
         
         return {'err' : 'can;t get appointment user not exist'}
 
-    
-    devoteee_doc = frappe.get_doc(PROFILE_TYPE, devoteee_profile_id )
-
-    
     appointment = _get_appointment(devoteee_profile_id=devoteee_profile_id , appointment_id=appointment_id)
     
     return {
         "appointment_id" : appointment_id,
-        "devoteee_name" : devoteee_doc.devoteee_name,
+        "primary_devoteee_name" : appointment.primary_devoteee_name,
         "appointment_type" : appointment.appointment_type,
         "slot_start_time" : appointment.slot_start_time,
         "slot_end_time" : appointment.slot_end_time,

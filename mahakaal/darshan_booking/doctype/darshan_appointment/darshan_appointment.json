@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "devoteee_profile",
+  "primary_devoteee_name",
   "section_break_lsyb",
   "darshan_companion",
   "section_break_aysr",
@@ -135,13 +136,18 @@
    "fieldname": "appointment_date",
    "fieldtype": "Date",
    "label": "Appointment date"
+  },
+  {
+   "fieldname": "primary_devoteee_name",
+   "fieldtype": "Data",
+   "label": "primary devoteee name"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-14 15:38:31.798451",
+ "modified": "2025-10-14 16:55:59.659406",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Appointment",

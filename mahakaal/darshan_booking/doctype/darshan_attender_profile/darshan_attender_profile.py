@@ -156,7 +156,7 @@ def get_attender_appointments_list(appointment_date:str=None):
         appointment_date = frappe.utils.getdate(appointment_date)
 
     attender_doc  = frappe.get_doc(PROFILE_TYPE, attender_profile_id)
-    
+
     schedules = frappe.get_all(
             'Attender Schedule Table',
             filters={
@@ -165,6 +165,14 @@ def get_attender_appointments_list(appointment_date:str=None):
             },
             fields=['appointment_date', 'appointment_type', 'slot_start_time', 'slot_end_time', 'appointment', 'name', "mark_exit"] 
         )
+
+    # for row in schedules:
+        
+    #     appointment_doc  = frappe.get_doc("Darshan Appointment", row.appointment)
+
+        
+
+
 
     return schedules
 
@@ -187,3 +195,10 @@ def mark_exit(appointment_id:str):
 
     return schedule_row
 
+
+            # bookingId: 1002,
+            # type: "VIP Darshan",
+            # primary: "Sneha Patel",
+            # date: "2025-09-30",
+            # groupSize: 1,
+            # notes: "Vegetarian, wheelchair assistance",
