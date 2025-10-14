@@ -98,7 +98,9 @@ def create_appointment(info: dict):
     info['primary_devoteee_name']  = devoteee_doc.devoteee_name
     
     info['appointment_type'] = "Vip Darshan"
-    
+
+    info['devoteee_profile'] = devoteee_profile_id
+
     return  _create_appointment(info=info)
 
 
