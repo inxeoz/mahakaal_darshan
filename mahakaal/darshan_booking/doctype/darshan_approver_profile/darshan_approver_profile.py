@@ -19,7 +19,7 @@ from ..session_login.session_login import (
 
 from ..ensure_role import _ensure_role
 
-from ..booking_slot.booking_slot import update_slot_occupancy
+from ..vip_darshan_slot.vip_darshan_slot import update_slot_occupancy
 
 from ..darshan_attender_profile.darshan_attender_profile import _assign_attender
 

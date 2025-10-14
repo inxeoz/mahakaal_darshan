@@ -85,11 +85,4 @@ def update_slot_occupancy(appointment_id:str):
     frappe.db.commit()
 
     # Return updated slot info
-    return {
-        "message": "Slot occupancy updated successfully",
-        "slot_name": TS.slot_name,
-        "remaining_capacity": TS.slot_capacity,
-        "slot_date": slot_doc.slot_date,
-        "slot_start_time" : TS.slot_start_time,
-        "slot_end_time" : TS.slot_end_time
-    }
+    return slot_doc_to_slot_details(slot_doc)
