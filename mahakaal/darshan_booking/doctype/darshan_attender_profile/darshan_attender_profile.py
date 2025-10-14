@@ -146,18 +146,22 @@ def get_self_profile():
 
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
-def get_attender_appointments():
+def get_attender_appointments_list(date:str=None):
     
     current_user_id = frappe.session.user
     attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
 
-    today = date.today().strftime("%Y-%m-%d")
+    if date is None:
+        date = date.today().strftime("%Y-%m-%d")
+    else:
+        date = frappe.utils.getdate(date)
 
     schedules = frappe.get_all(
             'Attender Schedule Table',
             filters={
-                'appointment_date': today,
-            }
+                'appointment_date': date,
+            },
+            fields=['appointment_date', 'appointment_type', 'slot_start_time', 'slot_end_time', 'appointment', 'name'] 
         )
 
     return schedules
