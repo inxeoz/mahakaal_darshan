@@ -41,9 +41,8 @@ def login_request(phone: int):
 @frappe.whitelist()
 def get_profile():
     
-    current_user_id = frappe.session.user
-    
-    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
+
 
     if not attender_profile_id:
         
@@ -148,8 +147,8 @@ def get_self_profile():
 @_ensure_role(PROFILE_ROLE)
 def get_attender_appointments_list(appointment_date:str=None):
     
-    current_user_id = frappe.session.user
-    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if appointment_date is None:
         appointment_date = date.today().strftime("%Y-%m-%d")
@@ -166,6 +165,22 @@ def get_attender_appointments_list(appointment_date:str=None):
 
     return schedules
 
+@frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
+def mark_exit(appointment_id:str):
 
-# def mark_exit(appointment_id:str):
+    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
+
+    attender_doc  = frappe.get_doc(PROFILE_TYPE, attender_profile_id)
+
+    # Find the slot we need to update
+    schedule_row = next((s for s in attender_doc.schedule if s.appointment == appointment_id), None) ## TS : TARGET_SLOT
+
+    schedule_row.mark_exit = 1
+
+        # Save changes
+    attender_doc.save(ignore_permissions=True)
+    frappe.db.commit()
+
+    return schedule_row
 
