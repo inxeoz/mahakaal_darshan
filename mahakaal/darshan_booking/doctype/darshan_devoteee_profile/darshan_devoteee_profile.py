@@ -101,6 +101,16 @@ def create_appointment(info: dict):
 
     info['devoteee_profile'] = devoteee_profile_id
 
+    info['group_size'] = 1
+
+    if info.get('darshan_companion'):
+
+        info['group_size'] = len(info.get('darshan_companion')) + info.get('group_size')
+
+
+     # +1 for primary devoteee it self
+
+
     return  _create_appointment(info=info)
 
 
