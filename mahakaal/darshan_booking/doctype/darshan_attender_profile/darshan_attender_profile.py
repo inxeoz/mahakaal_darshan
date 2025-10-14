@@ -161,8 +161,11 @@ def get_attender_appointments_list(appointment_date:str=None):
             filters={
                 'appointment_date': appointment_date,
             },
-            fields=['appointment_date', 'appointment_type', 'slot_start_time', 'slot_end_time', 'appointment', 'name'] 
+            fields=['appointment_date', 'appointment_type', 'slot_start_time', 'slot_end_time', 'appointment', 'name', "mark_exit"] 
         )
 
     return schedules
+
+
+# def mark_exit(appointment_id:str):
 
