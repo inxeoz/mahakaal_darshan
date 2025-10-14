@@ -14,6 +14,7 @@ from ..session_login.session_login import _phone_to_nomail, _create_user, _login
 
 from ..ensure_role import _ensure_role
 
+from ..vip_darshan_slot.vip_darshan_slot import _get_slot_occupancy_info
 
 @frappe.whitelist()   # makes the function callable from frontend
 def test_server_action(doc):
@@ -169,7 +170,7 @@ def get_appointment(appointment_id:str ) :
 
 
 @frappe.whitelist()
-@_ensure_role(PROFILE_ROLE)
+# @_ensure_role(PROFILE_ROLE)
 def get_self_profile():
     
     current_user_id = frappe.session.user
@@ -185,3 +186,7 @@ def get_self_profile():
     return {'profile': frappe.get_doc(PROFILE_TYPE, devoteee_profile_id) }
 
 
+
+@frappe.whitelist(allow_guest=True)
+def get_slot_occupancy_info(slot_date: str):
+    return _get_slot_occupancy_info(slot_date=slot_date)

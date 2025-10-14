@@ -3,6 +3,10 @@
 
 import frappe
 from frappe.model.document import Document
+from frappe.utils import get_time_str
+from datetime import timedelta
+from datetime import date
+import datetime
 
 
 class VipDarshanSlot(Document):
@@ -30,7 +34,7 @@ def slot_doc_to_slot_details(slot_doc: Document):
     return slot_details
 
 @frappe.whitelist(allow_guest=True)
-def get_slot_occupancy_info(slot_date: str):
+def _get_slot_occupancy_info(slot_date: str):
 
     slot_id = frappe.db.exists(SLOT_DOC_TYPE, {'slot_date': slot_date})
 
