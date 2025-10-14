@@ -105,7 +105,7 @@ def create_appointment(info: dict):
 
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
-def get_appointment_list( darshan_type: str=None, workflow_state:str=None,  limit_start=0, limit_page_length=10 ) :
+def get_appointment_list( appointment_type: str=None, workflow_state:str=None,  limit_start=0, limit_page_length=10 ) :
     
     current_user_id = frappe.session.user
     
@@ -115,7 +115,7 @@ def get_appointment_list( darshan_type: str=None, workflow_state:str=None,  limi
         
         return {'err' : 'can;t get appointment list user not exist'}
 
-    return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  darshan_type=darshan_type, workflow_state=workflow_state, limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=True )
+    return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  appointment_type=appointment_type, workflow_state=workflow_state, limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=True )
 
 
 @frappe.whitelist()

@@ -35,13 +35,13 @@ def _get_appointment( devoteee_profile_id:str, appointment_id:str) :
     return appointment
 
 
-def _get_appointment_list(devoteee_profile_id: str, darshan_type: str, workflow_state:str, ignore_permissions:bool, limit_start=0, limit_page_length=10 ):
+def _get_appointment_list(devoteee_profile_id: str, appointment_type: str, workflow_state:str, ignore_permissions:bool, limit_start=0, limit_page_length=10 ):
     
     
     filters = { }
 
-    if darshan_type:
-        filters['darshan_type'] = darshan_type
+    if appointment_type:
+        filters['appointment_type'] = appointment_type
 
     if devoteee_profile_id :
         filters['devoteee_profile'] = devoteee_profile_id
@@ -50,19 +50,19 @@ def _get_appointment_list(devoteee_profile_id: str, darshan_type: str, workflow_
     if workflow_state :
         filters['workflow_state'] = workflow_state
 
-    darshan_type_appointments = frappe.get_list(
+    appointment_type_appointments = frappe.get_list(
         'Darshan Appointment',
         limit_start=limit_start,
         limit_page_length=limit_page_length,
         filters = filters,
         fields=[
-            'name', 'appointment_date',  'darshan_type', 'attender', 'workflow_state', "slot_start_time", "slot_end_time"
+            'name', 'appointment_date',  'appointment_type', 'attender', 'workflow_state', "slot_start_time", "slot_end_time"
         ],
         ignore_permissions=ignore_permissions   # <--- bypass permission checks
         
     )
     
-    return  darshan_type_appointments
+    return  appointment_type_appointments
 
 
 
@@ -71,25 +71,25 @@ def _get_appointment_stats(devoteee_profile_id: str, ignore_permissions:bool):
     
 
         
-    darshan_types = ["Shigra Darshan", "Bhasm Arti", "Vip Darshan", "Localide Darshan"]
+    appointment_types = ["Shigra Darshan", "Bhasm Arti", "Vip Darshan", "Localide Darshan"]
     darshan_appointments_states = ["Pending", "Approved", "Rejected", "Cancelled"]
     
     
     darshan_appointments_details = {}
     
 
-    for darshan_type in darshan_types:
+    for appointment_type in appointment_types:
 
-        darshan_appointments_details[darshan_type] = {}
+        darshan_appointments_details[appointment_type] = {}
         for workflow_state in darshan_appointments_states:
             
-                filters = {'workflow_state': workflow_state, 'darshan_type' : darshan_type}
+                filters = {'workflow_state': workflow_state, 'appointment_type' : appointment_type}
 
             
                 if  devoteee_profile_id :
                     filters['devoteee_profile'] = devoteee_profile_id
                 
-                darshan_appointments_details[darshan_type][workflow_state] = frappe.db.count('Darshan Appointment', filters)
+                darshan_appointments_details[appointment_type][workflow_state] = frappe.db.count('Darshan Appointment', filters)
 
 
 
