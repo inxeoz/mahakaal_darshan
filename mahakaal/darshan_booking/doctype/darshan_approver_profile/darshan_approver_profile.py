@@ -32,10 +32,6 @@ class DarshanApproverProfile(Document):
     pass
 
 
-def _appointment_exists(appointment_id: str) -> bool:
-    return frappe.db.exists("Darshan Appointment", {"name": appointment_id}) is not None
-
-
 
 # @_ensure_role("Administrator")
 @frappe.whitelist(allow_guest=True)
@@ -100,9 +96,6 @@ def get_self_profile():
 
 def _apply_workflow_on_appointment(appointment_id: str, action: str) -> Dict[str, Any]:
 
-    if not _appointment_exists(appointment_id):
-        return {"error": "not_found", "message": f"appointment_id '{appointment_id}' does not exist"}
-
     # use get_doc to fetch; will raise if problem — that bubble up as exception handled by frappe framework
     appointment_doc = frappe.get_doc("Darshan Appointment", appointment_id)
     
@@ -110,16 +103,7 @@ def _apply_workflow_on_appointment(appointment_id: str, action: str) -> Dict[str
     apply_workflow(appointment_doc, action)
 
     if action == "Approve" :
-        
-        darshan_companion_count = len(appointment_doc.darshan_companion)
-        
-        slot_start_time = appointment_doc.slot_start_time
-        slot_end_time = appointment_doc.slot_end_time
-        
-        
-        str_date = appointment_doc.appointment_date.strftime("%Y-%m-%d")
-        
-        update_slot_occupancy(slot_date=str_date, slot_start_time =slot_start_time, slot_end_time =slot_end_time, number_of_people= darshan_companion_count + 1, slot_name=appointment_doc.slot_name )
+        update_slot_occupancy(appointment_id=appointment_id)
 
 
     return {"appointment_id": appointment_id, "workflow_state": appointment_doc.workflow_state}

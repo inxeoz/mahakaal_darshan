@@ -13,9 +13,9 @@ IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
 
 
-class IntegrationTestBookingSlot(IntegrationTestCase):
+class IntegrationTestVipDarshanSlot(IntegrationTestCase):
 	"""
-	Integration tests for BookingSlot.
+	Integration tests for VipDarshanSlot.
 	Use this class for testing interactions between multiple components.
 	"""
 
