@@ -30,7 +30,7 @@ class DarshanDevoteeeProfile(Document):
 PROFILE_TYPE="Darshan Devoteee Profile"
 PROFILE_ROLE = "Devoteee Role"
 
-
+DARSHAN_APPOINTMENT = "Darshan Appointment"
 
 import frappe
 import secrets
@@ -138,16 +138,13 @@ def get_appointment_stats( ):
 @_ensure_role(PROFILE_ROLE)
 def get_appointment(appointment_id:str ) :
 
-        
-    current_user_id = frappe.session.user
     
-    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
-    if not devoteee_profile_id:
-        
+    if not frappe.db.exists(DARSHAN_APPOINTMENT, {'devoteee_profile'  : devoteee_profile_id, 'name' : appointment_id}):
         return {'err' : 'can;t get appointment user not exist'}
 
-    appointment = _get_appointment(devoteee_profile_id=devoteee_profile_id , appointment_id=appointment_id)
+    appointment = _get_appointment( appointment_id=appointment_id)
     
     return {
         "appointment_id" : appointment_id,
@@ -159,9 +156,8 @@ def get_appointment(appointment_id:str ) :
         "appointment_date" : appointment.appointment_date,
         "with_protocol" : appointment.darshan_with_protocol,
         "protocol_rank" : appointment.protocol_rank,
-        # "devoteee_profile_id" : devoteee_profile_id,
         "companions" : appointment.darshan_companion,
-        "group_size" : len(appointment.darshan_companion) + 1
+        "group_size" : appointment.group_size 
     }
 
 

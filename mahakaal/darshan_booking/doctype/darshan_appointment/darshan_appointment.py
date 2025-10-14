@@ -22,12 +22,7 @@ def _create_appointment(info: dict):
     return  darshan_appointment_doc
 
 
-def _get_appointment( devoteee_profile_id:str, appointment_id:str) :
-    
-    if devoteee_profile_id:
-        
-        appointment = frappe.get_doc('Darshan Appointment',  {'name' : appointment_id, 'devoteee_profile' : devoteee_profile_id}  )
-        return appointment
+def _get_appointment( appointment_id:str) :
     
     appointment = frappe.get_doc('Darshan Appointment', appointment_id)
 
