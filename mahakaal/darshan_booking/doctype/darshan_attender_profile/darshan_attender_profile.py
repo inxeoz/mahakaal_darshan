@@ -204,3 +204,27 @@ def mark_exit(appointment_id:str):
             # date: "2025-09-30",
             # groupSize: 1,
             # notes: "Vegetarian, wheelchair assistance",
+
+
+
+@frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
+def get_appointment_stats(appointment_date: str | None = None):
+    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {"frappe_profile": frappe.session.user})
+    if not attender_profile_id:
+        frappe.throw("Attender profile not found for the current user.")
+
+    appointment_date_obj = getdate(appointment_date) if appointment_date else date.today()
+
+    filters = {
+        "appointment_date": appointment_date_obj,
+        "parent": attender_profile_id
+    }
+
+    total_schedules = frappe.db.count("Attender Schedule Table", filters)
+    marked_exit_schedules = frappe.db.count("Attender Schedule Table", {**filters, "mark_exit": 1})
+
+    return {
+        "total_schedules": total_schedules,
+        "marked_exit_schedules": marked_exit_schedules
+    }
