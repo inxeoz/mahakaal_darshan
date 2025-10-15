@@ -50,7 +50,7 @@ def _get_appointment_list(devoteee_profile_id: str, appointment_type: str, workf
         limit_page_length=limit_page_length,
         filters = filters,
         fields=[
-            'name', 'appointment_date',  'appointment_type', 'attender', 'workflow_state', "slot_start_time", "slot_end_time"
+            'name', 'primary_devoteee_name', 'appointment_date',  'appointment_type', 'attender', 'workflow_state', "slot_start_time", "slot_end_time"
         ],
         ignore_permissions=ignore_permissions   # <--- bypass permission checks
         
