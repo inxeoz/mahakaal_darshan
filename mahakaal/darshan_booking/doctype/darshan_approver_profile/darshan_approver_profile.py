@@ -74,7 +74,7 @@ def get_appointment_stats():
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def get_appointment(appointment_id: str):
-    return _get_appointment(devoteee_profile_id=None, appointment_id=appointment_id)
+    return _get_appointment(appointment_id=appointment_id)
 
 
 @frappe.whitelist()
