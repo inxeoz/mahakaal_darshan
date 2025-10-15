@@ -119,8 +119,10 @@ def _add_appointment_in_attender_schedule(attender_id:str,  appointment_id:str):
 
     'slot_start_time': get_time_str ( appointment_doc.slot_start_time ),
     'slot_end_time': get_time_str ( appointment_doc.slot_end_time ),
-
     'appointment': appointment_id,
+    'group_size' : appointment_doc.group_size,
+    'primary_devoteee_name' : appointment_doc.primary_devoteee_name
+    
     
     })
 
@@ -163,7 +165,7 @@ def get_attender_appointments_list(appointment_date:str=None):
                 'appointment_date': appointment_date,
                 "parent" : attender_doc.name
             },
-            fields=['appointment_date', 'appointment_type', 'slot_start_time', 'slot_end_time', 'appointment', 'name', "mark_exit"] 
+            fields=['appointment_date', 'appointment_type', 'slot_start_time', 'slot_end_time', 'appointment', 'name', "mark_exit", "group_size", "primary_devoteee_name"] 
         )
 
     # for row in schedules:

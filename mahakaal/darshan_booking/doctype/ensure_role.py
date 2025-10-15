@@ -22,8 +22,7 @@ def _ensure_role(*role_names: str) -> Callable:
 
             if not any(role in user_roles for role in role_names):
                 return {
-                    "error": "permission_denied",
-                    "message": f"You must have one of these roles: {', '.join(role_names)}"
+                    "error": f"permission_denied ! You must have one of these roles: {', '.join(role_names)}"
                 }
 
             return fn(*args, **kwargs)
