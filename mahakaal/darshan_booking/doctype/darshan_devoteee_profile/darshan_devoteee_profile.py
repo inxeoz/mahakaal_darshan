@@ -54,9 +54,8 @@ def create_devoteee_user(phone:int):
 @_ensure_role(PROFILE_ROLE)
 def update_profile(info: dict):
     
-    current_user_id = frappe.session.user
     
-    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if not devoteee_profile_id:
         
@@ -119,9 +118,8 @@ def create_appointment(info: dict):
 @_ensure_role(PROFILE_ROLE)
 def get_appointment_list( appointment_type: str=None, workflow_state:str=None,  limit_start=0, limit_page_length=10 ) :
     
-    current_user_id = frappe.session.user
     
-    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if not devoteee_profile_id:
         
@@ -133,10 +131,8 @@ def get_appointment_list( appointment_type: str=None, workflow_state:str=None,  
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def get_appointment_stats( ):
-
-    current_user_id = frappe.session.user
     
-    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if not devoteee_profile_id:
         
@@ -174,12 +170,11 @@ def get_appointment(appointment_id:str ) :
 
 
 @frappe.whitelist()
-# @_ensure_role(PROFILE_ROLE)
+@_ensure_role(PROFILE_ROLE)
 def get_self_profile():
     
-    current_user_id = frappe.session.user
-    
-    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
+
+    devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     print(f"WWWWW {devoteee_profile_id}")
 
