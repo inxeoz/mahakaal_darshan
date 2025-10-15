@@ -174,6 +174,29 @@ def get_attender_appointments_list(appointment_date:str=None):
 
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
+def get_attender_appointment_companion_list(appointment_id: str):
+
+    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile': frappe.session.user})
+
+    appointment_id = frappe.db.exists(DARSHAN_APPOINTMENT, {'name': appointment_id, "attender" : attender_profile_id})
+    
+    # Fetch attender_doc if needed for permission check or additional filtering (optional)
+    attender_doc = frappe.get_doc(PROFILE_TYPE, attender_profile_id)
+
+    # Fetch the single schedule row/document by appointment_id (name)
+    companion_list = frappe.get_all(
+        'Darshan Companion',
+        filters={"parent": appointment_id},
+        fields=['companion_name', 'companion_phone', 'companion_gender', 'companion_age']  # fetch all fields
+    )
+
+
+    return companion_list
+
+
+
+@frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
 def get_attender_appointment(appointment_id:str):
     
     attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
@@ -181,7 +204,6 @@ def get_attender_appointment(appointment_id:str):
     appointment_doc = frappe.get_doc(DARSHAN_APPOINTMENT, {"name": appointment_id, "attender": attender_profile_id})
 
     return appointment_doc
-
 
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
