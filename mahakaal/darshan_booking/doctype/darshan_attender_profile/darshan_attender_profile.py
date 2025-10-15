@@ -24,6 +24,7 @@ class DarshanAttenderProfile(Document):
 
 PROFILE_TYPE="Darshan Attender Profile"
 PROFILE_ROLE = "Attender Role"
+DARSHAN_APPOINTMENT = "Darshan Appointment"
 
 # @_ensure_role("Administrator")
 @frappe.whitelist(allow_guest=True)
@@ -168,15 +169,19 @@ def get_attender_appointments_list(appointment_date:str=None):
             fields=['appointment_date', 'appointment_type', 'slot_start_time', 'slot_end_time', 'appointment', 'name', "mark_exit", "group_size", "primary_devoteee_name"] 
         )
 
-    # for row in schedules:
-        
-    #     appointment_doc  = frappe.get_doc("Darshan Appointment", row.appointment)
-
-        
-
-
-
     return schedules
+
+
+@frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
+def get_attender_appointment(appointment_id:str):
+    
+    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
+    
+    appointment_doc = frappe.get_doc(DARSHAN_APPOINTMENT, {"name": appointment_id, "attender": attender_profile_id})
+
+    return appointment_doc
+
 
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
@@ -196,14 +201,6 @@ def mark_exit(appointment_id:str):
     frappe.db.commit()
 
     return schedule_row
-
-
-            # bookingId: 1002,
-            # type: "VIP Darshan",
-            # primary: "Sneha Patel",
-            # date: "2025-09-30",
-            # groupSize: 1,
-            # notes: "Vegetarian, wheelchair assistance",
 
 
 
