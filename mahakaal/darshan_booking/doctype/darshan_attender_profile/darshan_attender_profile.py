@@ -247,3 +247,38 @@ def get_appointment_stats(appointment_date: str | None = None):
         "total_schedules": total_schedules,
         "marked_exit_schedules": marked_exit_schedules
     }
+
+
+
+@frappe.whitelist()
+@_ensure_role(PROFILE_ROLE)
+def update_profile(info: dict):
+    
+    
+    attender_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
+
+    if not attender_profile_id:
+        
+        return {'err' : 'can;t update user not exist'}
+
+    attender_profile_doc = frappe.get_doc(PROFILE_TYPE, attender_profile_id)
+
+    # Fields allowed to update
+    allowed_fields = ["attender_name", "gender", "dob", "email", "aadhar", "address"]
+
+    # Update allowed fields from info dict
+    for field in allowed_fields:
+        if field in info:
+            attender_profile_doc.set(field, info[field])
+
+    # Set is_ekyc_complete flag only once, avoid unnecessary repeated saves
+    if attender_profile_doc.aadhar and len(attender_profile_doc.aadhar) > 0:
+        attender_profile_doc.is_ekyc_complete = 1
+
+    # Save the profile document
+    attender_profile_doc.save()
+
+    # Commit changes in the database
+    frappe.db.commit()
+
+    return 'update success'

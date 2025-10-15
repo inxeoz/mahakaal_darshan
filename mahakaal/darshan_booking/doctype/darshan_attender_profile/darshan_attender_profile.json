@@ -1,5 +1,4 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "ATD.######.",
@@ -10,6 +9,11 @@
   "phone",
   "attender_name",
   "frappe_profile",
+  "gender",
+  "dob",
+  "email",
+  "aadhar",
+  "address",
   "section_break_aord",
   "schedule"
  ],
@@ -43,12 +47,38 @@
    "fieldtype": "Table",
    "label": "schedule",
    "options": "Attender Schedule Table"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "gender",
+   "options": "male\nfemale"
+  },
+  {
+   "fieldname": "dob",
+   "fieldtype": "Date",
+   "label": "dob"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Date",
+   "label": "email"
+  },
+  {
+   "fieldname": "aadhar",
+   "fieldtype": "Data",
+   "label": "aadhar"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "address"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-08 12:07:25.202022",
+ "modified": "2025-10-15 17:40:04.209644",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "Darshan Attender Profile",
