@@ -75,14 +75,11 @@ def get_attenders(appointment_date: datetime.date, slot_start_time: timedelta, s
         )
     )
 
-    # Set difference gives IDs without matching schedules
-    no_match_ids = list(all_ids - have_match_ids)
-
     # Return both if needed, or only no_match_ids based on usage
     return {
         "all_ids": list(all_ids),
         "have_match_ids": list(have_match_ids),
-        "no_match_ids": no_match_ids
+        "no_match_ids": list(all_ids - have_match_ids)
     }
 
 # delta = timedelta(hours=2, minutes=30)
@@ -94,7 +91,13 @@ def _assign_attender(appointment_id:str):
 
     attenders  = get_attenders(appointment_date=A.appointment_date, slot_start_time=A.slot_start_time, slot_end_time=A.slot_end_time, appointment_type=A.appointment_type)
 
-    attender_id  = attenders["no_match_ids"][0]
+    if attenders["no_match_ids"] :
+        attender_id  = attenders["no_match_ids"][0]
+    else:
+        attender_id  = attenders["all_ids"][0]
+    
+    # attender_id  = 'ATD000006'
+    
 
     A.attender = attender_id
     
