@@ -102,3 +102,34 @@ def _create_profile(phone, profile_type, role_name):
     _login_request(phone=phone, profile_type=profile_type)
 
     return {"res": f"{profile_type} user created successfully"}
+
+
+
+import frappe
+
+
+
+@frappe.whitelist(allow_guest=True)
+def get_auth_token(phone):
+    user = frappe.db.get_value('User', {'name': f'{phone}@nomail.com', 'enabled': 1}, ['name'], as_dict=True)
+    if not user:
+        return {"status": 0, "message": "User not found or disabled"}
+
+    user_doc = frappe.get_doc('User', user.name)
+    
+    key  = frappe.generate_hash(length=15)
+    secret  = frappe.generate_hash(length=15)
+    
+
+    user_doc.api_key = key
+    user_doc.api_secret = secret
+    
+
+    user_doc.save(ignore_permissions=True)
+    frappe.db.commit()
+
+    return {
+        "status": 1,
+        "message": "Authentication success",
+        "token": f"token {key}:{secret}"
+    }
