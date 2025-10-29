@@ -36,7 +36,7 @@ class DarshanApproverProfile(Document):
 # @_ensure_role("Administrator")
 @frappe.whitelist(allow_guest=True)
 def create_approver(phone: int) -> Dict[str, Any]:
-    
+
     return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
 
 
@@ -80,13 +80,13 @@ def get_appointment(appointment_id: str):
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def get_self_profile():
-    
+
     current_user_id = frappe.session.user
-    
+
     approver_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
 
     if not approver_id:
-        
+
         return {'err' : 'can;t get user not exist'}
 
     return {'profile': frappe.get_doc(PROFILE_TYPE, approver_id) }
@@ -98,7 +98,7 @@ def _apply_workflow_on_appointment(appointment_id: str, action: str) -> Dict[str
 
     # use get_doc to fetch; will raise if problem — that bubble up as exception handled by frappe framework
     appointment_doc = frappe.get_doc("Darshan Appointment", appointment_id)
-    
+
     # apply_workflow mutates appointment_doc
     apply_workflow(appointment_doc, action)
 
@@ -110,11 +110,11 @@ def _apply_workflow_on_appointment(appointment_id: str, action: str) -> Dict[str
 
 
 
-    
+
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def approve_appointment(appointment_id: str):
-    
+
      _apply_workflow_on_appointment(appointment_id=appointment_id, action="Approve")
      return _assign_attender(appointment_id=appointment_id)
 
@@ -129,13 +129,13 @@ def reject_appointment(appointment_id: str):
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def update_profile(info: dict):
-    
+
     current_user_id = frappe.session.user
-    
+
     approver_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : current_user_id})
 
     if not approver_id:
-        
+
         return {'err' : 'can;t update user not exist'}
 
     approver_doc = frappe.get_doc(PROFILE_TYPE, approver_id)
@@ -149,7 +149,7 @@ def update_profile(info: dict):
             approver_doc.set(field, info[field])
 
     # Set is_ekyc_complete flag only once, avoid unnecessary repeated saves
-    if approver_doc.aadhar and len(devoteee_profile_doc.aadhar) > 0:
+    if approver_doc.aadhar and len(approver_doc.aadhar) > 0:
         approver_doc.is_ekyc_complete = 1
 
     # Save the profile document
