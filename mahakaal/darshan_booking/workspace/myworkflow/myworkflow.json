@@ -1,21 +1,21 @@
 {
- "app": "frappe",
+ "app": "Mahakaal",
  "charts": [],
- "content": "[{\"id\":\"tBYwIAFs5m\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MyworkFlow</span>\",\"col\":12}},{\"id\":\"KwkddXLUR5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Devoteee Profile\",\"col\":3}},{\"id\":\"Ho_qgmyhtE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Attender Profile\",\"col\":3}},{\"id\":\"7_IWN2DqSS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Approver Profile\",\"col\":3}},{\"id\":\"J_Z7xvuBdo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"empNkocbqb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Session Login\",\"col\":3}},{\"id\":\"Z3TWt265Ft\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vip Darshan Slot\",\"col\":3}},{\"id\":\"EKQcuSFCQP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"RnDg2qzphI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"User\",\"col\":3}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}}]",
+ "content": "[{\"id\":\"7g3NVG-X9M\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Entity</b></span>\",\"col\":12}},{\"id\":\"KwkddXLUR5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Devoteee Profile\",\"col\":3}},{\"id\":\"Ho_qgmyhtE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Attender Profile\",\"col\":3}},{\"id\":\"7_IWN2DqSS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Approver Profile\",\"col\":3}},{\"id\":\"J_Z7xvuBdo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"9_kCnQZmso\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Flow Documents</b></span>\",\"col\":12}},{\"id\":\"0aiVhKyGyt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Darshan Appointment\",\"col\":3}},{\"id\":\"empNkocbqb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Session Login\",\"col\":3}},{\"id\":\"Z3TWt265Ft\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Vip Darshan Slot\",\"col\":3}},{\"id\":\"EKQcuSFCQP\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"BAqJ8s5yNj\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Web Links</b></span>\",\"col\":12}},{\"id\":\"Sc3xtC2r0r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Devoteee Web\",\"col\":3}},{\"id\":\"qHO06P63Aq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Attender Web\",\"col\":3}},{\"id\":\"usUwJInWOf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Approver Web\",\"col\":3}},{\"id\":\"0MxOtufeVt\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"bh2TgpM_Da\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Internal Objects</b></span>\",\"col\":12}},{\"id\":\"Dp6ihl4r9E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Doctype\",\"col\":3}},{\"id\":\"RnDg2qzphI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"User\",\"col\":3}}]",
  "creation": "2025-09-26 16:41:19.235403",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
- "icon": "grid",
+ "icon": "color-energy-points",
  "idx": 0,
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "MyworkFlow",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-10-15 12:05:58.934774",
+ "modified": "2025-11-03 15:44:46.080219",
  "modified_by": "Administrator",
  "module": "darshan-booking",
  "name": "MyworkFlow",
@@ -69,6 +69,20 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Devoteee Web",
+   "type": "URL",
+   "url": "http://localhost:3000"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Attender Web",
+   "type": "URL",
+   "url": "http://localhost:3001"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Darshan Appointment",
    "link_to": "Darshan Appointment",
    "stats_filter": "[]",
@@ -89,6 +103,13 @@
    "link_to": "Darshan Devoteee Profile",
    "stats_filter": "[]",
    "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Approver Web",
+   "type": "URL",
+   "url": "http://localhost:3002"
   }
  ],
  "title": "MyworkFlow",
