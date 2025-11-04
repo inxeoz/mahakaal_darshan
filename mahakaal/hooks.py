@@ -245,15 +245,6 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-doc_events = {
-    "Issue": {
-        "after_insert": "mahakaal.mahakaal.issue.after_insert",
-        "on_update": "mahakaal.mahakaal.issue.on_update",
-    }
-}
-
-
-
 fixtures = [
     {"doctype": "Workflow"},
     {"doctype": "Workflow State"},
