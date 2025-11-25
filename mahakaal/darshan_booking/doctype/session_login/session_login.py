@@ -4,6 +4,7 @@
 import secrets
 import frappe
 from frappe.model.document import Document
+from frappe.utils import today
 
 
 class SessionLogin(Document):
@@ -52,21 +53,62 @@ def _create_user(phone):
 @frappe.whitelist(allow_guest=True)
 def create_customer(phone):
 
-	email_id = _phone_to_nomail(phone)
-	customer_name = str(phone)
-	customer_type = "Individual"
+    email_id = _phone_to_nomail(phone)
+    customer_name = str(phone)
+    customer_type = "Individual"
 
-	customer = frappe.get_doc({"doctype" : "Customer", "email_id" : email_id, "customer_name" : customer_name,  "customer_type": customer_type, "mobile_no" : phone })
+    customer = frappe.get_doc({"doctype" : "Customer", "email_id" : email_id, "customer_name" : customer_name,  "customer_type": customer_type, "mobile_no" : phone })
 
-	customer.insert(ignore_permissions=True)
-	frappe.db.commit()
-	return customer
+    customer.insert(ignore_permissions=True)
+    frappe.db.commit()
+    return customer
 
 @frappe.whitelist(allow_guest=True)
 def get_customers():
-	customers = frappe.db.get_all('Customer', ignore_permissions=True)
-	return customers
+    customers = frappe.db.get_all('Customer', ignore_permissions=True)
+    return customers
 
+from frappe.utils import today
+@frappe.whitelist(allow_guest=True)
+def make_payment_entry(paid_amount, phone):
+
+    frappe.set_user("Administrator")
+
+    
+    print("########################## Hii")
+    # Find customer by mobile number
+    customer_name = frappe.db.get_value("Customer", {"mobile_no": phone}, "name")
+    if not customer_name:
+        print("########################## Hii2")
+        frappe.throw(_("Customer with phone {} not found").format(phone))
+
+    posting_date = today()
+    payment_type = "Receive"
+    party_type = "Customer"
+    party = customer_name
+    paid_to = "Cash - I"
+
+    payment_entry = frappe.get_doc({
+        "doctype": "Payment Entry",
+        "posting_date": posting_date,
+        "payment_type": payment_type,
+        "party_type": party_type,
+        "party": party,
+        "paid_to": paid_to,
+        "paid_amount": paid_amount,
+        "received_amount": paid_amount,      # REQUIRED
+    "mode_of_payment": "Cash",           # REQUIRED
+    })
+
+    payment_entry.insert(ignore_permissions=True)
+    frappe.db.commit()
+    return payment_entry
+
+
+@frappe.whitelist(allow_guest=True)
+def get_payment_entries():
+    entries = frappe.db.get_all('Payment Entry', ignore_permissions=True)
+    return entries
 
 def _login_request(phone, profile_type):
     email = _phone_to_nomail(phone)
