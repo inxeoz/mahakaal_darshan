@@ -21,7 +21,7 @@ def get_current_session_info():
         "mobile_no": u.mobile_no
     }
 
-
+@frappe.whitelist(allow_guest=True)
 def _phone_to_nomail(phone):
     return f"{str(phone)}@nomail.com"
 
@@ -48,6 +48,24 @@ def _create_user(phone):
     frappe.db.commit()
 
     return u
+
+@frappe.whitelist(allow_guest=True)
+def create_customer(phone):
+
+	email_id = _phone_to_nomail(phone)
+	customer_name = str(phone)
+	customer_type = "Individual"
+
+	customer = frappe.get_doc({"doctype" : "Customer", "email_id" : email_id, "customer_name" : customer_name,  "customer_type": customer_type, "mobile_no" : phone })
+
+	customer.insert(ignore_permissions=True)
+	frappe.db.commit()
+	return customer
+
+@frappe.whitelist(allow_guest=True)
+def get_customers():
+	customers = frappe.db.get_all('Customer', ignore_permissions=True)
+	return customers
 
 
 def _login_request(phone, profile_type):

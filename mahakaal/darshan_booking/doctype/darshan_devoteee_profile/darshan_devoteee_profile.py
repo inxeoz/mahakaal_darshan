@@ -10,7 +10,7 @@ from frappe.model.workflow import apply_workflow
 from ..darshan_appointment.darshan_appointment import  _get_appointment_list, _get_appointment, _create_appointment, _get_appointment_stats
 
 
-from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request, _create_profile
+from ..session_login.session_login import _phone_to_nomail, _create_user, _login_request, _create_profile, create_customer
 
 from ..ensure_role import _ensure_role
 
@@ -46,6 +46,7 @@ def login_request(phone: int):
 @frappe.whitelist(allow_guest=True)
 def create_devoteee_user(phone:int):
     
+    create_customer(phone)
     return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
 
 
