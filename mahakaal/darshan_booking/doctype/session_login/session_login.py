@@ -54,6 +54,14 @@ def _create_user(phone):
 def create_customer(phone):
 
     email_id = _phone_to_nomail(phone)
+
+    exists = frappe.db.exists("Customer", {"email_id": email_id})
+
+    if exists:
+        print(f"customer exist boy {exists}")
+        return frappe.get_doc("Customer", exists)
+
+    print(f"mail id {email_id}")
     customer_name = str(phone)
     customer_type = "Individual"
 
@@ -73,8 +81,6 @@ from frappe.utils import today
 def make_payment_entry(paid_amount, phone):
 
     frappe.set_user("Administrator")
-
-    
     print("########################## Hii")
     # Find customer by mobile number
     customer_name = frappe.db.get_value("Customer", {"mobile_no": phone}, "name")
@@ -176,14 +182,14 @@ def get_auth_token(phone):
         return {"status": 0, "message": "User not found or disabled"}
 
     user_doc = frappe.get_doc('User', user.name)
-    
+
     key  = frappe.generate_hash(length=15)
     secret  = frappe.generate_hash(length=15)
-    
+
 
     user_doc.api_key = key
     user_doc.api_secret = secret
-    
+
 
     user_doc.save(ignore_permissions=True)
     frappe.db.commit()
