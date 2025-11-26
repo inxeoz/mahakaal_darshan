@@ -249,4 +249,6 @@ fixtures = [
     {"doctype": "Workflow"},
     {"doctype": "Workflow State"},
     {"doctype": "Workflow Action"},
+    {"doctype": "Custom Field"},
+    {"doctype": "Property Setter"}
 ]
