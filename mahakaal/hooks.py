@@ -246,9 +246,45 @@ app_license = "mit"
 # }
 
 fixtures = [
+    # workflow
     {"doctype": "Workflow"},
     {"doctype": "Workflow State"},
     {"doctype": "Workflow Action"},
+
+    # customization
     {"doctype": "Custom Field"},
-    {"doctype": "Property Setter"}
+    {"doctype": "Property Setter"},
+    {"doctype": "Custom DocPerm"},
+
+    # scripting
+    {"doctype": "Client Script"},
+    {"doctype": "Server Script"},
+
+    # UI & printing
+    {"doctype": "Print Format"},
+    {"doctype": "Letter Head"},
+
+    # reports
+    {
+        "doctype": "Report",
+        "filters": [["is_standard", "=", "No"]]
+    },
+
+    # roles
+    {"doctype": "Role"},
+    {"doctype": "Role Profile"},
+
+    # web
+    {"doctype": "Web Form"},
+    {"doctype": "Website Script"},
+    {"doctype": "Website Theme"},
+
+    # translations
+    {"doctype": "Translation"},
+
+    # your custom doctypes
+    {
+        "doctype": "DocType",
+        "filters": [["module", "=", "Mahakaal"]]
+    }
 ]
