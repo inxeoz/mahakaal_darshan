@@ -38,15 +38,15 @@ import traceback
 
 @frappe.whitelist(allow_guest=True)
 def login_request(phone: int):
-    
+
     return _login_request(phone=phone, profile_type=PROFILE_TYPE)
 
 
 
 @frappe.whitelist(allow_guest=True)
 def create_devoteee_user(phone:int):
-    
-    create_customer(phone)
+
+    #create_customer(phone)
     return _create_profile(phone=phone, profile_type=PROFILE_TYPE, role_name=PROFILE_ROLE)
 
 
@@ -54,12 +54,12 @@ def create_devoteee_user(phone:int):
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def update_profile(info: dict):
-    
-    
+
+
     devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if not devoteee_profile_id:
-        
+
         return {'err' : 'can;t update user not exist'}
 
     devoteee_profile_doc = frappe.get_doc(PROFILE_TYPE, devoteee_profile_id)
@@ -87,7 +87,7 @@ def update_profile(info: dict):
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def create_appointment(info: dict):
-    
+
     devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if not devoteee_profile_id:
@@ -96,7 +96,7 @@ def create_appointment(info: dict):
     devoteee_doc = frappe.get_doc('Darshan Devoteee Profile', devoteee_profile_id)
 
     info['primary_devoteee_name']  = devoteee_doc.devoteee_name
-    
+
     info['appointment_type'] = "Vip Darshan"
 
     info['devoteee_profile'] = devoteee_profile_id
@@ -118,12 +118,12 @@ def create_appointment(info: dict):
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def get_appointment_list( appointment_type: str=None, workflow_state:str=None,  limit_start=0, limit_page_length=10 ) :
-    
-    
+
+
     devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if not devoteee_profile_id:
-        
+
         return {'err' : 'can;t get appointment list user not exist'}
 
     return _get_appointment_list(devoteee_profile_id=devoteee_profile_id,  appointment_type=appointment_type, workflow_state=workflow_state, limit_start=limit_start, limit_page_length=limit_page_length, ignore_permissions=True )
@@ -132,29 +132,29 @@ def get_appointment_list( appointment_type: str=None, workflow_state:str=None,  
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def get_appointment_stats( ):
-    
+
     devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if not devoteee_profile_id:
-        
+
         return {'err' : 'can;t get appointment list user not exist'}
 
     return _get_appointment_stats(devoteee_profile_id=devoteee_profile_id, ignore_permissions=True)
-    
-    
+
+
 
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def get_appointment(appointment_id:str ) :
 
-    
+
     devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     if not frappe.db.exists(DARSHAN_APPOINTMENT, {'devoteee_profile'  : devoteee_profile_id, 'name' : appointment_id}):
         return {'err' : 'can;t get appointment user not exist'}
 
     appointment = _get_appointment( appointment_id=appointment_id)
-    
+
     # return {
     #     "appointment_id" : appointment_id,
     #     "primary_devoteee_name" : appointment.primary_devoteee_name,
@@ -166,7 +166,7 @@ def get_appointment(appointment_id:str ) :
     #     "with_protocol" : appointment.darshan_with_protocol,
     #     "protocol_rank" : appointment.protocol_rank,
     #     "companions" : appointment.darshan_companion,
-    #     "group_size" : appointment.group_size 
+    #     "group_size" : appointment.group_size
     # }
 
     return appointment
@@ -175,14 +175,14 @@ def get_appointment(appointment_id:str ) :
 @frappe.whitelist()
 @_ensure_role(PROFILE_ROLE)
 def get_self_profile():
-    
+
 
     devoteee_profile_id = frappe.db.exists(PROFILE_TYPE, {'frappe_profile' : frappe.session.user})
 
     print(f"WWWWW {devoteee_profile_id}")
 
     if not devoteee_profile_id:
-        
+
         return {'err' : 'can;t get user not exist'}
 
     return {'profile': frappe.get_doc(PROFILE_TYPE, devoteee_profile_id) }
